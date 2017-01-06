@@ -40,43 +40,41 @@ const isDefaultOptions: isOptions = {
 };
 
 /**
- * Validation function.
+ * Type validation function meant to go beyond the use cases of operators
+ * such as `typeof`.
  *
- * The data types available to test for are: `boolean`, `number`, `integer`, `natural`,
- * `string`, `function`, `object`, `array`, `undefined`, and `any`. `natural`, possibly
- * the most uncommon term within these, refers to natural numbers, i.e., non-negative.
+ * The data types available to test for are:
+ *
+ * * `boolean`
+ * * `number`
+ * * `integer`: Validates for numbers, restricting to only
+ *   [integers](https://en.wikipedia.org/wiki/Integer);
+ * * `natural`: Validates for numbers, restricting to only into
+ *   [natural numbers](https://en.wikipedia.org/wiki/Natural_number),
+ *   i.e., non-negative.
+ * * `string`
+ * * `function`
+ * * `object`
+ * * `array`
+ * * `undefined`
+ * * `any`: catch all
  *
  * This function is opinionated in the sense that:
  *
- * - When testing for `object` and `any`, `null` will be disallowed by default.
- *   If desired, an optional `allowNull` can be passed to allow that use case.
- * - When testing for an `object`, Arrays will be disallowed by default.
- *   If desired, an optional `arrayAsObject` can be passed to allow that use case.
- *   Note that there is a separate check for `array`.
- * - When testing for `number`, `integer`, or `natural`, NaN will be disallowed
- *   at all times.
+ * * When testing for `object` and `any`, `null` will be disallowed
+ *   by default. If desired, an optional `allowNull` can be passed
+ *   to allow that use case.
+ * * When testing for an `object`, Arrays will be disallowed by default.
+ *   If desired, an optional `arrayAsObject` can be passed to allow that
+ *   use case. Note that there is a separate check for `array`.
+ * * When testing for `number`, `integer`, or `natural`, `NaN` will
+ *   be disallowed at all times.
  *
- * Strings have an optional value to exclude empty arrays: `exclEmpty`.
- *
- * Arrays have an optional value to test for the array being of a single data type
- * as well as multiple "whitelisted" data types. That can be achieved by passing
- * the `type` option in the `options` param. When testing for a single, the DataType
- * on its own is sufficient, and when testing for several, an array for DataType items
- * is required. Additionally, arrays can be tested to have a `min`, `max`, `exclMin`,
- * and `exclMax` lengths.
- *
- * Numbers have the following options: `min`, `max`, `exclMin`, `exclMax` and `multipleOf`.
- * `exclMin` and `exclMax` are exclusive variants of `min` and `max` with the exception
- * of negative and positive infinity. `multipleOf` will check whether the number being
- * evaluated is a multiple of the value in this option. Please note that whe negative and
- * positive infinities are used as the value to test for, the use of `multipleOf` will
- * result in `false` because using Ininity on the left side of modulus is NaN.
- * When checking for `integer` and `natural` the `number` options apply as well, being
- * that it is a particular use case of `number`.
+ * ## Options
  *
  * The default optional values are:
  *
- * ```
+ * ```ts
  * type: DataType.any // Used for `array` use cases
  * exclEmpty: false // Used for `string` use cases
  * schema: null // Used for `object` and `any` use cases
@@ -89,9 +87,54 @@ const isDefaultOptions: isOptions = {
  * multipleOf: 0 // Used for `number` use cases. `0` means no `multipleOf` check
  * ```
  *
- * TODO:
- * - Add `schema` option to `array`
- * - Use cases for `symbol`
+ * ### String options
+ *
+ * Strings have an optional value to exclude empty values by passing
+ * `exclEmpty` into the options, which is a `boolean`.
+ *
+ * ### Array options
+ *
+ * * `type`: `DataType|DataType[]`
+ * * `min`: `number`
+ * * `max`: `number`
+ * * `exclMin`: `number`
+ * * `exclMax`: `number`
+ *
+ * With the `type` option, arrays can be tested to see whether their
+ * values are of a single type or one of multiple types, in which case
+ * an array of types needs to be passed into the `type` option.
+ * To clarify, this is strictly testing for "one of multiple types";
+ * as long as a single one of the types passed validates as `true`,
+ * then `is` will return `true`.
+ *
+ * Additionally, arrays can be tested to have a `min`, `max`, `exclMin`,
+ * and `exclMax` lengths. `min` and `max` are inclusive in their checks
+ * (`>=` and `<=`, respectively), where `exclMin` and `exclMax` are check
+ * lengths exclusively (`<` and `>`, respectively).
+ *
+ * ### Number options
+ *
+ * * `min`: `number`
+ * * `max`: `number`
+ * * `exclMin`: `number`
+ * * `exclMax`: `number`
+ * * `multipleOf`: `number`
+ *
+ * As with Arrays, `exclMin` and `exclMax` are exclusive variants of
+ * `min` and `max` with the exception of negative and positive infinity.
+ *
+ * `multipleOf` will check whether the number being evaluated is a
+ * multiple of the value in this option. Please note that when negative
+ * and positive infinities are used as the value to test for, the use of
+ * `multipleOf` will result in `false` because using Infinity on the left
+ * side of modulus is `NaN`.
+ *
+ * When checking for `integer` and `natural` the `number` options apply
+ * as well, being that they are particular use cases of `number`.
+ *
+ * ## To do
+ *
+ * * Use cases for `symbol`
  *
  * @param {any} val  The value to test for.
  * @param {DataType} type  One of the DataType enum values
