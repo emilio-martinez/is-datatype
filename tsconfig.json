@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "module": "umd",
+    "target": "es5",
+    "noImplicitAny": true,
+    "sourceMap": true,
+    "declaration": true,
+    "removeComments": true,
+    "moduleResolution": "node",
+    "outDir": "./dist",
+    "types" : [
+      "jasmine"
+    ]
+  },
+  "compileOnSave": false,
+	"files": [
+		"src/is.func.ts"
+	],
+  "exclude": [
+    "node_modules"
+  ]
+}

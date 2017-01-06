@@ -1,0 +1,44 @@
+{
+  "name": "is-validation",
+  "version": "1.0.0-pre.0",
+  "description": "Data type validation function meant to go beyond the use cases of operators such as `typeof` by providing a few more common pseudo data types to check agasint, as well as a certain degree of options to validate against as well",
+  "main": "dist/is.js",
+  "types": "dist/is.d.ts",
+  "scripts": {
+    "pretest": "npm run clean:test",
+    "test": "node_modules/.bin/karma start",
+    "serve:test": "node_modules/.bin/browser-sync start --directory true -s coverage/",
+    "clean:test": "node_modules/.bin/rimraf coverage",
+    "clean:dist": "node_modules/.bin/rimraf dist",
+    "clean": "npm run clean:test & npm run clean:dist",
+    "build": "npm run clean:dist && node_modules/.bin/tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://emilio-martinez@github.com/emilio-martinez/is-validation.git"
+  },
+  "keywords": [
+    "validation",
+    "typescript",
+    "data",
+    "type"
+  ],
+  "author": "Emilio Martinez-Cordero <e.marticor@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/emilio-martinez/is-validation/issues"
+  },
+  "homepage": "https://github.com/emilio-martinez/is-validation#readme",
+  "devDependencies": {
+    "@types/jasmine": "^2.5.40",
+    "@types/node": "^6.0.58",
+    "jasmine-core": "^2.5.2",
+    "karma": "^1.3.0",
+    "karma-chrome-launcher": "^2.0.0",
+    "karma-jasmine": "^1.1.0",
+    "karma-phantomjs-launcher": "^1.0.2",
+    "karma-typescript": "^2.1.5",
+    "rimraf": "^2.5.4",
+    "typescript": "^2.0.10"
+  }
+}
