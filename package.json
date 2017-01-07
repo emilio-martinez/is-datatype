@@ -11,7 +11,9 @@
     "clean:test": "node_modules/.bin/rimraf coverage",
     "clean:dist": "node_modules/.bin/rimraf dist",
     "clean": "npm run clean:test & npm run clean:dist",
-    "build": "npm run clean:dist && node_modules/.bin/tsc"
+    "prebuild": "npm run clean:dist",
+    "build": "node_modules/.bin/tsc",
+    "postbuild": "uglifyjs --screw-ie8 --mangle --compress --in-source-map dist/is.func.js.map --output dist/is.func.min.js --source-map dist/is.func.min.js.map --source-map-url is.func.min.js.map -- dist/is.func.js"
   },
   "repository": {
     "type": "git",
