@@ -1,6 +1,6 @@
 {
-  "name": "is-validation",
-  "version": "0.1.0-pre.0",
+  "name": "is-datatype",
+  "version": "0.1.0-pre.1",
   "description": "Type validation function meant to go beyond the use cases of operators such as `typeof` by providing a few more common pseudo data types to check agasint, as well as a certain degree of options to validate against as well",
   "main": "dist/is.func.js",
   "types": "dist/is.func.d.ts",
@@ -15,7 +15,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://emilio-martinez@github.com/emilio-martinez/is-validation.git"
+    "url": "git+https://emilio-martinez@github.com/emilio-martinez/is-datatype.git"
   },
   "keywords": [
     "validation",
@@ -26,9 +26,9 @@
   "author": "Emilio Martinez-Cordero <e.marticor@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/emilio-martinez/is-validation/issues"
+    "url": "https://github.com/emilio-martinez/is-datatype/issues"
   },
-  "homepage": "https://github.com/emilio-martinez/is-validation#readme",
+  "homepage": "https://github.com/emilio-martinez/is-datatype#readme",
   "devDependencies": {
     "@types/jasmine": "^2.5.40",
     "@types/node": "^6.0.58",
