@@ -2,8 +2,8 @@
   "name": "is-validation",
   "version": "1.0.0-pre.0",
   "description": "Type validation function meant to go beyond the use cases of operators such as `typeof` by providing a few more common pseudo data types to check agasint, as well as a certain degree of options to validate against as well",
-  "main": "dist/is.js",
-  "types": "dist/is.d.ts",
+  "main": "dist/is.func.js",
+  "types": "dist/is.func.d.ts",
   "scripts": {
     "pretest": "npm run clean:test",
     "test": "node_modules/.bin/karma start",
