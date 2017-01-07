@@ -41,6 +41,7 @@
     "karma-phantomjs-launcher": "^1.0.2",
     "karma-typescript": "^2.1.5",
     "rimraf": "^2.5.4",
-    "typescript": "^2.0.10"
+    "typescript": "^2.0.10",
+    "uglifyjs": "^2.4.10"
   }
 }
