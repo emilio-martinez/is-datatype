@@ -1,6 +1,6 @@
 {
   "name": "is-validation",
-  "version": "1.0.0-pre.0",
+  "version": "0.1.0-pre.0",
   "description": "Type validation function meant to go beyond the use cases of operators such as `typeof` by providing a few more common pseudo data types to check agasint, as well as a certain degree of options to validate against as well",
   "main": "dist/is.func.js",
   "types": "dist/is.func.d.ts",
