@@ -19,7 +19,9 @@ module.exports = function (config) {
 
     karmaTypescriptConfig: {
       reports: {
-        'html': 'coverage',
+        'html': { 'directory': 'coverage', 'subdirectory': '.' },
+        'lcovonly': { 'directory': 'coverage', 'subdirectory': '.', 'filename': 'lcov.info' },
+        'json': { 'directory': 'coverage', 'subdirectory': '.', 'filename': 'coverage-final.json' },
         // destination ' will redirect output to the console
         'text-summary': ''
       }
