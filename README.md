@@ -2,6 +2,7 @@
 
 [![npm version](https://badge.fury.io/js/is-datatype.svg)](https://badge.fury.io/js/is-datatype)
 [![Build Status](https://travis-ci.org/emilio-martinez/is-datatype.svg?branch=master)](https://travis-ci.org/emilio-martinez/is-datatype)
+[![Coverage Status](https://coveralls.io/repos/github/emilio-martinez/is-datatype/badge.svg?branch=master)](https://coveralls.io/github/emilio-martinez/is-datatype?branch=master)
 
 Type validation function meant to go beyond the use cases of operators such as `typeof`. A few of the key features in mind with the creation of this package are:
 
