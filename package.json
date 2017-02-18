@@ -6,7 +6,9 @@
   "types": "dist/is.func.d.ts",
   "scripts": {
     "pretest": "npm run clean:test",
-    "test": "node_modules/.bin/karma start",
+    "test": "node_modules/.bin/karma start --single-run",
+    "pretest:watch": "npm run pretest",
+    "test:watch": "node_modules/.bin/karma start --no-single-run",
     "serve:test": "node_modules/.bin/browser-sync start --directory true -s coverage/",
     "clean:test": "node_modules/.bin/rimraf coverage",
     "clean:dist": "node_modules/.bin/rimraf dist",
