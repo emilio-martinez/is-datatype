@@ -16,7 +16,9 @@
     "clean": "npm run clean:test & npm run clean:dist",
     "prebuild": "npm run clean:dist",
     "build": "node_modules/.bin/tsc",
-    "postbuild": "uglifyjs --screw-ie8 --mangle --compress --in-source-map dist/is.func.js.map --output dist/is.func.min.js --source-map dist/is.func.min.js.map --source-map-url is.func.min.js.map -- dist/is.func.js"
+    "postbuild": "mkdirp dist/bundle && npm run postbuild:max && npm run postbuild:min",
+    "postbuild:max": "uglifyjs --screw-ie8 --beautify --in-source-map dist/is.func.js.map --output dist/bundle/is.func.umd.js --source-map dist/bundle/is.func.umd.js.map --source-map-url is.func.umd.js.map -- dist/is.func.js dist/is.internal.js",
+    "postbuild:min": "uglifyjs --screw-ie8 --mangle --compress --in-source-map dist/is.func.js.map --output dist/bundle/is.func.umd.min.js --source-map dist/bundle/is.func.umd.min.js.map --source-map-url is.func.umd.min.js.map -- dist/is.func.js dist/is.internal.js"
   },
   "repository": {
     "type": "git",
@@ -44,6 +46,7 @@
     "karma-jasmine": "^1.1.0",
     "karma-phantomjs-launcher": "^1.0.2",
     "karma-typescript": "^2.1.7",
+    "mkdirp": "^0.5.1",
     "rimraf": "^2.6.0",
     "typescript": "^2.0.10",
     "uglifyjs": "^2.4.10"
