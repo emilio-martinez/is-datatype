@@ -1,4 +1,4 @@
-import { extendObject } from '../is.func';
+import { extendObject } from '../is.internal';
 
 describe('extendObject', () => {
   it('should extend an object', () => {

@@ -1,5 +1,6 @@
-import { DataType, matchesSchema } from '../is.func';
+import { DataType } from '../is.func';
 import { isTypeSchema } from '../is.interfaces';
+import { matchesSchema } from '../is.internal';
 
 describe(`\`matchesSchema\` function`, () => {
 
