@@ -1,8 +1,9 @@
 # is
 
-[![npm version](https://badge.fury.io/js/is-datatype.svg)](https://badge.fury.io/js/is-datatype)
-[![Build Status](https://travis-ci.org/emilio-martinez/is-datatype.svg?branch=master)](https://travis-ci.org/emilio-martinez/is-datatype)
-[![Coverage Status](https://coveralls.io/repos/github/emilio-martinez/is-datatype/badge.svg?branch=master)](https://coveralls.io/github/emilio-martinez/is-datatype?branch=master)
+[![npm version][npm]][npm-url]
+[![Build Status][tests]][tests-url]
+[![Dependency Status][deps]][deps-url]
+[![Coverage Status][cover]][cover-url]
 
 Type validation function meant to go beyond the use cases of operators such as `typeof`. A few of the key features in mind with the creation of this package are:
 
@@ -105,3 +106,16 @@ When checking for `integer` and `natural` the `number` options apply as well, be
 ## Collaboration
 
 If there's any issues, a strong use case to change something implemented, or any features to be added other than those noted in the "To do" section above, please feel free to open issues or create pull requests. However, please bear in mind that unit tests must be provided for pull requests, and that keeping (or enhancing) the Typescript tooling that `is` may provide is an important part of this package.
+
+
+[npm]: https://badge.fury.io/js/is-datatype.svg
+[npm-url]: https://npmjs.com/package/is-datatype
+
+[tests]: https://travis-ci.org/emilio-martinez/is-datatype.svg?branch=master
+[tests-url]: https://travis-ci.org/emilio-martinez/is-datatype
+
+[deps]: https://david-dm.org/emilio-martinez/is-datatype.svg
+[deps-url]: https://npmjs.com/package/is-datatype
+
+[cover]: https://coveralls.io/repos/github/emilio-martinez/is-datatype/badge.svg?branch=master
+[cover-url]: https://coveralls.io/github/emilio-martinez/is-datatype?branch=master
