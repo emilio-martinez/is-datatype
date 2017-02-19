@@ -1,28 +1,26 @@
+import {
+  isOptions,
+  isOptionsArray,
+  isOptionsNumber,
+  isOptionsObject,
+  isOptionsString,
+  isTypeSchema
+} from './is.interfaces';
 
-export enum DataType { boolean, number, integer, natural, string, function, object, array, undefined, any };
+export enum DataType {
+  boolean,
+  number,
+  integer,
+  natural,
+  string,
+  function,
+  object,
+  array,
+  undefined,
+  any
+};
 
-export interface isTypeSchema {
-  type?: DataType|DataType[]
-  props?: ({ [k: string]: isTypeSchema });
-  items?: isTypeSchema|isTypeSchema[];
-  required?: boolean;
-  options?: isOptions;
-}
-
-export interface isOptions {
-  type?: DataType|DataType[];
-  pattern?: string;
-  patternFlags?: string;
-  exclEmpty?: boolean;
-  schema?: isTypeSchema|isTypeSchema[];
-  allowNull?: boolean;
-  arrayAsObject?: boolean;
-  min?: number;
-  max?: number;
-  exclMin?: number;
-  exclMax?: number;
-  multipleOf?: number;
-}
+export { isOptions } from './is.interfaces';
 
 const isDefaultOptions: isOptions = {
   type: DataType.any,
@@ -142,10 +140,10 @@ const isDefaultOptions: isOptions = {
  */
 export function is(val: undefined, type: DataType): boolean;
 export function is(val: boolean, type: DataType): boolean;
-export function is(val: number, type: DataType, options?: { min?: number, max?:number, exclMin?: number, exclMax?: number, multipleOf?: number }): boolean;
-export function is(val: string, type: DataType, options?: { pattern?: string, patternFlags?: string, exclEmpty?: boolean }): boolean;
-export function is(val: any[], type: DataType, options?: { schema?: isTypeSchema|isTypeSchema[], type?: DataType|DataType[], min?: number, max?:number, exclMin?: number, exclMax?: number }): boolean;
-export function is(val: Object, type: DataType, options?: { schema?: isTypeSchema|isTypeSchema[], allowNull?: boolean, arrayAsObject?: boolean }): boolean;
+export function is(val: number, type: DataType, options?: isOptionsNumber): boolean;
+export function is(val: string, type: DataType, options?: isOptionsString): boolean;
+export function is(val: any[], type: DataType, options?: isOptionsArray): boolean;
+export function is(val: Object, type: DataType, options?: isOptionsObject): boolean;
 export function is(val: any, type: DataType, options?: isOptions): boolean {
 
   /** Combine passed options with default options. */
