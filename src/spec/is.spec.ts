@@ -1,4 +1,5 @@
-import { is, DataType, isOptions, matchesSchema } from '../is.func';
+import { is, DataType, isOptions } from '../is.func';
+import { matchesSchema } from '../is.internal';
 import * as TC from './test-cases/test-cases.spec';
 
 describe('`is` and `matchesSchema`', () => {

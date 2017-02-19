@@ -1,4 +1,5 @@
-import { DataType, isOneOfMultipleTypes } from '../is.func';
+import { DataType } from '../is.func';
+import { isOneOfMultipleTypes } from '../is.internal';
 import { aggregateUseCases } from './test-cases/test-cases.spec';
 
 const invalidTypeValues = [
