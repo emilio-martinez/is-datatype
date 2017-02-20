@@ -6,3 +6,4 @@ coverage
 # see npmjs.com/npmignore for more details.
 src/spec
 karma.conf.js
+webpack.config.js
