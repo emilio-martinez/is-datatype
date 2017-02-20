@@ -7,3 +7,4 @@ coverage
 src/spec
 karma.conf.js
 webpack.config.js
+.travis.yml
