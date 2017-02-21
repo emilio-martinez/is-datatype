@@ -30,11 +30,16 @@ This function is opinionated in the sense that:
 * When testing for an `object`, Arrays will be disallowed by default. If desired, an optional `arrayAsObject` can be passed to allow that use case. Note that there is a separate check for `array`.
 * When testing for `number`, `integer`, or `natural`, `NaN` will be disallowed at all times.
 
-## `DataType`
 
-An `enum` called `DataType` is exported by this package to expose the types available above. Because this package is exported with Typescript in mind, this is meant to provide hinting throughout the use of `is`.
+## Usage
 
-In a nutshell:
+This package exposes three main exports through the main entry point: `is`, `DataType` and `isOptions`—a `function`, `enum` and a Typescript `interface`, respectively. Those will be covered in the following subsections. Additionally, there are other a number of other exports by `is.internal` and `is.interfaces` which are leveraged internally by this package; however, because they are not essential for the usage of this package, those will not be covered here but are instead documented in the source code.
+
+### `DataType`
+
+An `enum` called `DataType` is exported by this package with the sole purpose of providing an simple API to expose the supported data types, listed above. It's important to keep in mind that while recommended usage for `DataType` is through Typescript because of it's tooling benefits, `enums`—and such is the case for `DataType`—will function the same way in any regular Javascript environment because they're output is simply an Object.
+
+In a nutshell `DataType` functions as follows:
 
 ```ts
 // `DataType` named properties return natural numbers
@@ -48,12 +53,36 @@ typeof DataType[DataType.number] === 'string'
 DataType[DataType.number] === 'number'
 ```
 
-Read more about Typescript `enums` [in the Typescript docs](https://www.typescriptlang.org/docs/handbook/enums.html).
+To learn more about Typescript `enums` please refer to [the Typescript docs](https://www.typescriptlang.org/docs/handbook/enums.html).
 
+### `is`
 
-## Options
+`is` is the main function exported by this package. It takes the following three parameters to execute type validation:
 
-The default optional values are:
+* `val` `{any}`: The value to test for. In Typescript, the data type presented here will impact the hinting provided for `options`.
+* `type` `{DataType}`: One of the DataType enum values with numeric output. It identifies the data type to validate for.
+* `options` `{isOptions}`: An object described by the section "Options" further down.
+
+A few usage examples to cover the basic use cases for `is`:
+
+```ts
+is(10, DataType.any); // true
+is(10, DataType.number); // true
+is(10, DataType.integer); // true
+is(10, DataType.boolean); // false
+is(10, DataType.number, { min: 10 }); // true
+is(10, DataType.number, { exclMin: 10 }); // false
+```
+
+Currently, `is` can take and validate for any data type with the exception of the data types listed in the "To do" section of this document.
+
+### Options
+
+There are a number of options available to `is`, but perhaps the most important detail to keep in mind is that there are specific option sets that will benefit certain data types exclusively, e.g., `exclEmpty` is only applicable to `string`. There is no negative impact to the validation outcome if options irrelevant to the data type being evaluated are passed into `is`; instead, the extraneous options will be ignored.
+
+Because the options available to `is` are described by the `isOptions` interface, environments where Typescript is available will highly benefit from the hinting that is provided. This is particularly useful because IDEs will show only the valid available values relbased on to the variable data type being passed as the first parameter of `is`. In any regular Javascript enviorment, however, while there will be no type hinting benefits, the same exact functionality is available.
+
+The default values for options are:
 
 ```ts
 type: DataType.any // Used for `array` use cases
@@ -68,11 +97,11 @@ exclMax: Number.POSITIVE_INFINITY // Used for `number` use cases
 multipleOf: 0 // Used for `number` use cases. `0` means no `multipleOf` check
 ```
 
-### String options
+#### String options
 
 Strings have an optional value to exclude empty values by passing `exclEmpty` into the options, which is a `boolean`.
 
-### Array options
+#### Array options
 
 * `type`: `DataType|DataType[]`
 * `min`: `number`
@@ -84,7 +113,7 @@ With the `type` option, arrays can be tested to see whether their values are of 
 
 Additionally, arrays can be tested to have a `min`, `max`, `exclMin`, and `exclMax` lengths. `min` and `max` are inclusive in their checks (`>=` and `<=`, respectively), where `exclMin` and `exclMax` are check lengths exclusively (`<` and `>`, respectively).
 
-### Number options
+#### Number options
 
 * `min`: `number`
 * `max`: `number`
