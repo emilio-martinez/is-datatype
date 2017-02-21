@@ -7,17 +7,17 @@ const DIST_DIR = path.resolve(__dirname, './dist');
 module.exports = function(_env) {
 
   const env = {
-    min: ( _env && _env.min ?  true : false )
+    min: ( !!_env && !!_env.min )
   };
 
   const uglifyOptions = (
     env.min ?
     {
-      compress: { warnings: false },
+      compress: { warnings: false, screw_ie8: true },
       output: { comments: false },
       sourceMap: true,
       comments: false,
-      mangle: true
+      mangle: { screw_ie8: true }
     } :
     {
       compress: false,
@@ -31,7 +31,7 @@ module.exports = function(_env) {
 
   return {
     context: SRC_DIR,
-    devtool: 'source-map',
+    devtool: 'cheap-module-source-map',
     entry: {
       'is.func': path.resolve(SRC_DIR, './is.func.ts')
     },
@@ -57,7 +57,10 @@ module.exports = function(_env) {
       ]
     },
     plugins: [
-      new webpack.LoaderOptionsPlugin({ minimize: ( env.min ) }),
+      new webpack.LoaderOptionsPlugin({
+        minimize: ( env.min ),
+        debug: false
+      }),
       new webpack.optimize.UglifyJsPlugin(uglifyOptions)
     ],
     resolve: {
