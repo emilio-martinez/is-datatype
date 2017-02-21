@@ -33,11 +33,11 @@ This function is opinionated in the sense that:
 
 ## Usage
 
-This package exposes three main exports through the main entry point: `is`, `DataType` and `isOptions`—a `function`, `enum` and a Typescript `interface`, respectively. Those will be covered in the following subsections. Additionally, there are a number of other functions and interfaces exported via `is.internal` and `is.interfaces` which are mostly leveraged internally and therefore will not be covered here; however, if you're curious and/or want to use those pieces of functionality, they're available and documented in the source code.
+This package exposes three main exports through the main entry point: `is`, `DataType` and `isOptions`—a `function`, an `enum` and a Typescript `interface`, respectively. Those will be covered in the following subsections. Additionally, there are a number of other functions and interfaces exported via `is.internal` and `is.interfaces` which are mostly leveraged internally and therefore will not be covered here; however, if you're curious and/or want to use those pieces of functionality, they're available and documented in the source code.
 
 ### `DataType`
 
-An `enum` called `DataType` is exported by this package with the sole purpose of providing an simple API to expose the supported data types, listed above. It's important to keep in mind that while recommended usage for `DataType` is through Typescript because of it's tooling benefits, `enums`—and such is the case for `DataType`—will function the same way in any regular Javascript environment because they're output is simply an Object.
+An `enum` called `DataType` is exported by this package with the sole purpose of providing an simple API to expose the supported data types, listed above. It's important to keep in mind that while recommended usage for `DataType` is through Typescript because of it's hinting, `enums`—and such is the case for `DataType`—will function the same way in any regular Javascript environment because they're output is simply an Object.
 
 In a nutshell `DataType` functions as follows:
 
@@ -59,19 +59,32 @@ To learn more about Typescript `enums` please refer to [the Typescript docs](htt
 
 `is` is the main function exported by this package. It takes the following three parameters to execute type validation:
 
-* `val` `{any}`: The value to test for. In Typescript, the data type presented here will impact the hinting provided for `options`.
-* `type` `{DataType}`: One of the DataType enum values with numeric output. It identifies the data type to validate for.
-* `options` `{isOptions}`: An object described by the section "Options" further down.
+* `val {any}`: The value to test for. In Typescript, the data type of the variable passed here will impact the hinting provided for `options`.
+* `type {DataType}`: One of the DataType enum values with numeric output. It identifies the data type to validate for.
+* `options {isOptions}`: An object described by the section "Options" further down. In Typescript, the options that the hinting will present will change depending on the data type of the variable passed into `val`.
 
 A few usage examples to cover the basic use cases for `is`:
 
 ```ts
-is(10, DataType.any); // true
-is(10, DataType.number); // true
-is(10, DataType.integer); // true
-is(10, DataType.boolean); // false
-is(10, DataType.number, { min: 10 }); // true
-is(10, DataType.number, { exclMin: 10 }); // false
+is(-10, DataType.number); // true
+is(-10, DataType.boolean); // false
+
+// `DataType.any` will validate `true` for any data type
+is(-10, DataType.any); // true
+
+// Because numbers are so vast, there's special treatment for certain particular number use cases
+is(-10, DataType.integer); // true
+is(-10, DataType.natural); // false
+
+// Using options to affect validation
+is(-10, DataType.number, { min: -10 }); // true
+is(-10, DataType.number, { exclMin: -10 }); // false
+
+// Another example using options
+// Arrays have they're own data type, but can be allowed to be treated as objects, i.e., `typeof [] === 'object'`
+is([], DataType.array); // true
+is([], DataType.object); // false
+is([], DataType.object, { arrayAsObject: true }); // true
 ```
 
 Currently, `is` can take and validate for any data type with the exception of the data types listed in the "To do" section of this document.
