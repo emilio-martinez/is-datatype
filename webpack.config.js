@@ -21,10 +21,10 @@ module.exports = function(_env) {
     } :
     {
       compress: false,
-      output: { comments: false },
+      output: { comments: false, indent_level: 2 },
       sourceMap: true,
       comments: false,
-      mangle: false,
+      mangle: { screw_ie8: true, keep_fnames: true },
       beautify: true
     }
   )
