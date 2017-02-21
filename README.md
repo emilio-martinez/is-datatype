@@ -33,7 +33,7 @@ This function is opinionated in the sense that:
 
 ## Usage
 
-This package exposes three main exports through the main entry point: `is`, `DataType` and `isOptions`—a `function`, `enum` and a Typescript `interface`, respectively. Those will be covered in the following subsections. Additionally, there are other a number of other exports by `is.internal` and `is.interfaces` which are leveraged internally by this package; however, because they are not essential for the usage of this package, those will not be covered here but are instead documented in the source code.
+This package exposes three main exports through the main entry point: `is`, `DataType` and `isOptions`—a `function`, `enum` and a Typescript `interface`, respectively. Those will be covered in the following subsections. Additionally, there are a number of other functions and interfaces exported via `is.internal` and `is.interfaces` which are mostly leveraged internally and therefore will not be covered here; however, if you're curious and/or want to use those pieces of functionality, they're available and documented in the source code.
 
 ### `DataType`
 
