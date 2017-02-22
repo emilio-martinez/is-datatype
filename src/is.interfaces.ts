@@ -7,7 +7,7 @@ import { DataType } from './is.func';
  * @interface isTypeSchema
  */
 export interface isTypeSchema {
-  type?: DataType|DataType[]
+  type?: DataType|DataType[];
   props?: ({ [k: string]: isTypeSchema });
   items?: isTypeSchema|isTypeSchema[];
   required?: boolean;
@@ -80,7 +80,7 @@ export interface isOptionsObject extends isOptionsSchema {
  * @interface isOptionsSchema
  */
 export interface isOptionsSchema {
-  schema?: isTypeSchema|isTypeSchema[];
+  schema?: isTypeSchema|isTypeSchema[]|null;
 }
 
 /**
@@ -91,7 +91,7 @@ export interface isOptionsSchema {
  */
 export interface isOptionsMinMax {
   min?: number;
-  max?:number;
+  max?: number;
   exclMin?: number;
   exclMax?: number;
 }
