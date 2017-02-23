@@ -2,7 +2,7 @@
   "name": "is-datatype",
   "version": "0.1.1",
   "description": "Type validation function meant to go beyond the use cases of operators such as `typeof` by providing a few more common pseudo data types to check agasint, as well as a certain degree of options to validate against as well",
-  "main": "dist/is.func.js",
+  "main": "dist/bundle/is.func.umd.min.js",
   "types": "dist/is.func.d.ts",
   "scripts": {
     "pretest": "npm run clean:test",
@@ -46,7 +46,7 @@
     "karma-typescript": "^2.1.7",
     "rimraf": "^2.6.0",
     "ts-loader": "^2.0.0",
-    "typescript": "^2.0.10",
+    "typescript": "~2.1.0",
     "webpack": "^2.2.1"
   }
 }

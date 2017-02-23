@@ -24,48 +24,69 @@ export function isMultipleOf(val: number, multipleOf: number): boolean {
 /**
  * Tests an object against an object schema.
  *
- * @param {Object} obj
- * @param {(isTypeSchema)} schema
+ * @export
+ * @param {*} _val
+ * @param {(isTypeSchema|Array<isTypeSchema>)} schema
  * @returns {boolean}
  */
 export function matchesSchema(_val: any, schema: isTypeSchema|isTypeSchema[]): boolean {
 
   return (( Array.isArray(schema) ? schema : [ schema ] ) as isTypeSchema[])
-    .some( s => {
+    /** Test every schema until at least one of them matches */
+    .some( (s: isTypeSchema) => {
 
-      const _type = s.type ? s.type : DataType.any; // Use any if no type is present.
-      const _typeOptions = ( is(s.options, DataType.object) ? s.options : {} );
-      /** Test for type */
+      /** Get type. Use `any` if none is present */
+      const _type: DataType|DataType[] = s.type ? s.type : DataType.any;
+
+      /** Get the options, if any. Use objecct literal if not available. */
+      const _typeOptions: isOptions = ( is(s.options as isOptions, DataType.object) ? s.options : {} ) as isOptions;
+
+      /** Test if any of the data types matches */
       const _typeValid = isOneOfMultipleTypes( _val, _type, _typeOptions );
 
-      /** Test for properties */
+      /**
+       * Whether the properties match what's reflected in the schema.
+       * Initially assumed as `true`.
+       */
       let _propsValid = true;
-      let _reqdValid = true;
-      const _props = ( is(s.props, DataType.object) ? Object.keys(s.props) : [] );
-      if ( _props.length > 0 ) {
 
-        /** Get all keys that are required from the schema */
-        /** Test for `required` props */
-        _reqdValid = _props
-          .filter( p => s.props[p].required === true )
+      /**
+       * Whether the required properties are present.
+       * Initially assumed as `true`.
+       */
+      let _reqdValid = true;
+
+      /** Extract the properties to test for into an array */
+      const _propKeys: string[] = ( is(s.props as isOptions, DataType.object) ? Object.keys(s.props) : [] );
+
+      /** Begin tests relevat to properties */
+      if ( _propKeys.length > 0 ) {
+
+        /**
+         * Get all keys that are required from the schema,
+         * and then test for required propertes.
+         */
+        _reqdValid = _propKeys
+          .filter( p => s.props && s.props[p] && s.props[p].required === true )
           .every( r => _val[r] !== undefined );
 
         /**
-         * Iterate over the `props` keys
-         * If `obj` has `p` property, call `matchesSchema` on that property of the object.
-         * The schema will be the value of `p` on the schema props.
+         * Iterate over the property keys.
          *
-         * NOTE: if `p` is not in object, we don't validate; however, if it's required,
-         * it'll be caught because that's being validated above
+         * If the subject has the property we're seeking,
+         * `matchesSchema` is called on that property.
+         *
+         * If `p`, the property, is not an object, it won't be validated against.
+         * However, if it was required, that will have been caught by the check above.
          */
-        _propsValid = _props
-          .every( p => ( _val !== undefined && _val[p] !== undefined ? matchesSchema(_val[p], s.props[p]) : true ) );
+        _propsValid = _propKeys
+          .every( p => ( !!s.props && _val !== undefined && _val[p] !== undefined ? matchesSchema(_val[p], s.props[p]) : true ) );
       }
 
       /** Test items if `array` */
       let _itemsValid = true;
       if ( _type === DataType.array && _typeValid && s.items !== undefined ) {
-        _itemsValid = (_val as any[]).every( i => matchesSchema(i, s.items) );
+        _itemsValid = (_val as any[]).every( i => matchesSchema(i, s.items as isTypeSchema|isTypeSchema[]) );
       }
 
       return _typeValid && _reqdValid && _propsValid && _itemsValid;
@@ -76,7 +97,7 @@ export function matchesSchema(_val: any, schema: isTypeSchema|isTypeSchema[]): b
  * Tests a value against a series of DataTypes (one or more).
  *
  * @param {*} val
- * @param {(DataType|DataType[])} type
+ * @param {(DataType|Array<DataType>)} type
  * @param {isOptions} [options]
  * @returns {boolean}
  */
@@ -88,18 +109,20 @@ export function isOneOfMultipleTypes(val: any, type: DataType|DataType[], option
   if ( types.indexOf(DataType.any) !== -1 ) return true;
 
   /** Filter out non-`DataType` items */
-  types = types.filter( v => typeof v === 'number' && (DataType as any).hasOwnProperty(v) );
+  types = types.filter( v => is(v, DataType.number) && (DataType as any).hasOwnProperty(v) );
 
   /** Test `val` prop against type validation */
-  return ( types.length === 0 ? false : types.some( n => is(val, n, options) ) );
+  return ( types.length > 0 ? types.some( n => is(val, n, options) ) : false );
 }
 
 /**
  * Extends an object with the *enumerable* and *own* properties of one or more source objects,
  * similar to Object.assign.
  *
- * @param dest The object which will have properties copied to it.
- * @param sources The source objects from which properties will be copied.
+ * @export
+ * @param {*} dest
+ * @param {...Array<any>} sources
+ * @returns {*}
  */
 export function extendObject(dest: any, ...sources: any[]): any {
   if (dest == null) {
@@ -118,3 +141,66 @@ export function extendObject(dest: any, ...sources: any[]): any {
 
   return dest;
 }
+
+/**
+ * Validates whether an options object is valid or not.
+ * Invalid values will be set to the default option values.
+ *
+ * @export
+ * @param {isOptions} _op
+ * @returns {boolean}
+ */
+export function isValidOptions(_op: isOptions): boolean {
+  /**
+   * Test every property.
+   * If even a single option is wrong, no pass.
+   */
+  return Object.keys(_op)
+    .every( o => {
+      switch(o) {
+        /** DataType cases */
+        case 'type':
+          /** Ensure we have an array of `DataType` */
+          const types: DataType[] = ( Array.isArray(_op[o]) ? _op[o] : [ _op[o] ] ) as DataType[];
+          return types.length > 0 && types.every( t => (DataType as Object).hasOwnProperty(t.toString()) && typeof t === 'number' );
+
+        /** string cases */
+        case 'pattern':
+        case 'patternFlags':
+          return typeof _op[o] === 'string';
+
+        /** Boolean cases */
+        case 'exclEmpty':
+        case 'allowNull':
+        case 'arrayAsObject':
+          return typeof _op[o] === 'boolean';
+
+        /** Number cases */
+        case 'min':
+        case 'max':
+        case 'exclMin':
+        case 'exclMax':
+        case 'multipleOf':
+          return is(_op[o] as number, DataType.number);
+
+        /** Schema case */
+        case 'schema':
+          return _op[o] === null || matchesSchema(_op[o], {
+            /** `isTypeSchema` is always an object */
+            type: DataType.object,
+            props: {
+              type: {
+                type: [DataType.number, DataType.array],
+                items: { type: DataType.number } },
+              props: { type: DataType.object },
+              items: {
+                type: [DataType.object, DataType.array],
+                items: { type: DataType.object } },
+              required: { type: DataType.boolean },
+              options: { type: DataType.object }
+            }
+          });
+      }
+      return true;
+    });
+};
