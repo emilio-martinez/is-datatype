@@ -33,6 +33,12 @@ export enum DataType {
   any
 };
 
+/** Reference to positive infinity */
+const p_infinity = Number.POSITIVE_INFINITY;
+
+/** Reference to negative infinity */
+const n_infinity = Number.NEGATIVE_INFINITY;
+
 /**
  * Default option set to use within `is`
  */
@@ -44,10 +50,10 @@ const isDefaultOptions: isOptions = {
   schema: null,
   allowNull: false,
   arrayAsObject: false,
-  min: Number.NEGATIVE_INFINITY,
-  max: Number.POSITIVE_INFINITY,
-  exclMin: Number.NEGATIVE_INFINITY,
-  exclMax: Number.POSITIVE_INFINITY,
+  min: n_infinity,
+  max: p_infinity,
+  exclMin: n_infinity,
+  exclMax: p_infinity,
   multipleOf: 0
 };
 
@@ -227,8 +233,8 @@ export function is(val: any, type: DataType, options?: isOptions): boolean {
       ( _options.schema === null || matchesSchema(val, _options.schema as isTypeSchema|isTypeSchema[]) ) &&
       ( _options.min !== undefined && (val as any[]).length >= _options.min ) &&
       ( _options.max !== undefined && (val as any[]).length <= _options.max ) &&
-      ( _options.exclMin === Number.NEGATIVE_INFINITY || ( _options.exclMin !== undefined && (val as any[]).length > _options.exclMin) ) &&
-      ( _options.exclMax === Number.POSITIVE_INFINITY || ( _options.exclMax !== undefined && (val as any[]).length < _options.exclMax) )
+      ( _options.exclMin === n_infinity || ( _options.exclMin !== undefined && (val as any[]).length > _options.exclMin) ) &&
+      ( _options.exclMax === p_infinity || ( _options.exclMax !== undefined && (val as any[]).length < _options.exclMax) )
     );
   }
 
@@ -251,8 +257,8 @@ export function is(val: any, type: DataType, options?: isOptions): boolean {
     return (
       ( _options.min !== undefined && (val as number) >= _options.min ) &&
       ( _options.max !== undefined && (val as number) <= _options.max ) &&
-      ( _options.exclMin === Number.NEGATIVE_INFINITY || ( _options.exclMin !== undefined && (val as number) > _options.exclMin) ) &&
-      ( _options.exclMax === Number.POSITIVE_INFINITY || ( _options.exclMax !== undefined && (val as number) < _options.exclMax) ) &&
+      ( _options.exclMin === n_infinity || ( _options.exclMin !== undefined && (val as number) > _options.exclMin) ) &&
+      ( _options.exclMax === p_infinity || ( _options.exclMax !== undefined && (val as number) < _options.exclMax) ) &&
       isMultipleOf(val, _options.multipleOf as number)
     );
   }
