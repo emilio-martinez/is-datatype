@@ -109,10 +109,10 @@ export function isOneOfMultipleTypes(val: any, type: DataType|DataType[], option
   if ( types.indexOf(DataType.any) !== -1 ) return true;
 
   /** Filter out non-`DataType` items */
-  types = types.filter( v => typeof v === 'number' && (DataType as any).hasOwnProperty(v) );
+  types = types.filter( v => is(v, DataType.number) && (DataType as any).hasOwnProperty(v) );
 
   /** Test `val` prop against type validation */
-  return ( types.length === 0 ? false : types.some( n => is(val, n, options) ) );
+  return ( types.length > 0 ? types.some( n => is(val, n, options) ) : false );
 }
 
 /**
