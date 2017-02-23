@@ -141,3 +141,66 @@ export function extendObject(dest: any, ...sources: any[]): any {
 
   return dest;
 }
+
+/**
+ * Validates whether an options object is valid or not.
+ * Invalid values will be set to the default option values.
+ *
+ * @export
+ * @param {isOptions} _op
+ * @returns {boolean}
+ */
+export function isValidOptions(_op: isOptions): boolean {
+  /**
+   * Test every property.
+   * If even a single option is wrong, no pass.
+   */
+  return Object.keys(_op)
+    .every( o => {
+      switch(o) {
+        /** DataType cases */
+        case 'type':
+          /** Ensure we have an array of `DataType` */
+          const types: DataType[] = ( Array.isArray(_op[o]) ? _op[o] : [ _op[o] ] ) as DataType[];
+          return types.length > 0 && types.every( t => (DataType as Object).hasOwnProperty(t.toString()) && typeof t === 'number' );
+
+        /** string cases */
+        case 'pattern':
+        case 'patternFlags':
+          return typeof _op[o] === 'string';
+
+        /** Boolean cases */
+        case 'exclEmpty':
+        case 'allowNull':
+        case 'arrayAsObject':
+          return typeof _op[o] === 'boolean';
+
+        /** Number cases */
+        case 'min':
+        case 'max':
+        case 'exclMin':
+        case 'exclMax':
+        case 'multipleOf':
+          return is(_op[o] as number, DataType.number);
+
+        /** Schema case */
+        case 'schema':
+          return _op[o] === null || matchesSchema(_op[o], {
+            /** `isTypeSchema` is always an object */
+            type: DataType.object,
+            props: {
+              type: {
+                type: [DataType.number, DataType.array],
+                items: { type: DataType.number } },
+              props: { type: DataType.object },
+              items: {
+                type: [DataType.object, DataType.array],
+                items: { type: DataType.object } },
+              required: { type: DataType.boolean },
+              options: { type: DataType.object }
+            }
+          });
+      }
+      return true;
+    });
+};

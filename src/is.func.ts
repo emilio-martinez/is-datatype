@@ -4,13 +4,14 @@ import {
   isOptionsNumber,
   isOptionsObject,
   isOptionsString,
-  isTypeSchema
+  isTypeSchema,
 } from './is.interfaces';
 import {
   isMultipleOf,
   matchesSchema,
   isOneOfMultipleTypes,
-  extendObject
+  extendObject,
+  isValidOptions,
 } from './is.internal';
 
 /**
@@ -159,6 +160,11 @@ export function is(val: string, type: DataType, options?: isOptionsString): bool
 export function is(val: any[], type: DataType, options?: isOptionsArray): boolean;
 export function is(val: Object, type: DataType, options?: isOptionsObject): boolean;
 export function is(val: any, type: DataType, options?: isOptions): boolean {
+
+  /** Check options */
+  if(options !== undefined && !isValidOptions(options as isOptions)) {
+    throw `Provided invalid options object when testing for ${JSON.stringify(val)}: ${JSON.stringify(options)}`;
+  }
 
   /** Combine passed options with default options. */
   const _options: isOptions = extendObject({}, isDefaultOptions, options);
