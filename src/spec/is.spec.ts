@@ -335,6 +335,16 @@ describe('`is` and `matchesSchema`', () => {
       expect( () => is(100, DataType.number, { multipleOf: NaN }) ).toThrow();
     });
 
+    it('should not fail when passed unexpected values', () => {
+      expect( () => is(100, DataType.number, {}) ).not.toThrow();
+      expect( () => is(100, DataType.number, null) ).not.toThrow();
+      expect( () => is(100, DataType.number, undefined) ).not.toThrow();
+      expect( () => is(100, DataType.number, NaN) ).not.toThrow();
+      expect( () => is(100, DataType.number, 'hello') ).not.toThrow();
+      expect( () => is(100, DataType.number, Number.NEGATIVE_INFINITY) ).not.toThrow();
+      expect( () => is(100, DataType.number, new Date()) ).not.toThrow();
+    });
+
   });
 
 });

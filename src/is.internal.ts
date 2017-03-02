@@ -151,6 +151,9 @@ export function extendObject(dest: any, ...sources: any[]): any {
  * @returns {boolean}
  */
 export function isValidOptions(_op: isOptions): boolean {
+  /** Ensure object */
+  _op = ( is(_op, DataType.object) ? _op : {} );
+
   /**
    * Test every property.
    * If even a single option is wrong, no pass.
