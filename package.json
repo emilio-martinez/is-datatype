@@ -17,7 +17,7 @@
     "prebuild": "npm run clean:dist",
     "build": "node_modules/.bin/tsc",
     "postbuild": "node_modules/.bin/webpack --env.min && node_modules/.bin/webpack",
-    "release": "node_modules/.bin/np && npm logout"
+    "release": "./release-check.sh && node_modules/.bin/np && npm logout"
   },
   "repository": {
     "type": "git",
