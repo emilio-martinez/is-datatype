@@ -4,6 +4,7 @@
 [![Build Status][tests]][tests-url]
 [![Dependency Status][deps]][deps-url]
 [![Coverage Status][cover]][cover-url]
+[![Greenkeeper badge](https://badges.greenkeeper.io/emilio-martinez/is-datatype.svg)](https://greenkeeper.io/)
 
 Type validation function meant to go beyond the use cases of operators such as `typeof`. A few of the key features in mind with the creation of this package are:
 
