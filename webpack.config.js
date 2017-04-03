@@ -37,6 +37,7 @@ module.exports = function(_env) {
       path: path.resolve(DIST_DIR, './bundle'),
       filename: `[name].umd${( env.min ? '.min' : '' )}.js`,
       sourceMapFilename: '[file].map',
+      library: 'isDatatype',
       libraryTarget: 'umd',
       pathinfo: false
     },
