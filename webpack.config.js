@@ -1,5 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 const SRC_DIR = path.resolve(__dirname, './src');
 const DIST_DIR = path.resolve(__dirname, './dist');
@@ -9,23 +10,6 @@ module.exports = function(_env) {
   const env = {
     min: ( !!_env && !!_env.min )
   };
-
-  const uglifyOptions = (
-    env.min ?
-    {
-      compress: { warnings: false, screw_ie8: true },
-      output: { comments: false },
-      sourceMap: true,
-      mangle: { screw_ie8: true }
-    } :
-    {
-      compress: false,
-      output: { comments: false, indent_level: 2 },
-      sourceMap: true,
-      mangle: false,
-      beautify: true
-    }
-  )
 
   return {
     context: SRC_DIR,
@@ -48,7 +32,6 @@ module.exports = function(_env) {
           loader: 'ts-loader',
           options: {
             compilerOptions: {
-              module: 'ES2015',
               declaration: false
             }
           }
@@ -60,7 +43,22 @@ module.exports = function(_env) {
         minimize: ( env.min ),
         debug: false
       }),
-      new webpack.optimize.UglifyJsPlugin(uglifyOptions)
+      new UglifyJsPlugin((
+        env.min ?
+        {
+          compress: { warnings: false, screw_ie8: true },
+          output: { comments: false },
+          sourceMap: true,
+          mangle: { screw_ie8: true }
+        } :
+        {
+          compress: false,
+          output: { comments: false, indent_level: 2 },
+          sourceMap: true,
+          mangle: false,
+          beautify: true
+        }
+      ))
     ],
     resolve: {
       extensions: ['.tsx', '.ts', '.js']
