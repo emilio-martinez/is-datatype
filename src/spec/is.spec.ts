@@ -6,6 +6,8 @@ describe('`is` and `matchesSchema`', () => {
 
   it('should validate for invalid `type` arguments', () => {
     expect( () => is(false, -1) ).toThrow();
+    expect( () => is(false, DataType[1] as any) ).toThrow();
+    expect( () => is(false, 1) ).not.toThrow();
   });
 
   describe('for `number` types', () => {
