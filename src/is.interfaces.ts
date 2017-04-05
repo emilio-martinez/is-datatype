@@ -2,7 +2,6 @@ import { DataType } from './is.func';
 
 /**
  * A descriptive model of what an object is expected to be.
- *
  * @export
  * @interface isTypeSchema
  */
@@ -16,7 +15,6 @@ export interface isTypeSchema {
 
 /**
  * The entirety of the options available to use with `is`
- *
  * @export
  * @interface isOptions
  * @extends {isOptionsNumber}
@@ -28,7 +26,6 @@ export interface isOptions extends isOptionsNumber, isOptionsString, isOptionsAr
 
 /**
  * The options available to use on a number type use case with `is`
- *
  * @export
  * @interface isOptionsNumber
  * @extends {isOptionsMinMax}
@@ -39,7 +36,6 @@ export interface isOptionsNumber extends isOptionsMinMax {
 
 /**
  * The options available to use on a string type use case with `is`
- *
  * @export
  * @interface isOptionsString
  */
@@ -51,7 +47,6 @@ export interface isOptionsString {
 
 /**
  * The options available to use on an Array type use case with `is`
- *
  * @export
  * @interface isOptionsArray
  * @extends {isOptionsMinMax}
@@ -63,7 +58,6 @@ export interface isOptionsArray extends isOptionsMinMax, isOptionsSchema {
 
 /**
  * The options available to use on an Object type use case with `is`
- *
  * @export
  * @interface isOptionsObject
  * @extends {isOptionsSchema}
@@ -75,7 +69,6 @@ export interface isOptionsObject extends isOptionsSchema {
 
 /**
  * A shared interface for those option sets that use the `schema` options
- *
  * @export
  * @interface isOptionsSchema
  */
@@ -85,7 +78,6 @@ export interface isOptionsSchema {
 
 /**
  * A shared interface for those option sets that use the `min` and `max` options
- *
  * @export
  * @interface isOptionsMinMax
  */

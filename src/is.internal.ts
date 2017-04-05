@@ -39,7 +39,7 @@ export function matchesSchema(_val: any, schema: isTypeSchema|isTypeSchema[]): b
 
       const _type: DataType|DataType[] = validDataType(s.type) ? s.type as DataType|DataType[] : DataType.any;
 
-      /** Get the options, if any. Use objecct literal if not available. */
+      /** Get the options, if any. Use object literal if not available. */
       const _typeOptions: isOptions = ( is(s.options as isOptions, DataType.object) ? s.options : {} ) as isOptions;
 
       /** Test if any of the data types matches */
@@ -60,12 +60,12 @@ export function matchesSchema(_val: any, schema: isTypeSchema|isTypeSchema[]): b
       /** Extract the properties to test for into an array */
       const _propKeys: string[] = ( is(s.props as isOptions, DataType.object) ? Object.keys(s.props) : [] );
 
-      /** Begin tests relevat to properties */
+      /** Begin tests relevant to properties */
       if ( _propKeys.length > 0 ) {
 
         /**
          * Get all keys that are required from the schema,
-         * and then test for required propertes.
+         * and then test for required properties.
          */
         _reqdValid = _propKeys
           .filter( p => s.props && s.props[p] && s.props[p].required === true )

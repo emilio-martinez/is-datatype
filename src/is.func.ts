@@ -255,7 +255,7 @@ export function is(val: any, type: DataType, options?: isOptions): boolean {
    * If `exclMin` won't exclude Number.NEGATIVE_INFINITY.
    * If `exclMax` won't exclude Number.POSITIVE_INFINITY.
    * `multipleOf` will only be checked when different than 0.
-   * When val is either negative or positive Infinity, `multipleof` will be false.
+   * When val is either negative or positive Infinity, `multipleOf` will be false.
    */
   if( type === DataType.number) {
     return (
