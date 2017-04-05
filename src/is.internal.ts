@@ -35,9 +35,11 @@ export function matchesSchema(_val: any, schema: isTypeSchema|isTypeSchema[]): b
     /** Test every schema until at least one of them matches */
     .some( (s: isTypeSchema) => {
 
-      /** Get type. Use `any` if none is present */
+      /** If type is defined but invalid, schema is false */
+      if(s.type !== undefined && !validDataType(s.type)) return false;
 
-      const _type: DataType|DataType[] = validDataType(s.type) ? s.type as DataType|DataType[] : DataType.any;
+      /** Cache the type. Use `any` if none is present */
+      const _type: DataType|DataType[] = s.type === undefined ? DataType.any : s.type as DataType|DataType[];
 
       /** Get the options, if any. Use object literal if not available. */
       const _typeOptions: isOptions = ( is(s.options as isOptions, DataType.object) ? s.options : {} ) as isOptions;
