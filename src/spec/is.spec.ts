@@ -4,6 +4,10 @@ import * as TC from './test-cases/test-cases.spec';
 
 describe('`is` and `matchesSchema`', () => {
 
+  it('should validate for invalid `type` arguments', () => {
+    expect( () => is(false, -1) ).toThrow();
+  });
+
   describe('for `number` types', () => {
     const currentDataType = DataType.number;
 

@@ -12,6 +12,7 @@ import {
   isOneOfMultipleTypes,
   extendObject,
   isValidOptions,
+  validDataType,
 } from './is.internal';
 
 /**
@@ -166,6 +167,9 @@ export function is(val: string, type: DataType, options?: isOptionsString): bool
 export function is(val: any[], type: DataType, options?: isOptionsArray): boolean;
 export function is(val: Object, type: DataType, options?: isOptionsObject): boolean;
 export function is(val: any, type: DataType, options?: isOptions): boolean {
+
+  /** Validate `type` */
+  if(!validDataType(type)) { throw 'Provided invalid \`type\` argument' }
 
   /** Validate `options` */
   if(!isValidOptions(options)) {
