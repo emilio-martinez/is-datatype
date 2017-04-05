@@ -167,8 +167,8 @@ export function is(val: any[], type: DataType, options?: isOptionsArray): boolea
 export function is(val: Object, type: DataType, options?: isOptionsObject): boolean;
 export function is(val: any, type: DataType, options?: isOptions): boolean {
 
-  /** Check options */
-  if(options !== undefined && !isValidOptions(options as isOptions)) {
+  /** Validate `options` */
+  if(!isValidOptions(options)) {
     throw `Provided invalid options object when testing for ${JSON.stringify(val)}: ${JSON.stringify(options)}`;
   }
 

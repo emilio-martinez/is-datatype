@@ -150,33 +150,32 @@ export function extendObject(dest: any, ...sources: any[]): any {
  * @param {isOptions} _op
  * @returns {boolean}
  */
-export function isValidOptions(_op: isOptions): boolean {
+export function isValidOptions(_op: isOptions|undefined): boolean {
   /** Ensure object */
-  _op = ( is(_op, DataType.object) ? _op : {} );
+  const op = ( _op !== undefined && is(_op as isOptions, DataType.object) ? _op : {} ) as isOptions;
 
   /**
    * Test every property.
    * If even a single option is wrong, no pass.
    */
-  return Object.keys(_op)
+  return Object.keys(op)
     .every( o => {
       switch(o) {
         /** DataType cases */
         case 'type':
           /** Ensure we have an array of `DataType` */
-          const types: DataType[] = ( Array.isArray(_op[o]) ? _op[o] : [ _op[o] ] ) as DataType[];
-          return types.length > 0 && types.every( t => (DataType as Object).hasOwnProperty(t.toString()) && typeof t === 'number' );
+          return validDataType(op[o])
 
         /** string cases */
         case 'pattern':
         case 'patternFlags':
-          return typeof _op[o] === 'string';
+          return typeof op[o] === 'string';
 
         /** Boolean cases */
         case 'exclEmpty':
         case 'allowNull':
         case 'arrayAsObject':
-          return typeof _op[o] === 'boolean';
+          return typeof op[o] === 'boolean';
 
         /** Number cases */
         case 'min':
@@ -184,11 +183,11 @@ export function isValidOptions(_op: isOptions): boolean {
         case 'exclMin':
         case 'exclMax':
         case 'multipleOf':
-          return is(_op[o] as number, DataType.number);
+          return is(op[o] as number, DataType.number);
 
         /** Schema case */
         case 'schema':
-          return _op[o] === null || matchesSchema(_op[o], {
+          return op[o] === null || matchesSchema(op[o], {
             /** `isTypeSchema` is always an object */
             type: DataType.object,
             props: {
