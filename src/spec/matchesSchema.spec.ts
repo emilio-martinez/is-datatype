@@ -121,23 +121,32 @@ describe(`\`matchesSchema\` function`, () => {
     testMatchesSchema( [0,false], { type: DataType.array, items: { type: DataType.boolean } }, false );
   });
 
-  it(`should execute \`matchesSchema\` recursively for \`items\``, () => {
+  it(`should execute \`matchesSchema\` for multiple depths of nested \`items\``, () => {
     testMatchesSchema(
-      ['hello', 'world'],
-      {
-        type: DataType.array,
-        items: { type: DataType.string }
-      },
+      [ ['hello', 'world'] ],
+      { items: { type: DataType.array, items: { type: DataType.string } } },
       true
     );
     testMatchesSchema(
-        ['hello', 100],
-        {
-          type: DataType.array,
-          items: { type: DataType.string }
-        },
-        false
-      );
+      [ ['hello', false] ],
+      { items: { type: DataType.array, items: { type: DataType.string } } },
+      false
+    );
+    testMatchesSchema(
+      [ ['hello', false] ],
+      { items: { type: DataType.array, items: { type: [DataType.string,DataType.boolean] } } },
+      true
+    );
+    testMatchesSchema(
+      [ [ ['hello'], [false] ] ],
+      { items: { type: DataType.array, items: { type: DataType.array, items: { type: DataType.string } } } },
+      false
+    );
+    testMatchesSchema(
+      [ [ ['hello'], [false] ] ],
+      { items: { type: DataType.array, items: { type: DataType.array, items: { type: [DataType.string,DataType.boolean] } } } },
+      true
+    );
   });
 
   it(`should validate for \`required\` properties`, () => {
