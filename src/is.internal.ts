@@ -86,8 +86,11 @@ export function matchesSchema(_val: any, schema: isTypeSchema|isTypeSchema[]): b
 
       /** Test items if `array` */
       let _itemsValid = true;
-      if ( _type === DataType.array && _typeValid && s.items !== undefined ) {
-        _itemsValid = (_val as any[]).every( i => matchesSchema(i, s.items as isTypeSchema|isTypeSchema[]) );
+      const inferredArray = ( _type === DataType.any && is(_val, DataType.array) );
+      if ( (_type === DataType.array || inferredArray) && _typeValid && s.items !== undefined ) {
+        _itemsValid = (_val as any[]).every( i => {
+          return matchesSchema(i, s.items as isTypeSchema|isTypeSchema[])
+        });
       }
 
       return _typeValid && _reqdValid && _propsValid && _itemsValid;
