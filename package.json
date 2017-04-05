@@ -10,7 +10,7 @@
     "pretest:watch": "npm run pretest",
     "test:watch": "node_modules/.bin/karma start --no-single-run",
     "test-ci": "npm run build && npm run test && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
-    "serve:test": "node_modules/.bin/browser-sync start --directory true -s coverage/",
+    "serve:test": "node_modules/.bin/browser-sync start -s coverage/html",
     "clean:test": "node_modules/.bin/rimraf coverage",
     "clean:dist": "node_modules/.bin/rimraf dist",
     "clean": "npm run clean:test & npm run clean:dist",

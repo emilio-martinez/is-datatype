@@ -4,6 +4,27 @@ import * as TC from './test-cases/test-cases.spec';
 
 describe('`is` and `matchesSchema`', () => {
 
+  describe('should validate for invalid `type` arguments', () => {
+
+    it('when an out of range number is provided', () => {
+      expect( () => is(false, -1) ).toThrow();
+      expect( matchesSchema(false, { type: -1 }) ).toBe(false);
+      expect( () => is(false, 1) ).not.toThrow();
+      expect( matchesSchema(false, { type: 1 }) ).toBe(false);
+    })
+
+    it('when one of the "named" DataType keys is provided, regardless of technically being a valid DataType key', () => {
+      expect( () => is(false, DataType[1] as any) ).toThrow();
+      expect( matchesSchema(false, { type: DataType[1] as any }) ).toBe(false);
+    })
+
+    it('when undefined is passed', () => {
+      expect( () => is(false, undefined) ).toThrow();
+      /** NOTE: `matchesSchema` here would ignore the `type` because it's optional */
+    })
+
+  });
+
   describe('for `number` types', () => {
     const currentDataType = DataType.number;
 

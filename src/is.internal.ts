@@ -2,6 +2,15 @@ import { is, DataType } from './is.func';
 import { isOptions, isTypeSchema } from './is.interfaces';
 
 /**
+ * CONSTANTS
+ * These tokes are used a lot in this package,
+ * therefore aliasing reduces weight on minification
+ */
+export const UNDEF = undefined;
+export const POS_INF = Number.POSITIVE_INFINITY;
+export const NEG_INF = Number.NEGATIVE_INFINITY;
+
+/**
  * Tests whether a number is multiple of another number.
  * Keep in mind that Infinity, positive or negative, would return
  * NaN when using it with the modulus operator.
@@ -13,8 +22,8 @@ import { isOptions, isTypeSchema } from './is.interfaces';
 export function isMultipleOf(val: number, multipleOf: number): boolean {
   return (
     multipleOf === 0 ||
-    ( val !== Number.NEGATIVE_INFINITY &&
-      val !== Number.POSITIVE_INFINITY &&
+    ( val !== NEG_INF &&
+      val !== POS_INF &&
       // Using Math.abs avoids `-0`
       Math.abs( (val as number) % multipleOf ) === 0
     )
@@ -35,10 +44,13 @@ export function matchesSchema(_val: any, schema: isTypeSchema|isTypeSchema[]): b
     /** Test every schema until at least one of them matches */
     .some( (s: isTypeSchema) => {
 
-      /** Get type. Use `any` if none is present */
-      const _type: DataType|DataType[] = s.type ? s.type : DataType.any;
+      /** If type is defined but invalid, schema is false */
+      if(s.type !== UNDEF && !validDataType(s.type)) return false;
 
-      /** Get the options, if any. Use objecct literal if not available. */
+      /** Cache the type. Use `any` if none is present */
+      const _type: DataType|DataType[] = s.type === UNDEF ? DataType.any : s.type as DataType|DataType[];
+
+      /** Get the options, if any. Use object literal if not available. */
       const _typeOptions: isOptions = ( is(s.options as isOptions, DataType.object) ? s.options : {} ) as isOptions;
 
       /** Test if any of the data types matches */
@@ -59,16 +71,16 @@ export function matchesSchema(_val: any, schema: isTypeSchema|isTypeSchema[]): b
       /** Extract the properties to test for into an array */
       const _propKeys: string[] = ( is(s.props as isOptions, DataType.object) ? Object.keys(s.props) : [] );
 
-      /** Begin tests relevat to properties */
+      /** Begin tests relevant to properties */
       if ( _propKeys.length > 0 ) {
 
         /**
          * Get all keys that are required from the schema,
-         * and then test for required propertes.
+         * and then test for required properties.
          */
         _reqdValid = _propKeys
           .filter( p => s.props && s.props[p] && s.props[p].required === true )
-          .every( r => _val[r] !== undefined );
+          .every( r => _val[r] !== UNDEF );
 
         /**
          * Iterate over the property keys.
@@ -80,13 +92,16 @@ export function matchesSchema(_val: any, schema: isTypeSchema|isTypeSchema[]): b
          * However, if it was required, that will have been caught by the check above.
          */
         _propsValid = _propKeys
-          .every( p => ( !!s.props && _val !== undefined && _val[p] !== undefined ? matchesSchema(_val[p], s.props[p]) : true ) );
+          .every( p => ( !!s.props && _val !== UNDEF && _val[p] !== UNDEF ? matchesSchema(_val[p], s.props[p]) : true ) );
       }
 
       /** Test items if `array` */
       let _itemsValid = true;
-      if ( _type === DataType.array && _typeValid && s.items !== undefined ) {
-        _itemsValid = (_val as any[]).every( i => matchesSchema(i, s.items as isTypeSchema|isTypeSchema[]) );
+      const inferredArray = ( _type === DataType.any && is(_val, DataType.array) );
+      if ( (_type === DataType.array || inferredArray) && _typeValid && s.items !== UNDEF ) {
+        _itemsValid = (_val as any[]).every( i => {
+          return matchesSchema(i, s.items as isTypeSchema|isTypeSchema[])
+        });
       }
 
       return _typeValid && _reqdValid && _propsValid && _itemsValid;
@@ -150,33 +165,32 @@ export function extendObject(dest: any, ...sources: any[]): any {
  * @param {isOptions} _op
  * @returns {boolean}
  */
-export function isValidOptions(_op: isOptions): boolean {
+export function isValidOptions(_op: isOptions|undefined): boolean {
   /** Ensure object */
-  _op = ( is(_op, DataType.object) ? _op : {} );
+  const op = ( _op !== UNDEF && is(_op as isOptions, DataType.object) ? _op : {} ) as isOptions;
 
   /**
    * Test every property.
    * If even a single option is wrong, no pass.
    */
-  return Object.keys(_op)
+  return Object.keys(op)
     .every( o => {
       switch(o) {
         /** DataType cases */
         case 'type':
           /** Ensure we have an array of `DataType` */
-          const types: DataType[] = ( Array.isArray(_op[o]) ? _op[o] : [ _op[o] ] ) as DataType[];
-          return types.length > 0 && types.every( t => (DataType as Object).hasOwnProperty(t.toString()) && typeof t === 'number' );
+          return validDataType(op[o])
 
         /** string cases */
         case 'pattern':
         case 'patternFlags':
-          return typeof _op[o] === 'string';
+          return typeof op[o] === 'string';
 
         /** Boolean cases */
         case 'exclEmpty':
         case 'allowNull':
         case 'arrayAsObject':
-          return typeof _op[o] === 'boolean';
+          return typeof op[o] === 'boolean';
 
         /** Number cases */
         case 'min':
@@ -184,11 +198,11 @@ export function isValidOptions(_op: isOptions): boolean {
         case 'exclMin':
         case 'exclMax':
         case 'multipleOf':
-          return is(_op[o] as number, DataType.number);
+          return is(op[o] as number, DataType.number);
 
         /** Schema case */
         case 'schema':
-          return _op[o] === null || matchesSchema(_op[o], {
+          return op[o] === null || matchesSchema(op[o], {
             /** `isTypeSchema` is always an object */
             type: DataType.object,
             props: {
@@ -207,3 +221,17 @@ export function isValidOptions(_op: isOptions): boolean {
       return true;
     });
 };
+
+/**
+ * Checks for whether an item is a valid option in the DataType enum
+ * @export
+ * @param {(number|string|(number|string)[]|undefined)} _val
+ * @returns {boolean}
+ */
+export function validDataType(_val: number|string|(number|string)[]|undefined): boolean {
+  if(_val === UNDEF) return false;
+  /** Ensure array */
+  const val = Array.isArray(_val) ? _val : [_val];
+  /** Check all items are in DataType */
+  return val.every( v => v in DataType && typeof v === 'number' );
+}

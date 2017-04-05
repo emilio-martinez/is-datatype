@@ -48,37 +48,109 @@ describe(`\`matchesSchema\` function`, () => {
           .toBe(true, `Failed for ${n}`) );
   });
 
-  it(`should execute \`matchesSchema\` recursively for \`props\``, () => {
-    expect( matchesSchema(
-      { my: 'qwerty', props: 100 },
+  it(`should not mistake \`props\` from the schema with \`props\` attributes`, () => {
+    const testCases = [
+      { type: DataType.array, value: [] },
+      { type: DataType.boolean, value: false },
+      { type: DataType.boolean, value: true },
+      { type: DataType.function, value: () => {} },
+      { type: DataType.integer, value: -2 },
+      { type: DataType.natural, value: 10 },
+      { type: DataType.number, value: 3.14 },
+      { type: DataType.object, value: {} },
+      { type: DataType.string, value: '0' },
+      { type: DataType.undefined, value: undefined }
+    ];
+    testCases.forEach( tc => {
+      testMatchesSchema(
+        { my: 'qwerty', props: tc.value },
+        {
+          props: {
+            my: { type: DataType.string },
+            props: { type: tc.type }
+          }
+        },
+        true
+      );
+    })
+  });
+
+  it(`should execute \`matchesSchema\` for multiple depths of nested \`props\``, () => {
+    testMatchesSchema(
+      { my: 'qwerty', props: { my: () => {}, props: 100 } },
       {
         props: {
           my: { type: DataType.string },
-          props: { type: DataType.number }
+          props: {
+            type: DataType.object,
+            props: {
+              my: { type: DataType.function },
+              props: { type: DataType.number }
+            }
+          }
         }
-      }
-    ) ).toBe(true);
+      },
+      true
+    );
   });
 
-  it(`should execute \`matchesSchema\` recursively for \`items\``, () => {
-    expect( matchesSchema(
-      ['hello', 'world'],
+  it(`should not mistake \`items\` from the schema with \`items\` attributes`, () => {
+    testMatchesSchema(
+      [ { 'hello': () => {} }, { items: 10 } ],
       {
         type: DataType.array,
-        items: { type: DataType.string }
-      }
-    ) ).toBe(true);
-    expect( matchesSchema(
-        ['hello', 100],
-        {
-          type: DataType.array,
-          items: { type: DataType.string }
+        items: {
+          type: DataType.object,
+          props: {
+            items: { type: DataType.number }
+          }
         }
-    ) ).toBe(false);
+      },
+      true
+    );
+  });
+
+  it(`should infer an Array when type is not set to validate \`items\` from the schema with \`items\` attributes`, () => {
+    testMatchesSchema( ['hello','goodbye'], { items: { type: DataType.string } }, true );
+    testMatchesSchema( ['hello','goodbye'], { type: DataType.array, items: { type: DataType.string } }, true );
+    testMatchesSchema( ['hello','goodbye'], { items: { type: DataType.number } }, false );
+    testMatchesSchema( ['hello','goodbye'], { type: DataType.array, items: { type: DataType.number } }, false );
+    testMatchesSchema( [0,false], { items: { type: [DataType.number,DataType.boolean] } }, true );
+    testMatchesSchema( [0,false], { type: DataType.array, items: { type: [DataType.number,DataType.boolean] } }, true );
+    testMatchesSchema( [0,false], { items: { type: DataType.boolean } }, false );
+    testMatchesSchema( [0,false], { type: DataType.array, items: { type: DataType.boolean } }, false );
+  });
+
+  it(`should execute \`matchesSchema\` for multiple depths of nested \`items\``, () => {
+    testMatchesSchema(
+      [ ['hello', 'world'] ],
+      { items: { type: DataType.array, items: { type: DataType.string } } },
+      true
+    );
+    testMatchesSchema(
+      [ ['hello', false] ],
+      { items: { type: DataType.array, items: { type: DataType.string } } },
+      false
+    );
+    testMatchesSchema(
+      [ ['hello', false] ],
+      { items: { type: DataType.array, items: { type: [DataType.string,DataType.boolean] } } },
+      true
+    );
+    testMatchesSchema(
+      [ [ ['hello'], [false] ] ],
+      { items: { type: DataType.array, items: { type: DataType.array, items: { type: DataType.string } } } },
+      false
+    );
+    testMatchesSchema(
+      [ [ ['hello'], [false] ] ],
+      { items: { type: DataType.array, items: { type: DataType.array, items: { type: [DataType.string,DataType.boolean] } } } },
+      true
+    );
   });
 
   it(`should validate for \`required\` properties`, () => {
-    expect( matchesSchema(
+    testMatchesSchema(
       { my: 'qwerty', props: 100 },
       {
         props: {
@@ -86,9 +158,10 @@ describe(`\`matchesSchema\` function`, () => {
           my: { type: DataType.string },
           props: { type: DataType.number }
         }
-      }
-    ) ).toBe(false);
-    expect( matchesSchema(
+      },
+      false
+    );
+    testMatchesSchema(
       { my: 'qwerty', props: 100, otherprop: {} },
       {
         props: {
@@ -96,9 +169,10 @@ describe(`\`matchesSchema\` function`, () => {
           my: { type: DataType.string },
           props: { type: DataType.number }
         }
-      }
-    ) ).toBe(true);
-    expect( matchesSchema(
+      },
+      true
+    );
+    testMatchesSchema(
       { my: 'qwerty', props: 100, otherprop: {} },
       {
         props: {
@@ -106,9 +180,10 @@ describe(`\`matchesSchema\` function`, () => {
           my: { type: DataType.string },
           props: { type: DataType.number }
         }
-      }
-    ) ).toBe(false);
-    expect( matchesSchema(
+      },
+      false
+    );
+    testMatchesSchema(
       { my: 'qwerty', props: 100, otherprop: {} },
       {
         props: {
@@ -116,9 +191,10 @@ describe(`\`matchesSchema\` function`, () => {
           my: { type: DataType.string },
           props: { type: DataType.number }
         }
-      }
-    ) ).toBe(true);
-    expect( matchesSchema(
+      },
+      true
+    );
+    testMatchesSchema(
       { my: 'qwerty', props: 100, otherprop: {} },
       {
         props: {
@@ -126,8 +202,13 @@ describe(`\`matchesSchema\` function`, () => {
           my: { type: DataType.string },
           props2: { type: DataType.number }
         }
-      }
-    ) ).toBe(true);
+      },
+      true
+    );
   });
 
 });
+
+function testMatchesSchema(_val: any, schema: isTypeSchema|isTypeSchema[], testBool: boolean) {
+  expect( matchesSchema(_val, schema) ).toBe(testBool)
+}

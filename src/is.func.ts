@@ -12,6 +12,10 @@ import {
   isOneOfMultipleTypes,
   extendObject,
   isValidOptions,
+  validDataType,
+  UNDEF,
+  POS_INF,
+  NEG_INF,
 } from './is.internal';
 
 /**
@@ -33,12 +37,6 @@ export enum DataType {
   any
 };
 
-/** Reference to positive infinity */
-const p_infinity = Number.POSITIVE_INFINITY;
-
-/** Reference to negative infinity */
-const n_infinity = Number.NEGATIVE_INFINITY;
-
 /**
  * Default option set to use within `is`
  */
@@ -50,10 +48,10 @@ const isDefaultOptions: isOptions = {
   schema: null,
   allowNull: false,
   arrayAsObject: false,
-  min: n_infinity,
-  max: p_infinity,
-  exclMin: n_infinity,
-  exclMax: p_infinity,
+  min: NEG_INF,
+  max: POS_INF,
+  exclMin: NEG_INF,
+  exclMax: POS_INF,
   multipleOf: 0
 };
 
@@ -167,8 +165,11 @@ export function is(val: any[], type: DataType, options?: isOptionsArray): boolea
 export function is(val: Object, type: DataType, options?: isOptionsObject): boolean;
 export function is(val: any, type: DataType, options?: isOptions): boolean {
 
-  /** Check options */
-  if(options !== undefined && !isValidOptions(options as isOptions)) {
+  /** Validate `type` */
+  if(!validDataType(type)) { throw 'Provided invalid \`type\` argument' }
+
+  /** Validate `options` */
+  if(!isValidOptions(options)) {
     throw `Provided invalid options object when testing for ${JSON.stringify(val)}: ${JSON.stringify(options)}`;
   }
 
@@ -184,7 +185,7 @@ export function is(val: any, type: DataType, options?: isOptions): boolean {
     if ( !isMultipleOf(_options.multipleOf as number, 1) ) return false;
 
     let numOptions: isOptions = { multipleOf: ( _options.multipleOf === 0 ? 1 : _options.multipleOf ) };
-    if ( type === DataType.natural ) numOptions.min = ( _options.min !== undefined && _options.min >= 0 ? _options.min : 0 );
+    if ( type === DataType.natural ) numOptions.min = ( _options.min !== UNDEF && _options.min >= 0 ? _options.min : 0 );
 
     return is((val as number), DataType.number, extendObject({}, _options, numOptions) );
   };
@@ -231,10 +232,10 @@ export function is(val: any, type: DataType, options?: isOptions): boolean {
     return (
       (val as any[]).every( n => isOneOfMultipleTypes(n, _options.type as DataType|DataType[]) ) &&
       ( _options.schema === null || matchesSchema(val, _options.schema as isTypeSchema|isTypeSchema[]) ) &&
-      ( _options.min !== undefined && (val as any[]).length >= _options.min ) &&
-      ( _options.max !== undefined && (val as any[]).length <= _options.max ) &&
-      ( _options.exclMin === n_infinity || ( _options.exclMin !== undefined && (val as any[]).length > _options.exclMin) ) &&
-      ( _options.exclMax === p_infinity || ( _options.exclMax !== undefined && (val as any[]).length < _options.exclMax) )
+      ( _options.min !== UNDEF && (val as any[]).length >= _options.min ) &&
+      ( _options.max !== UNDEF && (val as any[]).length <= _options.max ) &&
+      ( _options.exclMin === NEG_INF || ( _options.exclMin !== UNDEF && (val as any[]).length > _options.exclMin) ) &&
+      ( _options.exclMax === POS_INF || ( _options.exclMax !== UNDEF && (val as any[]).length < _options.exclMax) )
     );
   }
 
@@ -251,14 +252,14 @@ export function is(val: any, type: DataType, options?: isOptions): boolean {
    * If `exclMin` won't exclude Number.NEGATIVE_INFINITY.
    * If `exclMax` won't exclude Number.POSITIVE_INFINITY.
    * `multipleOf` will only be checked when different than 0.
-   * When val is either negative or positive Infinity, `multipleof` will be false.
+   * When val is either negative or positive Infinity, `multipleOf` will be false.
    */
   if( type === DataType.number) {
     return (
-      ( _options.min !== undefined && (val as number) >= _options.min ) &&
-      ( _options.max !== undefined && (val as number) <= _options.max ) &&
-      ( _options.exclMin === n_infinity || ( _options.exclMin !== undefined && (val as number) > _options.exclMin) ) &&
-      ( _options.exclMax === p_infinity || ( _options.exclMax !== undefined && (val as number) < _options.exclMax) ) &&
+      ( _options.min !== UNDEF && (val as number) >= _options.min ) &&
+      ( _options.max !== UNDEF && (val as number) <= _options.max ) &&
+      ( _options.exclMin === NEG_INF || ( _options.exclMin !== UNDEF && (val as number) > _options.exclMin) ) &&
+      ( _options.exclMax === POS_INF || ( _options.exclMax !== UNDEF && (val as number) < _options.exclMax) ) &&
       isMultipleOf(val, _options.multipleOf as number)
     );
   }
