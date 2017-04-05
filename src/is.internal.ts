@@ -36,7 +36,8 @@ export function matchesSchema(_val: any, schema: isTypeSchema|isTypeSchema[]): b
     .some( (s: isTypeSchema) => {
 
       /** Get type. Use `any` if none is present */
-      const _type: DataType|DataType[] = s.type ? s.type : DataType.any;
+
+      const _type: DataType|DataType[] = validDataType(s.type) ? s.type as DataType|DataType[] : DataType.any;
 
       /** Get the options, if any. Use objecct literal if not available. */
       const _typeOptions: isOptions = ( is(s.options as isOptions, DataType.object) ? s.options : {} ) as isOptions;
@@ -206,3 +207,17 @@ export function isValidOptions(_op: isOptions|undefined): boolean {
       return true;
     });
 };
+
+/**
+ * Checks for whether an item is a valid option in the DataType enum
+ * @export
+ * @param {(number|string|(number|string)[]|undefined)} _val
+ * @returns {boolean}
+ */
+export function validDataType(_val: number|string|(number|string)[]|undefined): boolean {
+  if(_val === undefined) return false;
+  /** Ensure array */
+  const val = Array.isArray(_val) ? _val : [_val];
+  /** Check all items are in DataType */
+  return val.every( v => v in DataType && typeof v === 'number' );
+}
