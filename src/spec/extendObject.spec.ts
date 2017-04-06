@@ -37,6 +37,14 @@ describe('extendObject', () => {
     expect(extended).toEqual({x: 123, y: 456});
   });
 
+  it('should not merge inherited properties', () => {
+    const parent = {z: 789};
+    const child = Object.create(parent);
+    const extended = extendObject({}, {x: 123}, {y: 456}, child);
+
+    expect(extended).toEqual({x: 123, y: 456});
+  })
+
   it('should throw an error when the dest object is null', () => {
     expect(() => extendObject(null, {x: 123}))
         .toThrowError('Cannot convert undefined or null to object');
