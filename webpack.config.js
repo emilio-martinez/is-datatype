@@ -11,6 +11,19 @@ module.exports = function(_env) {
     min: ( !!_env && !!_env.min )
   };
 
+  const babelOptions = {
+    "presets": [
+      ["env", {
+        "targets": {
+          "ie": 10,
+          "uglify": true
+        },
+        "modules": false,
+        "loose": true
+      }]
+    ]
+  };
+
   return {
     context: SRC_DIR,
     devtool: 'cheap-module-source-map',
@@ -29,12 +42,30 @@ module.exports = function(_env) {
       rules: [
         {
           test: /\.tsx?$/,
-          loader: 'ts-loader',
-          options: {
-            compilerOptions: {
-              declaration: false
+          use: [
+            {
+              loader: 'babel-loader',
+              options: babelOptions
+            },
+            {
+              loader: 'ts-loader',
+              options: {
+                compilerOptions: {
+                  declaration: false
+                }
+              }
             }
-          }
+          ]
+        },
+        {
+          test: /\.js$/,
+          exclude: /(node_modules)/,
+          use: [
+            {
+              loader: 'babel-loader',
+              options: babelOptions
+            }
+          ]
         }
       ]
     },
