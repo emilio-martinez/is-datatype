@@ -170,7 +170,7 @@ export function is(val: any, type: DataType, options?: isOptions): boolean {
 
   /** Validate `options` */
   if(!isValidOptions(options)) {
-    throw `Provided invalid options object when testing for ${JSON.stringify(val)}: ${JSON.stringify(options)}`;
+    throw 'Provided invalid options object:' + JSON.stringify(options);
   }
 
   /** Combine passed options with default options. */
