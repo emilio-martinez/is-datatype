@@ -31,7 +31,6 @@ This function is opinionated in the sense that:
 * When testing for an `object`, Arrays will be disallowed by default. If desired, an optional `arrayAsObject` can be passed to allow that use case. Note that there is a separate check for `array`.
 * When testing for `number`, `integer`, or `natural`, `NaN` will be disallowed at all times.
 
-
 ## Usage
 
 This package exposes three main exports through the main entry point: `is`, `DataType` and `isOptions`—a `function`, an `enum` and a Typescript `interface`, respectively. Those will be covered in the following subsections. Additionally, there are a number of other functions and interfaces exported via `is.internal` and `is.interfaces` which are mostly leveraged internally and therefore will not be covered here; however, if you're curious and/or want to use those pieces of functionality, they're available and documented in the source code.
@@ -94,7 +93,7 @@ Currently, `is` can take and validate for any data type with the exception of th
 
 There are a number of options available to `is`, but perhaps the most important detail to keep in mind is that there are specific option sets that will benefit certain data types exclusively, e.g., `exclEmpty` is only applicable to `string`. There is no negative impact to the validation outcome if options irrelevant to the data type being evaluated are passed into `is`; instead, the extraneous options will be ignored.
 
-Because the options available to `is` are described by the `isOptions` interface, environments where Typescript is available will highly benefit from the hinting that is provided. This is particularly useful because IDEs will show only the valid available values relbased on to the variable data type being passed as the first parameter of `is`. In any regular Javascript enviorment, however, while there will be no type hinting benefits, the same exact functionality is available.
+Because the options available to `is` are described by the `isOptions` interface, environments where Typescript is available will highly benefit from the hinting that is provided. This is particularly useful because IDEs will show only the valid available values based on to the variable data type being passed as the first parameter of `is`. In any regular Javascript environments, however, while there will be no type hinting benefits, the same exact functionality is available.
 
 The default values for options are:
 
@@ -149,7 +148,6 @@ When checking for `integer` and `natural` the `number` options apply as well, be
 ## Collaboration
 
 If there's any issues, a strong use case to change something implemented, or any features to be added other than those noted in the "To do" section above, please feel free to open issues or create pull requests. However, please bear in mind that unit tests must be provided for pull requests, and that keeping (or enhancing) the Typescript tooling that `is` may provide is an important part of this package.
-
 
 [npm]: https://badge.fury.io/js/is-datatype.svg
 [npm-url]: https://npmjs.com/package/is-datatype
