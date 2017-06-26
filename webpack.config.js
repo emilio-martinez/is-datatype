@@ -1,27 +1,29 @@
-const path = require('path');
-const webpack = require('webpack');
+const path = require('path')
+const webpack = require('webpack')
 
-const SRC_DIR = path.resolve(__dirname, './src');
-const DIST_DIR = path.resolve(__dirname, './dist');
+const SRC_DIR = path.resolve(__dirname, './src')
+const DIST_DIR = path.resolve(__dirname, './dist')
 
 module.exports = function(_env) {
-
   const env = {
-    min: ( !!_env && !!_env.min )
-  };
+    min: !!_env && !!_env.min
+  }
 
   const babelOptions = {
-    "presets": [
-      ["env", {
-        "targets": {
-          "ie": 10,
-          "uglify": true
-        },
-        "modules": false,
-        "loose": true
-      }]
+    presets: [
+      [
+        'env',
+        {
+          targets: {
+            ie: 10,
+            uglify: true
+          },
+          modules: false,
+          loose: true
+        }
+      ]
     ]
-  };
+  }
 
   return {
     context: SRC_DIR,
@@ -31,7 +33,7 @@ module.exports = function(_env) {
     },
     output: {
       path: path.resolve(DIST_DIR, './bundle'),
-      filename: `[name].umd${( env.min ? '.min' : '' )}.js`,
+      filename: `[name].umd${env.min ? '.min' : ''}.js`,
       sourceMapFilename: '[file].map',
       library: 'isDatatype',
       libraryTarget: 'umd',
@@ -69,29 +71,30 @@ module.exports = function(_env) {
       ]
     },
     plugins: [
+      new webpack.optimize.ModuleConcatenationPlugin(),
       new webpack.LoaderOptionsPlugin({
-        minimize: ( env.min ),
+        minimize: env.min,
         debug: false
       }),
-      new webpack.optimize.UglifyJsPlugin((
-        env.min ?
-        {
-          compress: { warnings: false, screw_ie8: true },
-          output: { comments: false },
-          sourceMap: true,
-          mangle: { screw_ie8: true }
-        } :
-        {
-          compress: false,
-          output: { comments: false, indent_level: 2 },
-          sourceMap: true,
-          mangle: false,
-          beautify: true
-        }
-      ))
+      new webpack.optimize.UglifyJsPlugin(
+        env.min
+          ? {
+              compress: { warnings: false, screw_ie8: true },
+              output: { comments: false },
+              sourceMap: true,
+              mangle: { screw_ie8: true }
+            }
+          : {
+              compress: false,
+              output: { comments: false, indent_level: 2 },
+              sourceMap: true,
+              mangle: false,
+              beautify: true
+            }
+      )
     ],
     resolve: {
       extensions: ['.tsx', '.ts', '.js']
-    },
+    }
   }
-};
+}

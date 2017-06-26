@@ -2,23 +2,27 @@
   "compilerOptions": {
     "module": "es2015",
     "target": "es2015",
-    "strictNullChecks": true,
+    "declaration": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "moduleResolution": "node",
+    "noEmitHelpers": true,
     "noImplicitAny": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "sourceMap": true,
-    "declaration": true,
-    "removeComments": false,
-    "moduleResolution": "node",
     "outDir": "./dist",
-    "types" : [
+    "removeComments": false,
+    "sourceMap": true,
+    "strictNullChecks": true,
+    "types": [
       "jasmine"
     ]
   },
   "compileOnSave": false,
-	"files": [
-		"src/is.func.ts"
-	],
+  "files": [
+    "src/is.func.ts"
+  ],
   "exclude": [
     "node_modules"
   ]
