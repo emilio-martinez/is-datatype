@@ -5,6 +5,7 @@
   "main": "dist/bundle/is.func.umd.min.js",
   "types": "dist/is.func.d.ts",
   "scripts": {
+    "commitmsg": "validate-commit-msg",
     "pretest": "npm run clean:test",
     "test": "node_modules/.bin/karma start --single-run",
     "pretest:watch": "npm run pretest",
@@ -42,6 +43,7 @@
     "babel-loader": "^7.1.0",
     "babel-preset-env": "^1.5.2",
     "coveralls": "^2.13.1",
+    "husky": "^0.14.1",
     "jasmine-core": "^2.6.4",
     "karma": "^1.7.0",
     "karma-chrome-launcher": "^2.2.0",
@@ -52,8 +54,7 @@
     "rimraf": "^2.6.0",
     "ts-loader": "^2.2.0",
     "typescript": "~2.3.4",
-    "uglify-js": "^3.0.20",
-    "uglifyjs-webpack-plugin": "^0.4.6",
+    "validate-commit-msg": "^2.12.2",
     "webpack": "^3.0.0"
   }
 }

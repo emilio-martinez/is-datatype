@@ -1,0 +1,15 @@
+{
+  "types": "conventional-commit-types",
+  "scope": {
+    "required": false,
+    "allowed": ["package", "is", "datatype", "karma", "webpack"],
+    "validate": true,
+    "multiple": false
+  },
+  "warnOnFail": false,
+  "maxSubjectLength": 0,
+  "subjectPattern": ".+",
+  "subjectPatternErrorMsg": "Subject does not match subject pattern!",
+  "helpMessage": "",
+  "autoFix": false
+}

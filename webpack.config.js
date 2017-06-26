@@ -1,6 +1,5 @@
 const path = require('path');
 const webpack = require('webpack');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 const SRC_DIR = path.resolve(__dirname, './src');
 const DIST_DIR = path.resolve(__dirname, './dist');
@@ -74,7 +73,7 @@ module.exports = function(_env) {
         minimize: ( env.min ),
         debug: false
       }),
-      new UglifyJsPlugin((
+      new webpack.optimize.UglifyJsPlugin((
         env.min ?
         {
           compress: { warnings: false, screw_ie8: true },
