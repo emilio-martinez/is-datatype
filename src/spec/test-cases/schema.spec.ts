@@ -1,139 +1,160 @@
-import { DataType, isOptions } from '../../is.func';
+import { DataType, isOptions } from '../../is.func'
 
 export const arraySchemaUseCases = [
   {
     description: 'Array of objects with string value properties.',
-    test: [
-      { label:'item1', url:'/path' },
-      { label:'item2', url:'/path' },
-      { label:'item3', url:'/path' }
-    ],
-    options: <isOptions>{ schema: {
-      type: DataType.array,
-      items: {
-        type: DataType.object,
-        props: {
-          label: { type: DataType.string },
-          url: { type: DataType.string }
-        } } } },
-    expect: true
-  },
-  {
-    description: 'Array of objects with an additional property.',
-    test: [
-      { label:'item1', url:'/path' },
-      { labele:'item2', url:'/path' },
-      { label:'item3', url:'/path' }
-    ],
-    options: <isOptions>{ schema: {
-      type: DataType.array,
-      items: {
-        type: DataType.object,
-        props: {
-          label: { type: DataType.string },
-          url: { type: DataType.string }
-        } } } },
-    expect: true
-  },
-  {
-    description: 'Array of objects with an additional property.',
-    test: [
-      { label:'item1', url:'/path' },
-      { labele:'item2', url:'/path' },
-      { label:'item3', url:'/path' }
-    ],
-    options: <isOptions>{ schema: {
-      type: DataType.array,
-      items: {
-        type: DataType.object,
-        props: {
-          label: { type: DataType.string, required: true },
-          url: { type: DataType.string }
-        } } } },
-    expect: false
-  },
-  {
-    description: 'Array of arrays testing schema array.',
-    test: [
-      ['label', 'url'],
-      ['labele', 'url'],
-      ['label', 'url']
-    ],
-    options: <isOptions>{ schema: {
-      type: DataType.array,
-      items: [{
+    test: [{ label: 'item1', url: '/path' }, { label: 'item2', url: '/path' }, { label: 'item3', url: '/path' }],
+    options: <isOptions>{
+      schema: {
         type: DataType.array,
         items: {
-          type: DataType.string
-        }
-      }] } },
-    expect: true
-  },
-  {
-    description: 'Array of arrays testing schema array.',
-    test: [
-      { portfolio:'item1', assets: ['stocks', 'bonds'] },
-      { portfolio:'item2', assets: ['small stocks'] },
-      { portfolio:'item3', assets: ['cash', 'midstocks'] }
-    ],
-    options: <isOptions>{ schema: {
-      type: DataType.array,
-      items: [{
-        type: DataType.object,
-        props: {
-          portfolio: { type: DataType.string },
-          assets: {
-            type: DataType.array,
-            items: { type: DataType. string }
+          type: DataType.object,
+          props: {
+            label: { type: DataType.string },
+            url: { type: DataType.string }
           }
         }
-      }] } },
+      }
+    },
+    expect: true
+  },
+  {
+    description: 'Array of objects with an additional property.',
+    test: [{ label: 'item1', url: '/path' }, { labele: 'item2', url: '/path' }, { label: 'item3', url: '/path' }],
+    options: <isOptions>{
+      schema: {
+        type: DataType.array,
+        items: {
+          type: DataType.object,
+          props: {
+            label: { type: DataType.string },
+            url: { type: DataType.string }
+          }
+        }
+      }
+    },
+    expect: true
+  },
+  {
+    description: 'Array of objects with an additional property.',
+    test: [{ label: 'item1', url: '/path' }, { labele: 'item2', url: '/path' }, { label: 'item3', url: '/path' }],
+    options: <isOptions>{
+      schema: {
+        type: DataType.array,
+        items: {
+          type: DataType.object,
+          props: {
+            label: { type: DataType.string, required: true },
+            url: { type: DataType.string }
+          }
+        }
+      }
+    },
+    expect: false
+  },
+  {
+    description: 'Array of arrays testing schema array.',
+    test: [['label', 'url'], ['labele', 'url'], ['label', 'url']],
+    options: <isOptions>{
+      schema: {
+        type: DataType.array,
+        items: [
+          {
+            type: DataType.array,
+            items: {
+              type: DataType.string
+            }
+          }
+        ]
+      }
+    },
     expect: true
   },
   {
     description: 'Array of arrays testing schema array.',
     test: [
-      { portfolio:'item1', assets: ['stocks', 'bonds'] },
-      { portfolio:'item2', assets: 'small stocks' },
-      { portfolio:'item3', assets: ['cash', 'midstocks'] }
+      { portfolio: 'item1', assets: ['stocks', 'bonds'] },
+      { portfolio: 'item2', assets: ['small stocks'] },
+      { portfolio: 'item3', assets: ['cash', 'midstocks'] }
     ],
-    options: <isOptions>{ schema: {
-      type: DataType.array,
-      items: [{
-        type: DataType.object,
-        props: {
-          portfolio: { type: DataType.string },
-          assets: [{
-            type: DataType.array,
-            items: { type: DataType. string }
-          }, { type: DataType.string }]
-        }
-      }] } },
+    options: <isOptions>{
+      schema: {
+        type: DataType.array,
+        items: [
+          {
+            type: DataType.object,
+            props: {
+              portfolio: { type: DataType.string },
+              assets: {
+                type: DataType.array,
+                items: { type: DataType.string }
+              }
+            }
+          }
+        ]
+      }
+    },
     expect: true
   },
   {
     description: 'Array of arrays testing schema array.',
     test: [
-      { portfolio:'item1', assets: ['stocks', 'bonds'] },
-      { portfolio:'item2', assets: 'small stocks' },
-      { portfolio:'item3', assets: 0 }
+      { portfolio: 'item1', assets: ['stocks', 'bonds'] },
+      { portfolio: 'item2', assets: 'small stocks' },
+      { portfolio: 'item3', assets: ['cash', 'midstocks'] }
     ],
-    options: <isOptions>{ schema: {
-      type: DataType.array,
-      items: [{
-        type: DataType.object,
-        props: {
-          portfolio: { type: DataType.string },
-          assets: [{
-            type: DataType.array,
-            items: { type: DataType. string }
-          }, { type: DataType.string }]
-        }
-      }] } },
+    options: <isOptions>{
+      schema: {
+        type: DataType.array,
+        items: [
+          {
+            type: DataType.object,
+            props: {
+              portfolio: { type: DataType.string },
+              assets: [
+                {
+                  type: DataType.array,
+                  items: { type: DataType.string }
+                },
+                { type: DataType.string }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    expect: true
+  },
+  {
+    description: 'Array of arrays testing schema array.',
+    test: [
+      { portfolio: 'item1', assets: ['stocks', 'bonds'] },
+      { portfolio: 'item2', assets: 'small stocks' },
+      { portfolio: 'item3', assets: 0 }
+    ],
+    options: <isOptions>{
+      schema: {
+        type: DataType.array,
+        items: [
+          {
+            type: DataType.object,
+            props: {
+              portfolio: { type: DataType.string },
+              assets: [
+                {
+                  type: DataType.array,
+                  items: { type: DataType.string }
+                },
+                { type: DataType.string }
+              ]
+            }
+          }
+        ]
+      }
+    },
     expect: false
   }
-];
-
+]
 
 export const objectSchemaUseCases = [
   {
@@ -143,11 +164,15 @@ export const objectSchemaUseCases = [
       length: 1,
       items: []
     },
-    options: <isOptions>{ schema: {
-      props: {
-        headline: { type: DataType.string },
-        length: { type: DataType.number },
-        items: { type: DataType.array } } } },
+    options: <isOptions>{
+      schema: {
+        props: {
+          headline: { type: DataType.string },
+          length: { type: DataType.number },
+          items: { type: DataType.array }
+        }
+      }
+    },
     expect: true
   },
   {
@@ -157,11 +182,15 @@ export const objectSchemaUseCases = [
       length: '2',
       items: []
     },
-    options: <isOptions>{ schema: {
-      props: {
-        headline: { type: DataType.string },
-        length: { type: DataType.number },
-        items: { type: DataType.array } } } },
+    options: <isOptions>{
+      schema: {
+        props: {
+          headline: { type: DataType.string },
+          length: { type: DataType.number },
+          items: { type: DataType.array }
+        }
+      }
+    },
     expect: false
   },
   {
@@ -171,11 +200,15 @@ export const objectSchemaUseCases = [
       length: '3',
       items: []
     },
-    options: <isOptions>{ schema: {
-      props: {
-        headline: { type: DataType.string },
-        length: { type: DataType.any, required: true },
-        items: { type: DataType.array } } } },
+    options: <isOptions>{
+      schema: {
+        props: {
+          headline: { type: DataType.string },
+          length: { type: DataType.any, required: true },
+          items: { type: DataType.array }
+        }
+      }
+    },
     expect: true
   },
   {
@@ -184,92 +217,123 @@ export const objectSchemaUseCases = [
       headline: 'test4',
       items: []
     },
-    options: <isOptions>{ schema: { props: {
-      headline: { type: DataType.string, required: true },
-      length: { required: true },
-      items: { type: DataType.array },
-    } } },
+    options: <isOptions>{
+      schema: {
+        props: {
+          headline: { type: DataType.string, required: true },
+          length: { required: true },
+          items: { type: DataType.array }
+        }
+      }
+    },
     expect: false
   },
   {
     description: `Expect to validate an array of a single type`,
-    test: { headline: [ 0, 0 ] },
-    options: <isOptions>{ schema: { props: {
-      headline: { type: DataType.array, options: { type: DataType.number } }
-    } } },
+    test: { headline: [0, 0] },
+    options: <isOptions>{
+      schema: {
+        props: {
+          headline: { type: DataType.array, options: { type: DataType.number } }
+        }
+      }
+    },
     expect: true
   },
   {
     description: `Expect to validate an array of a single type`,
-    test: { headline: [ 0, '0', 0 ] },
-    options: <isOptions>{ schema: { props: {
-      headline: { type: DataType.array, options: { type: DataType.number } }
-    } } },
+    test: { headline: [0, '0', 0] },
+    options: <isOptions>{
+      schema: {
+        props: {
+          headline: { type: DataType.array, options: { type: DataType.number } }
+        }
+      }
+    },
     expect: false
   },
   {
     description: `Expect to validate an array of multiple posible types`,
-    test: { headline: [ 0, '0', 0 ] },
-    options: <isOptions>{ schema: { props: {
-      headline: { type: [ DataType.array, DataType.string ] }
-    } } },
+    test: { headline: [0, '0', 0] },
+    options: <isOptions>{
+      schema: {
+        props: {
+          headline: { type: [DataType.array, DataType.string] }
+        }
+      }
+    },
     expect: true
   },
   {
     description: `Expect to validate an array of multiple posible types`,
     test: { headline: "[ 0, '0', 0 ]" },
-    options: <isOptions>{ schema: { props: {
-      headline: { type: [ DataType.array, DataType.string ] }
-    } } },
+    options: <isOptions>{
+      schema: {
+        props: {
+          headline: { type: [DataType.array, DataType.string] }
+        }
+      }
+    },
     expect: true
   },
   {
     description: `Expect to validate an array with nested properties`,
     test: { stats: { name: 'John', age: 40 } },
-    options: <isOptions>{ schema: { props: {
-      stats: {
-        type: DataType.object,
+    options: <isOptions>{
+      schema: {
         props: {
-          name: { type: DataType.string },
-          age: { type: DataType.number }
+          stats: {
+            type: DataType.object,
+            props: {
+              name: { type: DataType.string },
+              age: { type: DataType.number }
+            }
+          }
         }
       }
-    } } },
+    },
     expect: true
   },
   {
     description: `Expect to validate an array with nested properties`,
     test: { stats: { name: 'John', page: 40 } },
-    options: <isOptions>{ schema: { props: {
-      stats: {
-        type: DataType.object,
+    options: <isOptions>{
+      schema: {
         props: {
-          name: { type: DataType.string },
-          age: { type: DataType.number, required: true }
+          stats: {
+            type: DataType.object,
+            props: {
+              name: { type: DataType.string },
+              age: { type: DataType.number, required: true }
+            }
+          }
         }
       }
-    } } },
+    },
     expect: false
   },
   {
     description: `Expect to mock address to validate`,
     test: {
-      lines: [ "1600 Pennsylvania Avenue Northwest" ],
-      zip: "DC 20500",
-      city: "Washington",
-      country: "USA"
+      lines: ['1600 Pennsylvania Avenue Northwest'],
+      zip: 'DC 20500',
+      city: 'Washington',
+      country: 'USA'
     },
-    options: <isOptions>{ schema: {
-      type: DataType.object,
-      props: {
-        lines: {
-          type: DataType.array,
-          items: { type: DataType.string }
-        },
-        zip: { type: DataType.string },
-        city: { type: DataType.string },
-        country: { type: DataType.string, required: true }
-      } } },
+    options: <isOptions>{
+      schema: {
+        type: DataType.object,
+        props: {
+          lines: {
+            type: DataType.array,
+            items: { type: DataType.string }
+          },
+          zip: { type: DataType.string },
+          city: { type: DataType.string },
+          country: { type: DataType.string, required: true }
+        }
+      }
+    },
     expect: true
   },
   {
@@ -278,16 +342,20 @@ export const objectSchemaUseCases = [
       foo: 0,
       additional1: 1,
       bar: {
-        baz: "abc",
+        baz: 'abc',
         additional2: 2
-      },
+      }
     },
-    options: <isOptions>{ schema: {
-      props: {
-        foo: { type: DataType.number },
-        bar: {
-          props: { baz: { type: DataType.string } }
-        } } } },
+    options: <isOptions>{
+      schema: {
+        props: {
+          foo: { type: DataType.number },
+          bar: {
+            props: { baz: { type: DataType.string } }
+          }
+        }
+      }
+    },
     expect: true
   }
-];
+]

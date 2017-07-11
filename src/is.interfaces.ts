@@ -1,4 +1,4 @@
-import { DataType } from './is.func';
+import { DataType } from './is.func'
 
 /**
  * A descriptive model of what an object is expected to be.
@@ -6,11 +6,11 @@ import { DataType } from './is.func';
  * @interface isTypeSchema
  */
 export interface isTypeSchema {
-  type?: DataType|DataType[];
-  props?: ({ [k: string]: isTypeSchema });
-  items?: isTypeSchema|isTypeSchema[];
-  required?: boolean;
-  options?: isOptions;
+  type?: DataType | DataType[]
+  props?: ({ [k: string]: isTypeSchema })
+  items?: isTypeSchema | isTypeSchema[]
+  required?: boolean
+  options?: isOptions
 }
 
 /**
@@ -31,7 +31,7 @@ export interface isOptions extends isOptionsNumber, isOptionsString, isOptionsAr
  * @extends {isOptionsMinMax}
  */
 export interface isOptionsNumber extends isOptionsMinMax {
-  multipleOf?: number;
+  multipleOf?: number
 }
 
 /**
@@ -40,9 +40,9 @@ export interface isOptionsNumber extends isOptionsMinMax {
  * @interface isOptionsString
  */
 export interface isOptionsString {
-  pattern?: string;
-  patternFlags?: string;
-  exclEmpty?: boolean;
+  pattern?: string
+  patternFlags?: string
+  exclEmpty?: boolean
 }
 
 /**
@@ -53,7 +53,7 @@ export interface isOptionsString {
  * @extends {isOptionsSchema}
  */
 export interface isOptionsArray extends isOptionsMinMax, isOptionsSchema {
-  type?: DataType|DataType[];
+  type?: DataType | DataType[]
 }
 
 /**
@@ -63,8 +63,8 @@ export interface isOptionsArray extends isOptionsMinMax, isOptionsSchema {
  * @extends {isOptionsSchema}
  */
 export interface isOptionsObject extends isOptionsSchema {
-  allowNull?: boolean;
-  arrayAsObject?: boolean;
+  allowNull?: boolean
+  arrayAsObject?: boolean
 }
 
 /**
@@ -73,7 +73,7 @@ export interface isOptionsObject extends isOptionsSchema {
  * @interface isOptionsSchema
  */
 export interface isOptionsSchema {
-  schema?: isTypeSchema|isTypeSchema[]|null;
+  schema?: isTypeSchema | isTypeSchema[] | null
 }
 
 /**
@@ -82,8 +82,8 @@ export interface isOptionsSchema {
  * @interface isOptionsMinMax
  */
 export interface isOptionsMinMax {
-  min?: number;
-  max?: number;
-  exclMin?: number;
-  exclMax?: number;
+  min?: number
+  max?: number
+  exclMin?: number
+  exclMax?: number
 }
