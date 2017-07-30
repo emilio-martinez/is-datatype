@@ -205,13 +205,14 @@ export function is(val: any, type: DataType, options?: isOptions): boolean {
    *
    * If `typeOfCheck` is false, return false.
    */
-  const typeOfCheck = type === DataType.any
-    ? true
-    : type === DataType.number
-      ? typeof val === DataType[type] && !isNaN(val)
-      : type === DataType.array
-        ? typeof val === DataType[DataType.object] && Array.isArray(val)
-        : typeof val === DataType[type]
+  const typeOfCheck =
+    type === DataType.any
+      ? true
+      : type === DataType.number
+        ? typeof val === DataType[type] && !isNaN(val)
+        : type === DataType.array
+          ? typeof val === DataType[DataType.object] && Array.isArray(val)
+          : typeof val === DataType[type]
   if (!typeOfCheck) return false
 
   /**

@@ -7,7 +7,7 @@ import { DataType } from './is.func'
  */
 export interface isTypeSchema {
   type?: DataType | DataType[]
-  props?: ({ [k: string]: isTypeSchema })
+  props?: { [k: string]: isTypeSchema }
   items?: isTypeSchema | isTypeSchema[]
   required?: boolean
   options?: isOptions
