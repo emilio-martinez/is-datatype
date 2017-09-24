@@ -16,7 +16,8 @@ import {
   UNDEF,
   POS_INF,
   NEG_INF,
-  DATATYPE
+  DATATYPE,
+  testNumberWithinBounds
 } from './is.internal'
 
 /**
@@ -246,10 +247,7 @@ export function is(val: any, type: DataType, options?: isOptions): boolean {
     return (
       (val as any[]).every(n => isOneOfMultipleTypes(n, _options.type as DataType | DataType[])) &&
       (_options.schema === null || matchesSchema(val, _options.schema as isTypeSchema | isTypeSchema[])) &&
-      (_options.min !== UNDEF && (val as any[]).length >= _options.min) &&
-      (_options.max !== UNDEF && (val as any[]).length <= _options.max) &&
-      (_options.exclMin === NEG_INF || (_options.exclMin !== UNDEF && (val as any[]).length > _options.exclMin)) &&
-      (_options.exclMax === POS_INF || (_options.exclMax !== UNDEF && (val as any[]).length < _options.exclMax))
+      testNumberWithinBounds((val as any[]).length, _options.min, _options.max, _options.exclMin, _options.exclMax)
     )
   }
 
@@ -270,11 +268,7 @@ export function is(val: any, type: DataType, options?: isOptions): boolean {
    */
   if ((<DT>type) == DATATYPE.number) {
     return (
-      _options.min !== UNDEF &&
-      (val as number) >= _options.min &&
-      (_options.max !== UNDEF && (val as number) <= _options.max) &&
-      (_options.exclMin === NEG_INF || (_options.exclMin !== UNDEF && (val as number) > _options.exclMin)) &&
-      (_options.exclMax === POS_INF || (_options.exclMax !== UNDEF && (val as number) < _options.exclMax)) &&
+      testNumberWithinBounds(val, _options.min, _options.max, _options.exclMin, _options.exclMax) &&
       isMultipleOf(val, _options.multipleOf as number)
     )
   }

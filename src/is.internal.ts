@@ -51,6 +51,33 @@ export function isMultipleOf(val: number, multipleOf: number): boolean {
 }
 
 /**
+ * Tests a value within bounds of min, max, exclusive min and exclusive max
+ *
+ * @export
+ * @param {number} val
+ * @param {(number | undefined)} min
+ * @param {(number | undefined)} max
+ * @param {(number | undefined)} exclMin
+ * @param {(number | undefined)} exclMax
+ * @returns {boolean}
+ */
+export function testNumberWithinBounds(
+  val: number,
+  min: number | undefined,
+  max: number | undefined,
+  exclMin: number | undefined,
+  exclMax: number | undefined
+): boolean {
+  return (
+    // prettier-ignore
+    (min !== UNDEF && val >= min) &&
+    (max !== UNDEF && val <= max) &&
+    (exclMin === NEG_INF || (exclMin !== UNDEF && val > exclMin)) &&
+    (exclMax === POS_INF || (exclMax !== UNDEF && val < exclMax))
+  )
+}
+
+/**
  * Tests whether a value is primitive or not
  *
  * @export
