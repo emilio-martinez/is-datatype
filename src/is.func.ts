@@ -193,11 +193,14 @@ export function is(val: any, type: DataType, options?: isOptions): boolean {
     return is(val as number, DataType.number, extendObject({}, _options, numOptions))
   }
 
-  /** If `allowNull` is true and type is `any` or val is `null`, return true. */
-  if (_options.allowNull && (type === DataType.any || val === null)) return true
-
-  /** If `allowNull` is false and val is `null`, return false. */
-  if (!_options.allowNull && val === null) return false
+  /**
+   * Test for `null`
+   * If it's not allowed, return `false`
+   * If it's allowed, check for `any` or `object`
+   */
+  if (val === null) {
+    return !_options.allowNull ? false : type == DataType.any || type == DataType.object
+  }
 
   /**
    * If `any` type, always true.
