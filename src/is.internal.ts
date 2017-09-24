@@ -206,54 +206,50 @@ export function isValidOptions(_op: isOptions | undefined): boolean {
    * If even a single option is wrong, no pass.
    */
   return Object.keys(op).every(o => {
-    switch (o) {
-      /** DataType cases */
-      case 'type':
-        /** Ensure we have an array of `DataType` */
-        return validDataType(op[o])
-
-      /** string cases */
-      case 'pattern':
-      case 'patternFlags':
-        return typeof op[o] === 'string'
-
-      /** Boolean cases */
-      case 'exclEmpty':
-      case 'allowNull':
-      case 'arrayAsObject':
-        return typeof op[o] === 'boolean'
-
-      /** Number cases */
-      case 'min':
-      case 'max':
-      case 'exclMin':
-      case 'exclMax':
-      case 'multipleOf':
-        return is(op[o] as number, <DT>DATATYPE.number)
-
-      /** Schema case */
-      case 'schema':
-        return (
-          op[o] === null ||
-          matchesSchema(op[o], {
-            /** `isTypeSchema` is always an object */
-            type: <DT>DATATYPE.object,
-            props: {
-              type: {
-                type: [<DT>DATATYPE.number, <DT>DATATYPE.array],
-                items: { type: <DT>DATATYPE.number }
-              },
-              props: { type: <DT>DATATYPE.object },
-              items: {
-                type: [<DT>DATATYPE.object, <DT>DATATYPE.array],
-                items: { type: <DT>DATATYPE.object }
-              },
-              required: { type: <DT>DATATYPE.boolean },
-              options: { type: <DT>DATATYPE.object }
-            }
-          })
-        )
+    /** DataType case */
+    if (o == 'type') {
+      return validDataType(op[o])
     }
+
+    /** string cases */
+    if (o == 'pattern' || o == 'patternFlags') {
+      return typeof op[o] == 'string'
+    }
+
+    /** Boolean cases */
+    if (o == 'exclEmpty' || o == 'allowNull' || o == 'arrayAsObject') {
+      return typeof op[o] == 'boolean'
+    }
+
+    /** Number cases */
+    if (o == 'min' || o == 'max' || o == 'exclMin' || o == 'exclMax' || o == 'multipleOf') {
+      return typeof op[o] == 'number' && !isNaN(op[o] as number)
+    }
+
+    /** Schema case */
+    if (o == 'schema') {
+      return (
+        op[o] === null ||
+        matchesSchema(op[o], {
+          /** `isTypeSchema` is always an object */
+          type: <DT>DATATYPE.object,
+          props: {
+            type: {
+              type: [<DT>DATATYPE.number, <DT>DATATYPE.array],
+              items: { type: <DT>DATATYPE.number }
+            },
+            props: { type: <DT>DATATYPE.object },
+            items: {
+              type: [<DT>DATATYPE.object, <DT>DATATYPE.array],
+              items: { type: <DT>DATATYPE.object }
+            },
+            required: { type: <DT>DATATYPE.boolean },
+            options: { type: <DT>DATATYPE.object }
+          }
+        })
+      )
+    }
+
     return true
   })
 }
