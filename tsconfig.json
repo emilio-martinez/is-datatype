@@ -3,6 +3,7 @@
     "module": "es2015",
     "target": "es2015",
     "declaration": true,
+    "alwaysStrict": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "importHelpers": true,

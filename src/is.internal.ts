@@ -10,6 +10,27 @@ export const UNDEF = undefined
 export const POS_INF = Number.POSITIVE_INFINITY
 export const NEG_INF = Number.NEGATIVE_INFINITY
 
+export const enum DATATYPE {
+  any = -1,
+  // Primitives
+  undefined = 1,
+  boolean,
+  number,
+  integer,
+  natural,
+  string,
+  // Non-primitives
+  function = 11,
+  object,
+  array
+}
+
+/**
+ * Merged type to help TS understand these enums have the same values
+ * although one is a regular `enum` and the other is `const enum`
+ */
+type DT = DataType & DATATYPE
+
 /**
  * Tests whether a number is multiple of another number.
  * Keep in mind that Infinity, positive or negative, would return
@@ -30,6 +51,45 @@ export function isMultipleOf(val: number, multipleOf: number): boolean {
 }
 
 /**
+ * Tests a value within bounds of min, max, exclusive min and exclusive max
+ *
+ * @export
+ * @param {number} val
+ * @param {(number | undefined)} min
+ * @param {(number | undefined)} max
+ * @param {(number | undefined)} exclMin
+ * @param {(number | undefined)} exclMax
+ * @returns {boolean}
+ */
+export function testNumberWithinBounds(
+  val: number,
+  min: number | undefined,
+  max: number | undefined,
+  exclMin: number | undefined,
+  exclMax: number | undefined
+): boolean {
+  return (
+    // prettier-ignore
+    (min !== UNDEF && val >= min) &&
+    (max !== UNDEF && val <= max) &&
+    (exclMin === NEG_INF || (exclMin !== UNDEF && val > exclMin)) &&
+    (exclMax === POS_INF || (exclMax !== UNDEF && val < exclMax))
+  )
+}
+
+/**
+ * Tests whether a value is primitive or not
+ *
+ * @export
+ * @param {*} val
+ * @returns {boolean}
+ */
+export function isPrimitive(val: any): boolean {
+  const t = typeof val
+  return val == null || (t != 'function' && t != 'object')
+}
+
+/**
  * Tests an object against an object schema.
  *
  * @export
@@ -46,10 +106,10 @@ export function matchesSchema(_val: any, schema: isTypeSchema | isTypeSchema[]):
         if (s.type !== UNDEF && !validDataType(s.type)) return false
 
         /** Cache the type. Use `any` if none is present */
-        const _type: DataType | DataType[] = s.type === UNDEF ? DataType.any : s.type as DataType | DataType[]
+        const _type: DataType | DataType[] = s.type === UNDEF ? <DT>DATATYPE.any : s.type as DataType | DataType[]
 
         /** Get the options, if any. Use object literal if not available. */
-        const _typeOptions: isOptions = (is(s.options as isOptions, DataType.object) ? s.options : {}) as isOptions
+        const _typeOptions: isOptions = (is(s.options as isOptions, <DT>DATATYPE.object) ? s.options : {}) as isOptions
 
         /** Test if any of the data types matches */
         const _typeValid = isOneOfMultipleTypes(_val, _type, _typeOptions)
@@ -67,7 +127,7 @@ export function matchesSchema(_val: any, schema: isTypeSchema | isTypeSchema[]):
         let _reqdValid = true
 
         /** Extract the properties to test for into an array */
-        const _propKeys: string[] = is(s.props as isOptions, DataType.object) ? Object.keys(s.props) : []
+        const _propKeys: string[] = is(s.props as isOptions, <DT>DATATYPE.object) ? Object.keys(s.props as object) : []
 
         /** Begin tests relevant to properties */
         if (_propKeys.length > 0) {
@@ -95,8 +155,8 @@ export function matchesSchema(_val: any, schema: isTypeSchema | isTypeSchema[]):
 
         /** Test items if `array` */
         let _itemsValid = true
-        const inferredArray = _type === DataType.any && is(_val, DataType.array)
-        if ((_type === DataType.array || inferredArray) && _typeValid && s.items !== UNDEF) {
+        const inferredArray = _type == (<DT>DATATYPE.any) && is(_val, <DT>DATATYPE.array)
+        if ((_type == (<DT>DATATYPE.array) || inferredArray) && _typeValid && s.items !== UNDEF) {
           _itemsValid = (_val as any[]).every(i => {
             return matchesSchema(i, s.items as isTypeSchema | isTypeSchema[])
           })
@@ -120,10 +180,10 @@ export function isOneOfMultipleTypes(val: any, type: DataType | DataType[], opti
   let types = Array.isArray(type) ? type : [type]
 
   /** Check for presence of `any` */
-  if (types.indexOf(DataType.any) !== -1) return true
+  if (types.indexOf(<DT>DATATYPE.any) != -1) return true
 
   /** Filter out non-`DataType` items */
-  types = types.filter(v => is(v, DataType.number) && (DataType as any).hasOwnProperty(v))
+  types = types.filter(v => is(v, <DT>DATATYPE.number) && (DataType as any).hasOwnProperty(v))
 
   /** Test `val` prop against type validation */
   return types.length > 0 ? types.some(n => is(val, n, options)) : false
@@ -166,61 +226,57 @@ export function extendObject(dest: any, ...sources: any[]): any {
  */
 export function isValidOptions(_op: isOptions | undefined): boolean {
   /** Ensure object */
-  const op = (_op !== UNDEF && is(_op as isOptions, DataType.object) ? _op : {}) as isOptions
+  const op = (_op !== UNDEF && is(_op as isOptions, <DT>DATATYPE.object) ? _op : {}) as isOptions
 
   /**
    * Test every property.
    * If even a single option is wrong, no pass.
    */
   return Object.keys(op).every(o => {
-    switch (o) {
-      /** DataType cases */
-      case 'type':
-        /** Ensure we have an array of `DataType` */
-        return validDataType(op[o])
-
-      /** string cases */
-      case 'pattern':
-      case 'patternFlags':
-        return typeof op[o] === 'string'
-
-      /** Boolean cases */
-      case 'exclEmpty':
-      case 'allowNull':
-      case 'arrayAsObject':
-        return typeof op[o] === 'boolean'
-
-      /** Number cases */
-      case 'min':
-      case 'max':
-      case 'exclMin':
-      case 'exclMax':
-      case 'multipleOf':
-        return is(op[o] as number, DataType.number)
-
-      /** Schema case */
-      case 'schema':
-        return (
-          op[o] === null ||
-          matchesSchema(op[o], {
-            /** `isTypeSchema` is always an object */
-            type: DataType.object,
-            props: {
-              type: {
-                type: [DataType.number, DataType.array],
-                items: { type: DataType.number }
-              },
-              props: { type: DataType.object },
-              items: {
-                type: [DataType.object, DataType.array],
-                items: { type: DataType.object }
-              },
-              required: { type: DataType.boolean },
-              options: { type: DataType.object }
-            }
-          })
-        )
+    /** DataType case */
+    if (o == 'type') {
+      return validDataType(op[o])
     }
+
+    /** string cases */
+    if (o == 'pattern' || o == 'patternFlags') {
+      return typeof op[o] == 'string'
+    }
+
+    /** Boolean cases */
+    if (o == 'exclEmpty' || o == 'allowNull' || o == 'arrayAsObject') {
+      return typeof op[o] == 'boolean'
+    }
+
+    /** Number cases */
+    if (o == 'min' || o == 'max' || o == 'exclMin' || o == 'exclMax' || o == 'multipleOf') {
+      return typeof op[o] == 'number' && !isNaN(op[o] as number)
+    }
+
+    /** Schema case */
+    if (o == 'schema') {
+      return (
+        op[o] === null ||
+        matchesSchema(op[o], {
+          /** `isTypeSchema` is always an object */
+          type: <DT>DATATYPE.object,
+          props: {
+            type: {
+              type: [<DT>DATATYPE.number, <DT>DATATYPE.array],
+              items: { type: <DT>DATATYPE.number }
+            },
+            props: { type: <DT>DATATYPE.object },
+            items: {
+              type: [<DT>DATATYPE.object, <DT>DATATYPE.array],
+              items: { type: <DT>DATATYPE.object }
+            },
+            required: { type: <DT>DATATYPE.boolean },
+            options: { type: <DT>DATATYPE.object }
+          }
+        })
+      )
+    }
+
     return true
   })
 }
