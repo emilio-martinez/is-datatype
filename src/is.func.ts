@@ -222,10 +222,8 @@ export function is(val: any, type: DataType, options?: isOptions): boolean {
     (<DT>type) == DATATYPE.any
       ? true
       : (<DT>type) == DATATYPE.number
-        ? typeof val === DataType[type] && !isNaN(val)
-        : (<DT>type) == DATATYPE.array
-          ? typeof val === DataType[DATATYPE.object] && Array.isArray(val)
-          : typeof val === DataType[type]
+        ? typeof val == DataType[type] && !isNaN(val)
+        : (<DT>type) == DATATYPE.array ? Array.isArray(val) : typeof val === DataType[type]
   if (!typeOfCheck) return false
 
   /**
