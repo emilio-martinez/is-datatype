@@ -25,9 +25,9 @@ import {
  * @enum {number}
  */
 export enum DataType {
-  any,
+  any = -1,
   // Primitives
-  undefined,
+  undefined = 1,
   boolean,
   number,
   integer,

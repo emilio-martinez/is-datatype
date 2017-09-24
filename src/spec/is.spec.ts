@@ -5,8 +5,10 @@ import * as TC from './test-cases/test-cases.spec'
 describe('`is` and `matchesSchema`', () => {
   describe('should validate for invalid `type` arguments', () => {
     it('when an out of range number is provided', () => {
-      expect(() => is(false, -1)).toThrow()
-      expect(matchesSchema(false, { type: -1 })).toBe(false)
+      expect(() => is(false, -2)).toThrow()
+      expect(matchesSchema(false, { type: -2 })).toBe(false)
+      expect(() => is(false, 0)).toThrow()
+      expect(matchesSchema(false, { type: 0 })).toBe(false)
       expect(() => is(false, 1)).not.toThrow()
       expect(matchesSchema(false, { type: 1 })).toBe(false)
     })
