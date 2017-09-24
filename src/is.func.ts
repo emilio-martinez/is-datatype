@@ -25,16 +25,18 @@ import {
  * @enum {number}
  */
 export enum DataType {
+  any,
+  // Primitives
+  undefined,
   boolean,
   number,
   integer,
   natural,
   string,
-  function,
+  // Non-primitives
+  function = 11,
   object,
-  array,
-  undefined,
-  any
+  array
 }
 
 /**

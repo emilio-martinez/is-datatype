@@ -30,6 +30,18 @@ export function isMultipleOf(val: number, multipleOf: number): boolean {
 }
 
 /**
+ * Tests whether a value is primitive or not
+ *
+ * @export
+ * @param {*} val
+ * @returns {boolean}
+ */
+export function isPrimitive(val: any): boolean {
+  const t = typeof val
+  return val == null || (t != 'function' && t != 'object')
+}
+
+/**
  * Tests an object against an object schema.
  *
  * @export
