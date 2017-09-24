@@ -10,6 +10,27 @@ export const UNDEF = undefined
 export const POS_INF = Number.POSITIVE_INFINITY
 export const NEG_INF = Number.NEGATIVE_INFINITY
 
+export const enum DATATYPE {
+  any = -1,
+  // Primitives
+  undefined = 1,
+  boolean,
+  number,
+  integer,
+  natural,
+  string,
+  // Non-primitives
+  function = 11,
+  object,
+  array
+}
+
+/**
+ * Merged type to help TS understand these enums have the same values
+ * although one is a regular `enum` and the other is `const enum`
+ */
+type DT = DataType & DATATYPE
+
 /**
  * Tests whether a number is multiple of another number.
  * Keep in mind that Infinity, positive or negative, would return
@@ -58,10 +79,10 @@ export function matchesSchema(_val: any, schema: isTypeSchema | isTypeSchema[]):
         if (s.type !== UNDEF && !validDataType(s.type)) return false
 
         /** Cache the type. Use `any` if none is present */
-        const _type: DataType | DataType[] = s.type === UNDEF ? DataType.any : s.type as DataType | DataType[]
+        const _type: DataType | DataType[] = s.type === UNDEF ? <DT>DATATYPE.any : s.type as DataType | DataType[]
 
         /** Get the options, if any. Use object literal if not available. */
-        const _typeOptions: isOptions = (is(s.options as isOptions, DataType.object) ? s.options : {}) as isOptions
+        const _typeOptions: isOptions = (is(s.options as isOptions, <DT>DATATYPE.object) ? s.options : {}) as isOptions
 
         /** Test if any of the data types matches */
         const _typeValid = isOneOfMultipleTypes(_val, _type, _typeOptions)
@@ -79,7 +100,7 @@ export function matchesSchema(_val: any, schema: isTypeSchema | isTypeSchema[]):
         let _reqdValid = true
 
         /** Extract the properties to test for into an array */
-        const _propKeys: string[] = is(s.props as isOptions, DataType.object) ? Object.keys(s.props) : []
+        const _propKeys: string[] = is(s.props as isOptions, <DT>DATATYPE.object) ? Object.keys(s.props as object) : []
 
         /** Begin tests relevant to properties */
         if (_propKeys.length > 0) {
@@ -107,8 +128,8 @@ export function matchesSchema(_val: any, schema: isTypeSchema | isTypeSchema[]):
 
         /** Test items if `array` */
         let _itemsValid = true
-        const inferredArray = _type === DataType.any && is(_val, DataType.array)
-        if ((_type === DataType.array || inferredArray) && _typeValid && s.items !== UNDEF) {
+        const inferredArray = _type == (<DT>DATATYPE.any) && is(_val, <DT>DATATYPE.array)
+        if ((_type == (<DT>DATATYPE.array) || inferredArray) && _typeValid && s.items !== UNDEF) {
           _itemsValid = (_val as any[]).every(i => {
             return matchesSchema(i, s.items as isTypeSchema | isTypeSchema[])
           })
@@ -132,10 +153,10 @@ export function isOneOfMultipleTypes(val: any, type: DataType | DataType[], opti
   let types = Array.isArray(type) ? type : [type]
 
   /** Check for presence of `any` */
-  if (types.indexOf(DataType.any) !== -1) return true
+  if (types.indexOf(<DT>DATATYPE.any) != -1) return true
 
   /** Filter out non-`DataType` items */
-  types = types.filter(v => is(v, DataType.number) && (DataType as any).hasOwnProperty(v))
+  types = types.filter(v => is(v, <DT>DATATYPE.number) && (DataType as any).hasOwnProperty(v))
 
   /** Test `val` prop against type validation */
   return types.length > 0 ? types.some(n => is(val, n, options)) : false
@@ -178,7 +199,7 @@ export function extendObject(dest: any, ...sources: any[]): any {
  */
 export function isValidOptions(_op: isOptions | undefined): boolean {
   /** Ensure object */
-  const op = (_op !== UNDEF && is(_op as isOptions, DataType.object) ? _op : {}) as isOptions
+  const op = (_op !== UNDEF && is(_op as isOptions, <DT>DATATYPE.object) ? _op : {}) as isOptions
 
   /**
    * Test every property.
@@ -208,7 +229,7 @@ export function isValidOptions(_op: isOptions | undefined): boolean {
       case 'exclMin':
       case 'exclMax':
       case 'multipleOf':
-        return is(op[o] as number, DataType.number)
+        return is(op[o] as number, <DT>DATATYPE.number)
 
       /** Schema case */
       case 'schema':
@@ -216,19 +237,19 @@ export function isValidOptions(_op: isOptions | undefined): boolean {
           op[o] === null ||
           matchesSchema(op[o], {
             /** `isTypeSchema` is always an object */
-            type: DataType.object,
+            type: <DT>DATATYPE.object,
             props: {
               type: {
-                type: [DataType.number, DataType.array],
-                items: { type: DataType.number }
+                type: [<DT>DATATYPE.number, <DT>DATATYPE.array],
+                items: { type: <DT>DATATYPE.number }
               },
-              props: { type: DataType.object },
+              props: { type: <DT>DATATYPE.object },
               items: {
-                type: [DataType.object, DataType.array],
-                items: { type: DataType.object }
+                type: [<DT>DATATYPE.object, <DT>DATATYPE.array],
+                items: { type: <DT>DATATYPE.object }
               },
-              required: { type: DataType.boolean },
-              options: { type: DataType.object }
+              required: { type: <DT>DATATYPE.boolean },
+              options: { type: <DT>DATATYPE.object }
             }
           })
         )
