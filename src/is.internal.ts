@@ -176,17 +176,15 @@ export function matchesSchema(_val: any, schema: isTypeSchema | isTypeSchema[]):
  * @returns {boolean}
  */
 export function isOneOfMultipleTypes(val: any, type: DataType | DataType[], options?: isOptions): boolean {
-  /** Coerce `DataType` into an array */
-  let types = Array.isArray(type) ? type : [type]
+  /** Coerce `DataType` into an array and filter out non-`DataType` items */
+  let types = (Array.isArray(type) ? type : [type]).filter(validDataType)
 
-  /** Check for presence of `any` */
-  if (types.indexOf(<DT>DATATYPE.any) != -1) return true
-
-  /** Filter out non-`DataType` items */
-  types = types.filter(v => is(v, <DT>DATATYPE.number) && (DataType as any).hasOwnProperty(v))
-
-  /** Test `val` prop against type validation */
-  return types.length > 0 ? types.some(n => is(val, n, options)) : false
+  /**
+   * If no length, return false
+   * Else if `types` contain any, return true
+   * Else test against `is`
+   */
+  return types.length ? types.indexOf(<DT>DATATYPE.any) >= 0 || types.some(n => is(val, n, options)) : false
 }
 
 /**
