@@ -193,12 +193,12 @@ export function is(val: any, type: DataType, options?: isOptions): boolean {
    */
   if (<DT>type == DATATYPE.integer || <DT>type == DATATYPE.natural) {
     /** Immediately return false is `multipleOf` is passed, but it's not a multiple of 1. */
-    if (!isMultipleOf(_options.multipleOf as number, 1)) return false
+    if (!isMultipleOf(_options.multipleOf!, 1)) return false
 
     let numOptions: isOptions = { multipleOf: _options.multipleOf === 0 ? 1 : _options.multipleOf }
     if (<DT>type == DATATYPE.natural) numOptions.min = isDefined(_options.min) && _options.min! >= 0 ? _options.min : 0
 
-    return is(val as number, <DT>DATATYPE.number, extendObject({}, _options, numOptions))
+    return is(val, <DT>DATATYPE.number, extendObject({}, _options, numOptions))
   }
 
   /**
@@ -232,7 +232,7 @@ export function is(val: any, type: DataType, options?: isOptions): boolean {
    */
   if (<DT>type == DATATYPE.object) {
     return (
-      (!Array.isArray(val) || (_options.arrayAsObject as boolean)) &&
+      (!Array.isArray(val) || _options.arrayAsObject!) &&
       (_options.schema === null || matchesSchema(val, _options.schema as isTypeSchema | isTypeSchema[]))
     )
   }
@@ -252,8 +252,8 @@ export function is(val: any, type: DataType, options?: isOptions): boolean {
   /** If type is `string` and empty is disallowed, check for an empty string. */
   if (<DT>type == DATATYPE.string) {
     return (
-      (!((val as string).length === 0) || !_options.exclEmpty) &&
-      new RegExp(_options.pattern as string, _options.patternFlags).test(val)
+      ((val as string).length > 0 || !_options.exclEmpty) &&
+      new RegExp(_options.pattern!, _options.patternFlags).test(val)
     )
   }
 
@@ -267,7 +267,7 @@ export function is(val: any, type: DataType, options?: isOptions): boolean {
   if (<DT>type == DATATYPE.number) {
     return (
       testNumberWithinBounds(val, _options.min, _options.max, _options.exclMin, _options.exclMax) &&
-      isMultipleOf(val, _options.multipleOf as number)
+      isMultipleOf(val, _options.multipleOf!)
     )
   }
 

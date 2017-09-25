@@ -5,7 +5,7 @@ import { matchesSchema } from '../is.internal'
 describe(`\`matchesSchema\` function`, () => {
   it(`should handle validating undefined`, () => {
     expect(
-      matchesSchema(undefined as Object, { type: DataType.undefined, props: { headline: { type: DataType.string } } })
+      matchesSchema(undefined as object, { type: DataType.undefined, props: { headline: { type: DataType.string } } })
     ).toBe(true)
   })
 

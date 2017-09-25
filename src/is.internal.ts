@@ -55,7 +55,7 @@ export function isMultipleOf(val: number, multipleOf: number): boolean {
     (val !== NEG_INF &&
       val !== POS_INF &&
       // Using Math.abs avoids `-0`
-      Math.abs((val as number) % multipleOf) === 0)
+      Math.abs(val % multipleOf) === 0)
   )
 }
 
@@ -136,7 +136,7 @@ export function matchesSchema(_val: any, schema: isTypeSchema | isTypeSchema[]):
         let _reqdValid = true
 
         /** Extract the properties to test for into an array */
-        const _propKeys: string[] = is(s.props as isOptions, <DT>DATATYPE.object) ? Object.keys(s.props as object) : []
+        const _propKeys: string[] = is(s.props as isOptions, <DT>DATATYPE.object) ? Object.keys(s.props!) : []
 
         /** Begin tests relevant to properties */
         if (_propKeys.length > 0) {
@@ -260,7 +260,7 @@ export function isValidOptions(_op: isOptions | undefined): boolean {
 
     /** Number cases */
     if (o == 'min' || o == 'max' || o == 'exclMin' || o == 'exclMax' || o == 'multipleOf') {
-      return typeof op[o] == 'number' && !isNaN(op[o] as number)
+      return typeof op[o] == 'number' && !isNaN(op[o]!)
     }
 
     /** Schema case */
