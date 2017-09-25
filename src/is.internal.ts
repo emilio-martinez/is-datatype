@@ -287,10 +287,10 @@ export function isValidOptions(_op: isOptions | undefined): boolean {
  * @param {(number|string|(number|string)[]|undefined)} _val
  * @returns {boolean}
  */
-export function validDataType(_val: number | string | (number | string)[] | undefined): boolean {
-  if (_val === UNDEF) return false
-  /** Ensure array */
-  const val = Array.isArray(_val) ? _val : [_val]
-  /** Check all items are in DataType */
-  return val.every(v => v in DataType && typeof v === 'number')
+export function validDataType(val: number | string | (number | string)[] | undefined): boolean {
+  function check(val: number | string | undefined) {
+    return typeof val == 'number' && val in DataType
+  }
+
+  return Array.isArray(val) ? val.every(check) : check(val)
 }
