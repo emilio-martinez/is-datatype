@@ -13,11 +13,11 @@ import {
   extendObject,
   isValidOptions,
   validDataType,
-  UNDEF,
   POS_INF,
   NEG_INF,
   DATATYPE,
-  testNumberWithinBounds
+  testNumberWithinBounds,
+  isDefined
 } from './is.internal'
 
 /**
@@ -196,7 +196,7 @@ export function is(val: any, type: DataType, options?: isOptions): boolean {
     if (!isMultipleOf(_options.multipleOf as number, 1)) return false
 
     let numOptions: isOptions = { multipleOf: _options.multipleOf === 0 ? 1 : _options.multipleOf }
-    if (<DT>type == DATATYPE.natural) numOptions.min = _options.min !== UNDEF && _options.min >= 0 ? _options.min : 0
+    if (<DT>type == DATATYPE.natural) numOptions.min = isDefined(_options.min) && _options.min! >= 0 ? _options.min : 0
 
     return is(val as number, <DT>DATATYPE.number, extendObject({}, _options, numOptions))
   }
