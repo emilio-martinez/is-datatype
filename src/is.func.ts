@@ -7,17 +7,17 @@ import {
   isTypeSchema
 } from './is.interfaces'
 import {
-  isMultipleOf,
-  matchesSchema,
-  isOneOfMultipleTypes,
-  extendObject,
-  isValidOptions,
-  validDataType,
-  POS_INF,
-  NEG_INF,
   DATATYPE,
+  extendObject,
+  isDefined,
+  isMultipleOf,
+  isOneOfMultipleTypes,
+  isValidOptions,
+  matchesSchema,
+  NEG_INF,
+  POS_INF,
   testNumberWithinBounds,
-  isDefined
+  validDataType
 } from './is.internal'
 
 /**
