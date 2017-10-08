@@ -4,7 +4,9 @@ import { DATATYPE } from '../is.internal'
 describe('`DataType` parity', () => {
   it(`should have the same values`, () => {
     const testedTypes = []
-    const typesToTest = Object.keys(DataType).map(k => parseInt(k, 10)).filter(k => !isNaN(k))
+    const typesToTest = Object.keys(DataType)
+      .map(k => parseInt(k, 10))
+      .filter(k => !isNaN(k))
 
     expect(DataType.any).toBe(DATATYPE.any as number, 'Failed for `any`')
     testedTypes.push(DataType.any)

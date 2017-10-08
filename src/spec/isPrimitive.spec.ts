@@ -1,5 +1,6 @@
 import { isPrimitive } from '../is.internal'
-import * as TC from './test-cases/test-cases.spec'
+import { getDataTypeUseCases } from './test-cases/test-cases.spec'
+import { DataType } from '../is.func'
 
 describe('`isPrimitive` function', () => {
   /**
@@ -7,29 +8,28 @@ describe('`isPrimitive` function', () => {
    * has been organized to have all primitives to have indexes under 10
    * and all non-primitives to have indexes over 10.
    */
-  const cutoff = 10
+  const PRIMITIVE_CUTOFF = 10
+  const DataTypeKeys = Object.keys(DataType)
+    .map(k => parseInt(k, 10))
+    .filter(k => typeof k == 'number')
+  const nonPrimitiveKeys = DataTypeKeys.filter(i => i > PRIMITIVE_CUTOFF)
+  const primitiveKeys = DataTypeKeys.filter(i => i < PRIMITIVE_CUTOFF)
 
   it('should return true when primitive value', function() {
-    TC.aggregateUseCases
-      .filter((n, i) => i < cutoff)
-      .forEach(n =>
-        n.forEach(m =>
-          expect(isPrimitive(m)).toBeTruthy(
-            `Failed for \`${m}\` of type \`${typeof m}\` passed when validating for a primitive value`
-          )
-        )
+    /** We exclude the non-primitive keys, so only primitives should remain */
+    getDataTypeUseCases(nonPrimitiveKeys).forEach(n =>
+      expect(isPrimitive(n)).toBeTruthy(
+        `Failed for \`${n}\` of type \`${typeof n}\` passed when validating for a primitive value`
       )
+    )
   })
 
   it('should return false when not primitive value', function() {
-    TC.aggregateUseCases
-      .filter((n, i) => i > cutoff)
-      .forEach(n =>
-        n.forEach(m =>
-          expect(isPrimitive(m)).toBeFalsy(
-            `Failed for \`${m}\` of type \`${typeof m}\` passed when validating for a non-primitive value`
-          )
-        )
+    /** We exclude the primitive keys, so only non-primitives should remain */
+    getDataTypeUseCases(primitiveKeys).forEach(n =>
+      expect(isPrimitive(n)).toBeFalsy(
+        `Failed for \`${n}\` of type \`${typeof n}\` passed when validating for a non-primitive value`
       )
+    )
   })
 })
