@@ -117,11 +117,8 @@ export function matchesSchema(_val: any, schema: isTypeSchema | isTypeSchema[]):
         /** Cache the type. Use `any` if none is present */
         const _type: DataType | DataType[] = !isDefined(s.type) ? <DT>DATATYPE.any : s.type as DataType | DataType[]
 
-        /** Get the options, if any. Use object literal if not available. */
-        const _typeOptions: isOptions = (isValidOptions(s.options) ? s.options : {}) as isOptions
-
         /** Test if any of the data types matches */
-        const _typeValid = isOneOfMultipleTypes(_val, _type, _typeOptions)
+        const _typeValid = isOneOfMultipleTypes(_val, _type, s.options)
 
         /**
          * Whether the properties match what's reflected in the schema.
