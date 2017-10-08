@@ -1,5 +1,6 @@
 const path = require('path')
 const webpack = require('webpack')
+const CompressionPlugin = require('compression-webpack-plugin')
 
 const SRC_DIR = path.resolve(__dirname, './src')
 const DIST_DIR = path.resolve(__dirname, './dist')
@@ -91,8 +92,9 @@ module.exports = function(_env) {
               mangle: false,
               beautify: true
             }
-      )
-    ],
+      ),
+      env.min ? new CompressionPlugin({ test: /\.js/, asset: '[path].gz[query]' }) : null
+    ].filter(v => !!v),
     resolve: {
       extensions: ['.tsx', '.ts', '.js']
     }
