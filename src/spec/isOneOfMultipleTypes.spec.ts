@@ -1,6 +1,6 @@
 import { DataType } from '../is.func'
 import { isOneOfMultipleTypes } from '../is.internal'
-import { aggregateUseCases } from './test-cases/test-cases.spec'
+import { getDataTypeUseCases } from './test-cases/test-cases.spec'
 
 const invalidTypeValues = [
   1000, // The DataType enum is an object with has numbers, but they don't come even close to 1000
@@ -21,12 +21,10 @@ describe(`isOneOfMultipleTypes`, () => {
   })
 
   it(`should immediately return \`true\` when \`any\` is passed`, () => {
-    aggregateUseCases.forEach(n =>
-      n.forEach(m => {
-        expect(isOneOfMultipleTypes(m, DataType.any)).toBe(true, `Failed for \`${m}\` of type \`${typeof m}\``)
-        expect(isOneOfMultipleTypes(m, [DataType.any])).toBe(true, `Failed for \`${m}\` of type \`${typeof m}\``)
-      })
-    )
+    getDataTypeUseCases().forEach(n => {
+      expect(isOneOfMultipleTypes(n, DataType.any)).toBe(true, `Failed for \`${n}\` of type \`${typeof n}\``)
+      expect(isOneOfMultipleTypes(n, [DataType.any])).toBe(true, `Failed for \`${n}\` of type \`${typeof n}\``)
+    })
   })
 
   it(`should test multiple \`DataType\` in addition to a single one`, () => {

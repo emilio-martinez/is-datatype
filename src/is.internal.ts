@@ -155,8 +155,8 @@ export function matchesSchema(_val: any, schema: isTypeSchema | isTypeSchema[]):
 
         /** Test items if `array` */
         let _itemsValid = true
-        const inferredArray = _type == (<DT>DATATYPE.any) && is(_val, <DT>DATATYPE.array)
-        if ((_type == (<DT>DATATYPE.array) || inferredArray) && _typeValid && s.items !== UNDEF) {
+        const inferredArray = _type == <DT>DATATYPE.any && is(_val, <DT>DATATYPE.array)
+        if ((_type == <DT>DATATYPE.array || inferredArray) && _typeValid && s.items !== UNDEF) {
           _itemsValid = (_val as any[]).every(i => {
             return matchesSchema(i, s.items as isTypeSchema | isTypeSchema[])
           })

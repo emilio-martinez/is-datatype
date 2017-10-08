@@ -1,28 +1,48 @@
 import { DataType } from '../../is.func'
-import * as NSTC from './non-schema.spec'
+import {
+  validNumberUseCases,
+  validNumberNegativeUseCases,
+  invalidNumberUseCases,
+  validStringUseCases,
+  validBooleanUseCases,
+  validFunctionUseCases,
+  validArrayUseCases,
+  validObjectUseCases,
+  validUndefinedUseCases
+} from './non-schema.spec'
 
-/**
- * NOTE:
- * This file aggregates several DataType test cases.
- * The use of this is to have a set of all DataType
- * tests to run against every DataType, exclusing
- * the DataType in question, and making sure that
- * it returns `false`.
- */
+const dataTypeTestCaseMap = {
+  [DataType.number]: [...validNumberUseCases, ...validNumberNegativeUseCases, ...invalidNumberUseCases],
+  [DataType.string]: [...validStringUseCases],
+  [DataType.boolean]: [...validBooleanUseCases],
+  [DataType.function]: [...validFunctionUseCases],
+  [DataType.array]: validArrayUseCases.slice().map(n => n.test),
+  [DataType.object]: [...validObjectUseCases],
+  [DataType.undefined]: [...validUndefinedUseCases]
+}
 
-let aggregateUseCases = []
-aggregateUseCases[DataType.number] = [
-  ...NSTC.validNumberUseCases,
-  ...NSTC.validNumberNegativeUseCases,
-  ...NSTC.invalidNumberUseCases
-]
-aggregateUseCases[DataType.string] = [...NSTC.validStringUseCases]
-aggregateUseCases[DataType.boolean] = [...NSTC.validBooleanUseCases]
-aggregateUseCases[DataType.function] = [...NSTC.validFunctionUseCases]
-aggregateUseCases[DataType.array] = NSTC.validArrayUseCases.slice().map(n => n.test)
-aggregateUseCases[DataType.object] = [...NSTC.validObjectUseCases]
-aggregateUseCases[DataType.undefined] = [...NSTC.validUndefinedUseCases]
+export function getDataTypeUseCases(
+  exclusions?: DataType | DataType[],
+  testCaseMap: { [k: number]: any[] } = dataTypeTestCaseMap
+): any[] {
+  /**
+   * Ensure array of strings.
+   * Strings are preferred because Object key iteration will convert keys to strings anyway.
+   * DataType numeric keys will be converted to strings once validated.
+   */
+  let exclude: string[] = (Array.isArray(exclusions) ? exclusions : [exclusions])
+    .filter(k => typeof k == 'number' && k in DataType)
+    .map(k => k.toString())
 
-export { aggregateUseCases }
+  /**
+   * Create array from sample data types.
+   * Filters out exclusions and remaps into an array of arrays of sample data
+   */
+  return Object.keys(testCaseMap)
+    .filter(k => testCaseMap.hasOwnProperty(k) && k in DataType && exclude.indexOf(k) === -1)
+    .map(k => testCaseMap[k])
+    .reduce((a, b) => a.concat(b), [])
+}
+
 export * from './non-schema.spec'
 export * from './schema.spec'

@@ -17,7 +17,7 @@
     "clean:dist": "node_modules/.bin/rimraf dist",
     "clean": "npm run clean:test & npm run clean:dist",
     "dev": "npm run clean:dist && nodemon --watch 'src' -e 'ts' -x 'node_modules/.bin/tsc'",
-    "format:base": "node_modules/.bin/prettier --print-width 120 --no-semi --single-quote --write",
+    "format:base": "node_modules/.bin/prettier --print-width 120 --no-semi --single-quote --parser typescript --write",
     "format": "npm run format:base -- \"src/**/*.ts\"",
     "prebuild": "npm run clean:dist",
     "build:compile": "node_modules/.bin/tsc",
