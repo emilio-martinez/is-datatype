@@ -51,246 +51,217 @@ describe('`is` and `matchesSchema`', () => {
 
     it('should work in regular use cases', () => {
       validNumberUseCases.forEach(n =>
-        expect(is(n, currentDataType) && matchesSchema(n, { type: currentDataType })).toBe(
-          true,
-          `Failed for valid \`${DataType[currentDataType]}\` use case ${n}`
-        )
+        expect(is(n, currentDataType) && matchesSchema(n, { type: currentDataType }))
+          .toBe(true, `Failed for valid \`${DataType[currentDataType]}\` use case ${n}`)
       )
       validNumberNegativeUseCases.forEach(n =>
-        expect(is(n, currentDataType) && matchesSchema(n, { type: currentDataType })).toBe(
-          true,
-          `Failed for valid negative \`${DataType[currentDataType]}\` use case ${n}`
-        )
+        expect(is(n, currentDataType) && matchesSchema(n, { type: currentDataType }))
+          .toBe(true, `Failed for valid negative \`${DataType[currentDataType]}\` use case ${n}`)
       )
       invalidNumberUseCases.forEach(n =>
-        expect(is(n, currentDataType) && matchesSchema(n, { type: currentDataType })).toBe(
-          false,
-          `Failed for invalid \`${DataType[currentDataType]}\` use case ${n}`
-        )
+        expect(is(n, currentDataType) && matchesSchema(n, { type: currentDataType }))
+          .toBe(false, `Failed for invalid \`${DataType[currentDataType]}\` use case ${n}`)
       )
     })
 
     it('should work in optional use cases', () => {
-      numberRangeUseCases.forEach(n =>
-        expect(
-          is(n.test, currentDataType, n.options) && matchesSchema(n.test, { type: currentDataType, options: n.options })
-        ).toBe(
-          n.expect,
-          `Failed for \`${DataType[currentDataType]}\` range options use case ${n.test} with options ${JSON.stringify(
-            n.options
-          )}`
-        )
-      )
-      multipleOfUseCases.forEach(n =>
-        expect(
-          is(n.test, currentDataType, n.options) && matchesSchema(n.test, { type: currentDataType, options: n.options })
-        ).toBe(
-          n.expect,
-          `Failed for \`${DataType[
-            currentDataType
-          ]}\` \`multipleOf\` options use case ${n.test} with options ${JSON.stringify(n.options)}`
-        )
-      )
+      numberRangeUseCases.forEach(n => {
+        const test = is(n.test, currentDataType, n.options) &&
+            matchesSchema(n.test, { type: currentDataType, options: n.options })
+        const errType = DataType[currentDataType]
+        const errOptions = JSON.stringify(n.options)
+        const errMessage = `Failed for \`${errType}\` range options use case ${n.test} with options ${errOptions}`
+        expect(test).toBe(n.expect, errMessage)
+      })
+      multipleOfUseCases.forEach(n => {
+        const test = is(n.test, currentDataType, n.options) &&
+            matchesSchema(n.test, { type: currentDataType, options: n.options })
+        const errType = DataType[currentDataType]
+        const errOptions = JSON.stringify(n.options)
+        const errMessage =
+            `Failed for \`${errType}\` \`multipleOf\` options use case ${n.test} with options ${errOptions}`
+        expect(test).toBe(n.expect, errMessage)
+      })
     })
 
     it('should work when passed other data types', () => {
-      getDataTypeUseCases(currentDataType).forEach(n =>
-        expect(is(n, currentDataType) && matchesSchema(n, { type: currentDataType })).toBe(
-          false,
-          `Failed for \`${n}\` of type \`${typeof n}\` passed when validating for \`${DataType[currentDataType]}\``
-        )
-      )
+      getDataTypeUseCases(currentDataType).forEach(n => {
+        const test = is(n, currentDataType) && matchesSchema(n, { type: currentDataType })
+        const errType = DataType[currentDataType]
+        const errMessage = `Failed for \`${n}\` of type \`${typeof n}\` passed when validating for \`${errType}\``
+        expect(test).toBe(false, errMessage)
+      })
     })
 
     describe('particular use cases', () => {
       it('should work for `integer` use cases', () => {
         const currentDataType = DataType.integer
 
-        integerUseCases.forEach(n =>
-          expect(
-            is(n.test, currentDataType, n.options) &&
+        integerUseCases.forEach(n => {
+          const test = is(n.test, currentDataType, n.options) &&
               matchesSchema(n.test, { type: currentDataType, options: n.options })
-          ).toBe(
-            n.expect,
-            `Failed for \`${DataType[currentDataType]}\` use case ${n.test} with options ${JSON.stringify(n.options)}`
-          )
-        )
+          const errType = DataType[currentDataType]
+          const errOptions = JSON.stringify(n.options)
+          const errMessage = `Failed for \`${errType}\` use case ${n.test} with options ${errOptions}`
+          expect(test).toBe(n.expect, errMessage)
+        })
       })
 
       it('should work for `natural` use cases', () => {
         const currentDataType = DataType.natural
 
-        naturalUseCases.forEach(n =>
-          expect(
-            is(n.test, currentDataType, n.options) &&
+        naturalUseCases.forEach(n => {
+          const test = is(n.test, currentDataType, n.options) &&
               matchesSchema(n.test, { type: currentDataType, options: n.options })
-          ).toBe(
-            n.expect,
-            `Failed for \`${DataType[currentDataType]}\` use case ${n.test} with options ${JSON.stringify(n.options)}`
-          )
-        )
+          const errType = DataType[currentDataType]
+          const errOptions = JSON.stringify(n.options)
+          const errMessage = `Failed for \`${errType}\` use case ${n.test} with options ${errOptions}`
+          expect(test).toBe(n.expect, errMessage)
+        })
       })
     })
   })
 
   describe('for `string` types', () => {
     const currentDataType = DataType.string
+    const errType = DataType[currentDataType]
 
     it('should work for regular use cases', () => {
-      validStringUseCases.forEach(n =>
-        expect(is(n, currentDataType) && matchesSchema(n, { type: currentDataType })).toBe(
-          true,
-          `Failed for valid \`${DataType[currentDataType]}\` test ${n}`
-        )
-      )
-      expect(is('', currentDataType)).toBe(
-        true,
-        `Failed for valid \`${DataType[currentDataType]}\` test on an empty string`
-      )
+      validStringUseCases.forEach(n => {
+        expect(is(n, currentDataType) && matchesSchema(n, { type: currentDataType }))
+          .toBe(true, `Failed for valid \`${DataType[currentDataType]}\` test ${n}`)
+      })
+      expect(is('', currentDataType))
+        .toBe(true, `Failed for valid \`${DataType[currentDataType]}\` test on an empty string`)
     })
 
     it('should work in optional use cases', () => {
-      validStringUseCases.forEach(n =>
-        expect(
-          is(n, currentDataType, { exclEmpty: true }) &&
+      validStringUseCases.forEach(n => {
+        const test = is(n, currentDataType, { exclEmpty: true }) &&
             matchesSchema(n, { type: currentDataType, options: { exclEmpty: true } })
-        ).toBe(true, `Failed for valid \`${DataType[currentDataType]}\` test with options ${n}`)
-      )
-      expect(
-        is('', currentDataType, { exclEmpty: true }) &&
+        expect(test)
+          .toBe(true, `Failed for valid \`${DataType[currentDataType]}\` test with options ${n}`)
+      })
+
+      const emptyStringTest = is('', currentDataType, { exclEmpty: true }) &&
           matchesSchema('', { type: currentDataType, options: { exclEmpty: true } })
-      ).toBe(false, `Failed for valid \`${DataType[currentDataType]}\` test with options on an empty string`)
-      stringPatternUseCases.forEach(n =>
-        expect(
-          is(n.test, currentDataType, n.options) && matchesSchema(n.test, { type: currentDataType, options: n.options })
-        ).toBe(
-          n.expect,
-          `Failed for \`${DataType[currentDataType]}\` pattern use case ${n.test} with options ${JSON.stringify(
-            n.options
-          )}`
-        )
-      )
+      expect(emptyStringTest)
+        .toBe(false, `Failed for valid \`${DataType[currentDataType]}\` test with options on an empty string`)
+
+      stringPatternUseCases.forEach(n => {
+        const test = is(n.test, currentDataType, n.options) &&
+            matchesSchema(n.test, { type: currentDataType, options: n.options })
+
+        const errOptions = JSON.stringify(n.options)
+        const errMessage = `Failed for \`${errType}\` pattern use case ${n.test} with options ${errOptions}`
+        expect(test).toBe(n.expect, errMessage)
+      })
     })
 
     it('should work when passed other data types', () => {
-      getDataTypeUseCases(currentDataType).forEach(n =>
-        expect(is(n, currentDataType) && matchesSchema(n, { type: currentDataType })).toBe(
-          false,
-          `Failed for \`${n}\` of type \`${typeof n}\` passed when validating for \`${DataType[currentDataType]}\``
-        )
-      )
+      getDataTypeUseCases(currentDataType).forEach(n => {
+        const test = is(n, currentDataType) && matchesSchema(n, { type: currentDataType })
+        const errMessage = `Failed for \`${n}\` of type \`${typeof n}\` passed when validating for \`${errType}\``
+        expect(test).toBe(false, errMessage)
+      })
     })
   })
 
   describe('for `boolean` types', () => {
     const currentDataType = DataType.boolean
+    const errType = DataType[currentDataType]
 
     it('should work for regular use cases', () => {
       validBooleanUseCases.forEach(n =>
-        expect(is(n, currentDataType) && matchesSchema(n, { type: currentDataType })).toBe(
-          true,
-          `Failed for valid \`${DataType[currentDataType]}\` test ${n}`
-        )
+        expect(is(n, currentDataType) && matchesSchema(n, { type: currentDataType }))
+          .toBe(true, `Failed for valid \`${DataType[currentDataType]}\` test ${n}`)
       )
     })
 
     it('should work when passed other data types', () => {
-      getDataTypeUseCases(currentDataType).forEach(n =>
-        expect(is(n, currentDataType) && matchesSchema(n, { type: currentDataType })).toBe(
-          false,
-          `Failed for \`${n}\` of type \`${typeof n}\` passed when validating for \`${DataType[currentDataType]}\``
-        )
-      )
+      getDataTypeUseCases(currentDataType).forEach(n => {
+        const errMessage = `Failed for \`${n}\` of type \`${typeof n}\` passed when validating for \`${errType}\``
+        expect(is(n, currentDataType) && matchesSchema(n, { type: currentDataType })).toBe(false, errMessage)
+      })
     })
   })
 
   describe('for `array` types', () => {
     const currentDataType = DataType.array
+    const errType = DataType[currentDataType]
 
     it('should work for regular use cases', () => {
       validArrayUseCases.forEach(n =>
-        expect(is(n.test, currentDataType) && matchesSchema(n.test, { type: currentDataType })).toBe(
-          true,
-          `Failed for valid \`${DataType[currentDataType]}\` test ${n.test}`
-        )
+        expect(is(n.test, currentDataType) && matchesSchema(n.test, { type: currentDataType }))
+          .toBe(true, `Failed for valid \`${DataType[currentDataType]}\` test ${n.test}`)
       )
     })
 
     it('should work in optional use cases', () => {
-      validArrayUseCases.forEach(n =>
-        expect(
-          is(n.test, currentDataType, n.options) && matchesSchema(n.test, { type: currentDataType, options: n.options })
-        ).toBe(
-          true,
-          `Failed for valid \`${DataType[currentDataType]}\` test ${n.test} with options ${JSON.stringify(n.options)}`
-        )
-      )
-      arrayWithOptionsUseCases.forEach(n =>
-        expect(
-          is(n.test, currentDataType, n.options) && matchesSchema(n.test, { type: currentDataType, options: n.options })
-        ).toBe(
-          n.expect,
-          `Failed for invalid \`${DataType[currentDataType]}\` test ${n.test} with options ${JSON.stringify(
-            n.options
-          )}. ${n['describe'] ? n['describe'] : ''}`
-        )
-      )
+      validArrayUseCases.forEach(n => {
+        const test = is(n.test, currentDataType, n.options) &&
+            matchesSchema(n.test, { type: currentDataType, options: n.options })
+        const errOptions = JSON.stringify(n.options)
+        const errMessage = `Failed for valid \`${errType}\` test ${n.test} with options ${errOptions}`
+        expect(test).toBe(true, errMessage)
+      })
+      arrayWithOptionsUseCases.forEach(n => {
+        const test = is(n.test, currentDataType, n.options) &&
+            matchesSchema(n.test, { type: currentDataType, options: n.options })
+        const errOptions = JSON.stringify(n.options)
+        const errMessage =
+            `Failed for invalid \`${errType}\` test ${n.test} with options ${errOptions}. ${n['describe'] || ''}`
+        expect(test).toBe(n.expect, errMessage)
+      })
     })
 
     it('should work in optional schema use cases', () => {
-      arraySchemaUseCases.forEach((n, i) =>
-        expect(
-          is(n.test, currentDataType, n.options) && matchesSchema(n.test, { type: currentDataType, options: n.options })
-        ).toBe(
-          n.expect,
-          `Failed for valid \`${DataType[currentDataType]}\` test ${JSON.stringify(
-            n.test
-          )} with options (${i}) ${JSON.stringify(n.options)}: ${n.description}`
-        )
-      )
+      arraySchemaUseCases.forEach((n, i) => {
+        const test = is(n.test, currentDataType, n.options) &&
+            matchesSchema(n.test, { type: currentDataType, options: n.options })
+        const errTest = JSON.stringify(n.test)
+        const errOptions = JSON.stringify(n.options)
+        const errMessage =
+            `Failed for valid \`${errType}\` test ${errTest} with options (${i}) ${errOptions}: ${n.description}`
+        expect(test).toBe(n.expect, errMessage)
+      })
     })
 
     it('should work when passed other data types', () => {
       getDataTypeUseCases(currentDataType).forEach(n =>
-        expect(is(n, currentDataType) && matchesSchema(n, { type: currentDataType })).toBe(
-          false,
-          `Failed for \`${n}\` of type \`${typeof n}\` passed when validating for \`${DataType[currentDataType]}\``
-        )
+        expect(is(n, currentDataType) && matchesSchema(n, { type: currentDataType }))
+          .toBe(false, `Failed for \`${n}\` of type \`${typeof n}\` passed when validating for \`${errType}\``)
       )
     })
   })
 
   describe('for `function` types', () => {
     const currentDataType = DataType.function
+    const errType = DataType[currentDataType]
 
     it('should work for regular use cases', () => {
       validFunctionUseCases.forEach(n =>
-        expect(is(n, currentDataType) && matchesSchema(n, { type: currentDataType })).toBe(
-          true,
-          `Failed for valid \`${DataType[currentDataType]}\` test ${n}`
-        )
+        expect(is(n, currentDataType) && matchesSchema(n, { type: currentDataType }))
+          .toBe(true, `Failed for valid \`${DataType[currentDataType]}\` test ${n}`)
       )
     })
 
     it('should work when passed other data types', () => {
-      getDataTypeUseCases(currentDataType).forEach(n =>
-        expect(is(n, currentDataType) && matchesSchema(n, { type: currentDataType })).toBe(
-          false,
-          `Failed for \`${n}\` of type \`${typeof n}\` passed when validating for \`${DataType[currentDataType]}\``
-        )
-      )
+      getDataTypeUseCases(currentDataType).forEach(n => {
+        expect(is(n, currentDataType) && matchesSchema(n, { type: currentDataType }))
+          .toBe(false, `Failed for \`${n}\` of type \`${typeof n}\` passed when validating for \`${errType}\``)
+      })
     })
   })
 
   describe('for `object` types', () => {
     const currentDataType = DataType.object
+    const errType = DataType[currentDataType]
 
     it('should work for regular use cases', () => {
       validObjectUseCases.forEach(n =>
-        expect(is(n, currentDataType) && matchesSchema(n, { type: currentDataType })).toBe(
-          true,
-          `Failed for valid \`${DataType[currentDataType]}\` test ${n}`
-        )
+        expect(is(n, currentDataType) && matchesSchema(n, { type: currentDataType }))
+          .toBe(true, `Failed for valid \`${DataType[currentDataType]}\` test ${n}`)
       )
       optionalObjectUseCases.forEach(n =>
         expect(is(n.test, currentDataType)).toBe(false, `Failed for invalid \`${DataType[currentDataType]}\` test ${n}`)
@@ -298,79 +269,70 @@ describe('`is` and `matchesSchema`', () => {
     })
 
     it('should work in optional use cases', () => {
-      optionalObjectUseCases.forEach(n =>
-        expect(
-          is(n.test, currentDataType, n.options) && matchesSchema(n.test, { type: currentDataType, options: n.options })
-        ).toBe(
-          true,
-          `Failed for valid \`${DataType[currentDataType]}\` test ${n.test} with options ${JSON.stringify(n.options)}`
-        )
-      )
+      optionalObjectUseCases.forEach(n => {
+        const test = is(n.test, currentDataType, n.options) &&
+            matchesSchema(n.test, { type: currentDataType, options: n.options })
+        const errOptions = JSON.stringify(n.options)
+        expect(test).toBe(true, `Failed for valid \`${errType}\` test ${n.test} with options ${errOptions}`)
+      })
     })
 
     it('should work in optional schema use cases', () => {
-      objectSchemaUseCases.forEach(n =>
-        expect(
-          is(n.test, currentDataType, n.options) && matchesSchema(n.test, { type: currentDataType, options: n.options })
-        ).toBe(
-          n.expect,
-          `Failed for valid \`${DataType[currentDataType]}\` test ${JSON.stringify(
-            n.test
-          )} with options ${JSON.stringify(n.options)}: ${n.description}`
-        )
-      )
+      objectSchemaUseCases.forEach(n => {
+        const test = is(n.test, currentDataType, n.options) &&
+            matchesSchema(n.test, { type: currentDataType, options: n.options })
+        const errTest = JSON.stringify(n.test)
+        const errOptions = JSON.stringify(n.options)
+        const errMessage =
+            `Failed for valid \`${errType}\` test ${errTest} with options ${errOptions}: ${n.description}`
+        expect(test).toBe(n.expect, errMessage)
+      })
     })
 
     it('should work when passed other data types', () => {
       getDataTypeUseCases(currentDataType).forEach(n =>
-        expect(is(n, currentDataType) && matchesSchema(n, { type: currentDataType })).toBe(
-          false,
-          `Failed for \`${n}\` of type \`${typeof n}\` passed when validating for \`${DataType[currentDataType]}\``
-        )
+        expect(is(n, currentDataType) && matchesSchema(n, { type: currentDataType }))
+          .toBe(false, `Failed for \`${n}\` of type \`${typeof n}\` passed when validating for \`${errType}\``)
       )
     })
   })
 
   describe('for `undefined` types', () => {
     const currentDataType = DataType.undefined
+    const errType = DataType[currentDataType]
 
     it('should work for regular use cases', () => {
       validUndefinedUseCases.forEach(n =>
-        expect(is(n, currentDataType) && matchesSchema(n, { type: currentDataType })).toBe(
-          true,
-          `Failed for valid \`${DataType[currentDataType]}\` test ${n}`
-        )
+        expect(is(n, currentDataType) && matchesSchema(n, { type: currentDataType }))
+          .toBe(true, `Failed for valid \`${DataType[currentDataType]}\` test ${n}`)
       )
     })
 
     it('should work when passed other data types', () => {
       getDataTypeUseCases(currentDataType).forEach(n =>
-        expect(is(n, currentDataType) && matchesSchema(n, { type: currentDataType })).toBe(
-          false,
-          `Failed for \`${n}\` of type \`${typeof n}\` passed when validating for \`${DataType[currentDataType]}\``
-        )
+        expect(is(n, currentDataType) && matchesSchema(n, { type: currentDataType }))
+          .toBe(false, `Failed for \`${n}\` of type \`${typeof n}\` passed when validating for \`${errType}\``)
       )
     })
   })
 
   describe('for `any` types', () => {
     const currentDataType = DataType.any
+    const errType = DataType[currentDataType]
 
     it('should work for regular use cases', () => {
       getDataTypeUseCases(currentDataType).forEach(n =>
-        expect(is(n, currentDataType) && matchesSchema(n, { type: currentDataType })).toBe(
-          true,
-          `Failed for \`${n}\` of type \`${typeof n}\` passed when validating for \`${DataType[currentDataType]}\``
-        )
+        expect(is(n, currentDataType) && matchesSchema(n, { type: currentDataType }))
+          .toBe(true, `Failed for \`${n}\` of type \`${typeof n}\` passed when validating for \`${errType}\``)
       )
-      expect(is(null, currentDataType)).toBe(false, `Failed for valid \`${DataType[currentDataType]}\` test null`)
+      expect(is(null, currentDataType))
+        .toBe(false, `Failed for valid \`${DataType[currentDataType]}\` test null`)
     })
 
     it('should work in optional use cases', () => {
-      expect(
-        is(null, currentDataType, { allowNull: true }) &&
+      const test = is(null, currentDataType, { allowNull: true }) &&
           matchesSchema(null, { type: currentDataType, options: { allowNull: true } })
-      ).toBe(true, `Failed for valid \`${DataType[currentDataType]}\` test null`)
+      expect(test).toBe(true, `Failed for valid \`${DataType[currentDataType]}\` test null`)
     })
   })
 

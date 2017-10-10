@@ -2,7 +2,7 @@
 
 import { DataType } from '../is.func'
 import { DATATYPE } from '../is.internal'
-import { dataTypeKeys } from './test-cases/test-cases.spec';
+import { dataTypeKeys } from './test-cases/test-cases.spec'
 
 describe('`DataType` parity', () => {
   it(`should have the same values`, () => {
