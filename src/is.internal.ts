@@ -42,7 +42,7 @@ type DT = DataType & DATATYPE
 export function isMultipleOf(val: number | undefined, multipleOf: number | undefined): boolean {
   return (
     multipleOf === 0 ||
-    (typeof val == 'number' &&
+    (typeof val === 'number' &&
       /**
      * The modulus operator here excludes both infinities, i.e.,
      * isNaN(Infinity % 1) === true
@@ -94,7 +94,7 @@ export function testNumberWithinBounds(
  */
 export function isPrimitive(val: any): boolean {
   const t = typeof val
-  return val == null || (t != 'function' && t != 'object')
+  return val === null || (t !== 'function' && t !== 'object')
 }
 
 /**
@@ -132,7 +132,7 @@ export function matchesSchema(_val: any, schema: isTypeSchema | isTypeSchema[]):
         let _reqdValid = true
 
         /** Extract the properties to test for into an array */
-        const _propKeys: string[] = typeof s.props == 'object' ? Object.keys(s.props) : []
+        const _propKeys: string[] = typeof s.props === 'object' ? Object.keys(s.props) : []
 
         /** Begin tests relevant to properties */
         if (_propKeys.length > 0) {
@@ -164,9 +164,9 @@ export function matchesSchema(_val: any, schema: isTypeSchema | isTypeSchema[]):
          */
         let _itemsValid = true
         /** If `type` is Any, check whether value is array. If so, check items */
-        const inferredArray = _type == <DT>DATATYPE.any && Array.isArray(_val)
+        const inferredArray = _type === <DT>DATATYPE.any && Array.isArray(_val)
 
-        if ((_type == <DT>DATATYPE.array || inferredArray) && _typeValid && s.items !== undefined) {
+        if ((_type === <DT>DATATYPE.array || inferredArray) && _typeValid && s.items !== undefined) {
           _itemsValid = (_val as any[]).every(i => matchesSchema(i, s.items as isTypeSchema | isTypeSchema[]))
         }
 
@@ -205,12 +205,14 @@ export function isOneOfMultipleTypes(val: any, type: DataType | DataType[], opti
  * @returns {*}
  */
 export function extendObject(dest: any, ...sources: any[]): any {
+  /** Triple equals below is okay because we're also checking for undefined */
+  // tslint:disable-next-line triple-equals
   if (dest == null) {
     throw TypeError('Cannot convert undefined or null to object')
   }
 
   for (let source of sources) {
-    if (source != null) {
+    if (source !== null) {
       for (let key in source) {
         if (source.hasOwnProperty(key)) {
           dest[key] = source[key]
@@ -240,29 +242,29 @@ export function isValidOptions(_op: isOptions | undefined): boolean {
    */
   return Object.keys(op).every(o => {
     /** DataType case */
-    if (o == 'type') {
+    if (o === 'type') {
       return validDataType(op[o])
     }
 
     /** string cases */
-    if (o == 'pattern' || o == 'patternFlags') {
-      return typeof op[o] == 'string'
+    if (o === 'pattern' || o === 'patternFlags') {
+      return typeof op[o] === 'string'
     }
 
     /** Boolean cases */
-    if (o == 'exclEmpty' || o == 'allowNull' || o == 'arrayAsObject') {
-      return typeof op[o] == 'boolean'
+    if (o === 'exclEmpty' || o === 'allowNull' || o === 'arrayAsObject') {
+      return typeof op[o] === 'boolean'
     }
 
     /** Number cases */
-    if (o == 'min' || o == 'max' || o == 'exclMin' || o == 'exclMax' || o == 'multipleOf') {
+    if (o === 'min' || o === 'max' || o === 'exclMin' || o === 'exclMax' || o === 'multipleOf') {
       /** The non-null assertion below is because TS is having trouble inferring type  */
       // tslint:disable-next-line no-non-null-assertion
-      return typeof op[o] == 'number' && !isNaN(op[o]!)
+      return typeof op[o] === 'number' && !isNaN(op[o]!)
     }
 
     /** Schema case */
-    if (o == 'schema') {
+    if (o === 'schema') {
       return (
         op[o] === null ||
         matchesSchema(op[o], {
@@ -297,7 +299,7 @@ export function isValidOptions(_op: isOptions | undefined): boolean {
  */
 export function validDataType(val: number | string | (number | string)[] | undefined): boolean {
   function check(val: number | string | undefined) {
-    return typeof val == 'number' && val in DataType
+    return typeof val === 'number' && val in DataType
   }
 
   return Array.isArray(val) ? val.every(check) : check(val)
