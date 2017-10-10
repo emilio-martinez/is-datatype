@@ -8,6 +8,7 @@
     "precommit": "lint-staged",
     "commitmsg": "validate-commit-msg",
     "lint": "npx tslint --type-check --project tsconfig.json --format verbose",
+    "lint:watch": "nodemon -w src -w tslint.json -e 'ts,js,json' -x 'npm run lint -- --force'",
     "pretest": "npm run clean:test",
     "test": "node_modules/.bin/karma start --single-run",
     "pretest:watch": "npm run pretest",
