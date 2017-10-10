@@ -1,5 +1,5 @@
 import { isPrimitive } from '../is.internal'
-import { getDataTypeUseCases } from './test-cases/test-cases.spec'
+import { dataTypeKeys, getDataTypeUseCases } from './test-cases/test-cases.spec'
 import { DataType } from '../is.func'
 
 describe('`isPrimitive` function', () => {
@@ -9,9 +9,6 @@ describe('`isPrimitive` function', () => {
    * and all non-primitives to have indexes over 10.
    */
   const PRIMITIVE_CUTOFF = 10
-  const dataTypeKeys = Object.keys(DataType)
-    .map(k => parseInt(k, 10))
-    .filter(k => typeof k === 'number')
   const nonPrimitiveKeys = dataTypeKeys.filter(i => i > PRIMITIVE_CUTOFF)
   const primitiveKeys = dataTypeKeys.filter(i => i < PRIMITIVE_CUTOFF)
 
