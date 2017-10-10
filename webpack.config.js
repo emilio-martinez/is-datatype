@@ -5,7 +5,7 @@ const CompressionPlugin = require('compression-webpack-plugin')
 const SRC_DIR = path.resolve(__dirname, './src')
 const DIST_DIR = path.resolve(__dirname, './dist')
 
-module.exports = function(_env) {
+module.exports = function (_env) {
   const env = {
     min: !!_env && !!_env.min
   }
@@ -80,18 +80,18 @@ module.exports = function(_env) {
       new webpack.optimize.UglifyJsPlugin(
         env.min
           ? {
-              compress: { warnings: false, screw_ie8: true },
-              output: { comments: false },
-              sourceMap: true,
-              mangle: { screw_ie8: true }
-            }
+            compress: { warnings: false, screw_ie8: true },
+            output: { comments: false },
+            sourceMap: true,
+            mangle: { screw_ie8: true }
+          }
           : {
-              compress: false,
-              output: { comments: false, indent_level: 2 },
-              sourceMap: true,
-              mangle: false,
-              beautify: true
-            }
+            compress: false,
+            output: { comments: false, indent_level: 2 },
+            sourceMap: true,
+            mangle: false,
+            beautify: true
+          }
       ),
       env.min ? new CompressionPlugin({ test: /\.js/, asset: '[path].gz[query]' }) : null
     ].filter(v => !!v),
