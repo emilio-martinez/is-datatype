@@ -7,8 +7,9 @@
   "scripts": {
     "precommit": "lint-staged",
     "commitmsg": "validate-commit-msg",
-    "lint": "npx tslint --type-check --project tsconfig.json --format verbose",
-    "lint:watch": "nodemon -w src -w tslint.json -e 'ts,js,json' -x 'npm run lint -- --force'",
+    "lint:tslint": "node_modules/.bin/tslint --type-check --project tsconfig.json --format verbose",
+    "lint:standard": "node_modules/.bin/standard --parser typescript-eslint-parser --plugin typescript --verbose",
+    "lint:watch": "nodemon -w src -w tslint.json -e 'ts,js,json' -x 'npm run lint:tslint -- --force && npm run lint:standard'",
     "pretest": "npm run clean:test",
     "test": "node_modules/.bin/karma start --single-run",
     "pretest:watch": "npm run pretest",
@@ -52,6 +53,7 @@
     "babel-preset-env": "^1.6.0",
     "compression-webpack-plugin": "^1.0.1",
     "coveralls": "^3.0.0",
+    "eslint-plugin-typescript": "^0.8.0",
     "husky": "^0.14.3",
     "jasmine-core": "^2.8.0",
     "karma": "^1.7.1",
@@ -64,10 +66,13 @@
     "np": "^2.16.0",
     "prettier": "^1.7.0",
     "rimraf": "^2.6.2",
+    "standard": "^10.0.3",
     "ts-loader": "^2.3.7",
     "tslib": "^1.7.1",
     "tslint": "^5.7.0",
+    "tslint-config-airbnb": "^5.3.0",
     "typescript": "^2.5.2",
+    "typescript-eslint-parser": "^8.0.0",
     "validate-commit-msg": "^2.14.0",
     "webpack": "^3.6.0"
   }
