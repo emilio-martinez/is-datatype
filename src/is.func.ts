@@ -194,7 +194,7 @@ export function is(val: any, type: DataType, options?: isOptions): boolean {
     /** Immediately return false is `multipleOf` is passed, but it's not a multiple of 1. */
     if (!isMultipleOf(_options.multipleOf, 1)) return false
 
-    let numOptions: isOptions = { multipleOf: _options.multipleOf === 0 ? 1 : _options.multipleOf }
+    const numOptions: isOptions = { multipleOf: _options.multipleOf === 0 ? 1 : _options.multipleOf }
     if (<DT>type === DATATYPE.natural)
       numOptions.min = _options.min !== undefined && _options.min >= 0 ? _options.min : 0
 

@@ -8,7 +8,8 @@
         "no-non-null-assertion": true,
         "no-parameter-reassignment": true,
         "no-unnecessary-type-assertion": true,
-        "triple-equals": true
+        "triple-equals": true,
+        "prefer-const": true
     },
     "rulesDirectory": []
 }

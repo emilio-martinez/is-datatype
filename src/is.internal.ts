@@ -185,7 +185,7 @@ export function matchesSchema(_val: any, schema: isTypeSchema | isTypeSchema[]):
  */
 export function isOneOfMultipleTypes(val: any, type: DataType | DataType[], options?: isOptions): boolean {
   /** Coerce `DataType` into an array and filter out non-`DataType` items */
-  let types = (Array.isArray(type) ? type : [type]).filter(validDataType)
+  const types = (Array.isArray(type) ? type : [type]).filter(validDataType)
 
   /**
    * If no length, return false
@@ -211,9 +211,9 @@ export function extendObject(dest: any, ...sources: any[]): any {
     throw TypeError('Cannot convert undefined or null to object')
   }
 
-  for (let source of sources) {
+  for (const source of sources) {
     if (source !== null) {
-      for (let key in source) {
+      for (const key in source) {
         if (source.hasOwnProperty(key)) {
           dest[key] = source[key]
         }
