@@ -166,8 +166,7 @@ const isDefaultOptions: isOptions = {
  * @param {isOptions} [options]
  * @returns {boolean}  Whether the validation is true or not
  */
-export function is(val: undefined, type: DataType): boolean
-export function is(val: boolean, type: DataType): boolean
+export function is(val: undefined | boolean, type: DataType): boolean
 export function is(val: number, type: DataType, options?: isOptionsNumber): boolean
 export function is(val: string, type: DataType, options?: isOptionsString): boolean
 export function is(val: any[], type: DataType, options?: isOptionsArray): boolean

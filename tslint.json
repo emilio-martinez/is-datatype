@@ -11,7 +11,10 @@
         "triple-equals": true,
         "prefer-const": true,
         "strict-boolean-expressions": [true, "allow-undefined-union", "allow-boolean-or-undefined"],
-        "variable-name": [true, "ban-keywords", "check-format"]
+        "variable-name": [true, "ban-keywords", "check-format"],
+        "number-literal-format": true,
+        "typedef-whitespace": true,
+        "unified-signatures": true
     },
     "rulesDirectory": []
 }
