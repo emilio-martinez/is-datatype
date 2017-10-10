@@ -20,11 +20,9 @@
     "clean:dist": "node_modules/.bin/rimraf dist",
     "clean": "npm run clean:test & npm run clean:dist",
     "dev": "npm run clean:dist && nodemon --watch 'src' -e 'ts' -x 'node_modules/.bin/tsc'",
-    "format:base": "node_modules/.bin/prettier --print-width 120 --no-semi --single-quote --parser typescript --write",
-    "format": "npm run format:base -- \"src/**/*.ts\"",
     "prebuild": "npm run clean:dist",
     "build:compile": "node_modules/.bin/tsc",
-    "build:format": "npm run format:base -- \"dist/*.js\"",
+    "build:format": "node_modules/.bin/prettier --print-width 120 --no-semi --single-quote --write 'dist/*.js'",
     "build:bundle": "node_modules/.bin/webpack --env.min && node_modules/.bin/webpack",
     "build": "npm run build:compile && npm run build:format && npm run build:bundle",
     "release": "./release-check.sh && node_modules/.bin/np && npm logout"
