@@ -132,16 +132,17 @@ export function matchesSchema(_val: any, schema: isTypeSchema | isTypeSchema[]):
         let _reqdValid = true
 
         /** Extract the properties to test for into an array */
-        const _propKeys: string[] = typeof s.props === 'object' ? Object.keys(s.props) : []
+        const sProps = s.props && typeof s.props === 'object' ? s.props : {};
+        const sPropKeys: string[] = Object.keys(sProps)
 
         /** Begin tests relevant to properties */
-        if (_propKeys.length > 0) {
+        if (sPropKeys.length > 0) {
           /**
            * Get all keys that are required from the schema,
            * and then test for required properties.
            */
-          _reqdValid = _propKeys
-            .filter(p => s.props && s.props[p] && s.props[p].required === true)
+          _reqdValid = sPropKeys
+            .filter(p => sProps[p].required === true)
             .every(r => _val[r] !== undefined)
 
           /**
@@ -153,7 +154,7 @@ export function matchesSchema(_val: any, schema: isTypeSchema | isTypeSchema[]):
            * If `p`, the property, is not an object, it won't be validated against.
            * However, if it was required, that will have been caught by the check above.
            */
-          _propsValid = _propKeys.every(
+          _propsValid = sPropKeys.every(
             p => (!!s.props && _val !== undefined && _val[p] !== undefined ? matchesSchema(_val[p], s.props[p]) : true)
           )
         }
@@ -192,7 +193,7 @@ export function isOneOfMultipleTypes(val: any, type: DataType | DataType[], opti
    * Else if `types` contain any, return true
    * Else test against `is`
    */
-  return types.length ? types.indexOf(<DT>DATATYPE.any) >= 0 || types.some(n => is(val, n, options)) : false
+  return types.length > 0 ? types.indexOf(<DT>DATATYPE.any) >= 0 || types.some(n => is(val, n, options)) : false
 }
 
 /**

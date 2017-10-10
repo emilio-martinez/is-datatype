@@ -9,7 +9,8 @@
         "no-parameter-reassignment": true,
         "no-unnecessary-type-assertion": true,
         "triple-equals": true,
-        "prefer-const": true
+        "prefer-const": true,
+        "strict-boolean-expressions": [true, "allow-undefined-union", "allow-boolean-or-undefined"]
     },
     "rulesDirectory": []
 }
