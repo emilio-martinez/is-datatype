@@ -1,0 +1,4 @@
+{
+  "extends": ["@commitlint/config-angular"],
+  "scope-enum": ["package", "is", "datatype", "karma", "webpack"]
+}
