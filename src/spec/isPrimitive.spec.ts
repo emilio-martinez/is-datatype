@@ -1,6 +1,7 @@
+/* eslint-env jasmine */
+
 import { isPrimitive } from '../is.internal'
-import { getDataTypeUseCases } from './test-cases/test-cases.spec'
-import { DataType } from '../is.func'
+import { dataTypeKeys, getDataTypeUseCases } from './test-cases/test-cases.spec'
 
 describe('`isPrimitive` function', () => {
   /**
@@ -9,13 +10,10 @@ describe('`isPrimitive` function', () => {
    * and all non-primitives to have indexes over 10.
    */
   const PRIMITIVE_CUTOFF = 10
-  const dataTypeKeys = Object.keys(DataType)
-    .map(k => parseInt(k, 10))
-    .filter(k => typeof k === 'number')
   const nonPrimitiveKeys = dataTypeKeys.filter(i => i > PRIMITIVE_CUTOFF)
   const primitiveKeys = dataTypeKeys.filter(i => i < PRIMITIVE_CUTOFF)
 
-  it('should return true when primitive value', function() {
+  it('should return true when primitive value', () => {
     /** We exclude the non-primitive keys, so only primitives should remain */
     getDataTypeUseCases(nonPrimitiveKeys).forEach(n =>
       expect(isPrimitive(n)).toBeTruthy(
@@ -24,7 +22,7 @@ describe('`isPrimitive` function', () => {
     )
   })
 
-  it('should return false when not primitive value', function() {
+  it('should return false when not primitive value', () => {
     /** We exclude the primitive keys, so only non-primitives should remain */
     getDataTypeUseCases(primitiveKeys).forEach(n =>
       expect(isPrimitive(n)).toBeFalsy(

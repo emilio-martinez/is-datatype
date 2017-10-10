@@ -1,12 +1,12 @@
+/* eslint-env jasmine */
+
 import { DataType } from '../is.func'
 import { DATATYPE } from '../is.internal'
+import { dataTypeKeys } from './test-cases/test-cases.spec'
 
 describe('`DataType` parity', () => {
   it(`should have the same values`, () => {
     const testedTypes = []
-    const typesToTest = Object.keys(DataType)
-      .map(k => parseInt(k, 10))
-      .filter(k => !isNaN(k))
 
     expect(DataType.any).toBe(DATATYPE.any as number, 'Failed for `any`')
     testedTypes.push(DataType.any)
@@ -30,8 +30,9 @@ describe('`DataType` parity', () => {
     testedTypes.push(DataType.array)
 
     /** This test should validate that all types have been accounted for */
-    expect(typesToTest.every(k => testedTypes.indexOf(k) >= 0)).toBeTruthy(
-      `There's a type that hasn't been accounted for.`
-    )
+    expect(Object.keys(DataType).length / 2)
+      .toBe(dataTypeKeys.length, '`dataTypeKeys` has an incorrect length')
+    expect(dataTypeKeys.every(k => testedTypes.indexOf(k) >= 0))
+      .toBeTruthy(`There's a type that hasn't been accounted for.`)
   })
 })

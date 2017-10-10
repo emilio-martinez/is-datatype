@@ -77,7 +77,6 @@ export function testNumberWithinBounds(
   exclMax: number | undefined
 ): boolean {
   return (
-    // prettier-ignore
     (min !== undefined && val >= min) &&
     (max !== undefined && val <= max) &&
     (exclMin === NEG_INF || (exclMin !== undefined && val > exclMin)) &&

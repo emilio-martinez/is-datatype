@@ -1,6 +1,7 @@
-import { DataType, isOptions } from '../../is.func'
-
+/* eslint-env jasmine */
 // tslint:disable object-literal-sort-keys
+
+import { DataType, isOptions } from '../../is.func'
 
 export const validNumberUseCases = [37, 3.14, Math.LN2, Infinity, Number.POSITIVE_INFINITY, Number(1)]
 
@@ -8,7 +9,6 @@ export const validNumberNegativeUseCases = [Number.NEGATIVE_INFINITY, -37, -3.14
 
 export const invalidNumberUseCases = [NaN, Number.NaN]
 
-// prettier-ignore
 export const numberRangeUseCases = [
   // `max` and `exclMax` tests against 0
   { test: 0,      options: { max: 0 },                expect: true },
@@ -90,7 +90,6 @@ export const numberRangeUseCases = [
   { test: -3.13,  options: { min: -3.13, exclMin: -3.13, someOtherProp: true },  expect: false },
 ];
 
-// prettier-ignore
 export const multipleOfUseCases = [
   { test: Number.POSITIVE_INFINITY,
                     options: { multipleOf: 1 },     expect: false },
@@ -115,7 +114,6 @@ export const multipleOfUseCases = [
   { test: 6.28,     options: { multipleOf: -3.14, someOtherProp: true }, expect: true }
 ];
 
-// prettier-ignore
 export const integerUseCases = [
   { test: 21,             options: {},  expect: true },
   { test: 4,              options: {},  expect: true },
@@ -138,7 +136,6 @@ export const integerUseCases = [
   { test: 3.14,           options: { multipleOf: 3.14, someOtherProp: true },  expect: false }
 ];
 
-// prettier-ignore
 export const naturalUseCases = [
   { test: 21,             options: {},  expect: true },
   { test: 4,              options: {},  expect: true },
@@ -175,7 +172,6 @@ export const validStringUseCases = [
   String('abc')
 ]
 
-// prettier-ignore
 export const stringPatternUseCases = [
   { test: 'cdbbdbsbz',      options: { pattern: 'd(b+)d', patternFlags: 'g' },  expect: true },
   { test: 'hi there!',      options: { pattern: '!' },                          expect: true },
@@ -193,7 +189,6 @@ export const stringPatternUseCases = [
 
 export const validBooleanUseCases = [true, false, Boolean(true)]
 
-// prettier-ignore
 export const validArrayUseCases = [
   { test: [1, 2, 4],              options: { type: DataType.number } },
   { test: [true, false],          options: { type: DataType.boolean } },
@@ -206,7 +201,6 @@ export const validArrayUseCases = [
   { test: [[1], [2], [4]],        options: { type: DataType.array, someOtherProp: true } }
 ];
 
-// prettier-ignore
 export const arrayWithOptionsUseCases = [
   { test: [1, '2', 4],        options: { type: DataType.number },     expect: false },
   { test: [true, 'false'],    options: { type: DataType.boolean },    expect: false },

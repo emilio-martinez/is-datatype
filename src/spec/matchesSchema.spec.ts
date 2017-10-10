@@ -1,8 +1,10 @@
-import { DataType } from '../is.func'
-import { isTypeSchema } from '../is.interfaces'
-import { matchesSchema } from '../is.internal'
-
+/* eslint-env jasmine */
 // tslint:disable object-literal-sort-keys
+
+import { DataType } from '../is.func'
+import { matchesSchema } from '../is.internal'
+// eslint-disable-next-line no-unused-vars
+import { isTypeSchema } from '../is.interfaces'
 
 describe(`\`matchesSchema\` function`, () => {
   it(`should handle validating undefined`, () => {
@@ -35,8 +37,8 @@ describe(`\`matchesSchema\` function`, () => {
     )
   })
 
-  it(`should use \`any\  as a \`DataType\` when no \`type\` is present`, () => {
-    const testCases: any[] = [0, 100, -20, 'qwerty', ['qwerty', function() {}], { prop: 'val' }, undefined, null, NaN]
+  it(`should use \`any\`  as a \`DataType\` when no \`type\` is present`, () => {
+    const testCases: any[] = [0, 100, -20, 'qwerty', ['qwerty', function () {}], { prop: 'val' }, undefined, null, NaN]
 
     testCases.forEach(n => expect(matchesSchema(n, {})).toBe(true, `Failed for ${n}`))
   })
@@ -198,6 +200,6 @@ describe(`\`matchesSchema\` function`, () => {
   })
 })
 
-function testMatchesSchema(val: any, schema: isTypeSchema | isTypeSchema[], testBool: boolean) {
+function testMatchesSchema (val: any, schema: isTypeSchema | isTypeSchema[], testBool: boolean) {
   expect(matchesSchema(val, schema)).toBe(testBool)
 }

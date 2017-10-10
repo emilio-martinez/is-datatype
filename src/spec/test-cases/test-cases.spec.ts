@@ -1,3 +1,5 @@
+/* eslint-env jasmine */
+
 import { DataType } from '../../is.func'
 import {
   invalidNumberUseCases,
@@ -43,6 +45,13 @@ export function getDataTypeUseCases(
     .map(k => testCaseMap[k])
     .reduce((a, b) => a.concat(b), [])
 }
+
+/**
+ * An array with all the non-named DataType keys.
+ */
+export const dataTypeKeys: number[] = Object.keys(DataType)
+  .map(k => parseInt(k, 10))
+  .filter(k => typeof k === 'number' && !isNaN(k))
 
 export * from './non-schema.spec'
 export * from './schema.spec'
