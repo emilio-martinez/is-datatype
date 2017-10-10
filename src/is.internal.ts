@@ -1,4 +1,4 @@
-import { is, DataType } from './is.func'
+import { DataType, is } from './is.func'
 import { isOptions, isTypeSchema } from './is.interfaces'
 
 /**

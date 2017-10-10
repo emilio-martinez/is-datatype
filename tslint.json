@@ -31,7 +31,14 @@
         "linebreak-style": [true, "LF"],
         "max-line-length": [true, 120],
         "no-duplicate-imports": true,
-        "object-literal-sort-keys": [true, "ignore-case"]
+        "object-literal-sort-keys": [true, "ignore-case"],
+        "arrow-return-shorthand": [true, "multiline"],
+        "import-spacing": true,
+        "interface-over-type-literal": true,
+        "no-consecutive-blank-lines": true,
+        "no-irregular-whitespace": true,
+        "no-unnecessary-initializer": true,
+        "ordered-imports": [true, { "import-sources-order": "case-insensitive", "named-imports-order": "case-insensitive" }]
     },
     "rulesDirectory": []
 }
