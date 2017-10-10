@@ -174,12 +174,12 @@ export function is(val: Object, type: DataType, options?: isOptionsObject): bool
 export function is(val: any, type: DataType, options?: isOptions): boolean {
   /** Validate `type` */
   if (!validDataType(type)) {
-    throw 'Provided invalid `type` argument'
+    throw Error('Provided invalid `type` argument')
   }
 
   /** Validate `options` */
   if (!isValidOptions(options)) {
-    throw 'Provided invalid options object:' + JSON.stringify(options)
+    throw Error('Provided invalid options object:' + JSON.stringify(options))
   }
 
   /** Combine passed options with default options. */

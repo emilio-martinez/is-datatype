@@ -15,7 +15,13 @@
         "number-literal-format": true,
         "typedef-whitespace": true,
         "unified-signatures": true,
-        "curly": [true, "ignore-same-line"]
+        "curly": [true, "ignore-same-line"],
+        "no-console": true,
+        "no-debugger": true,
+        "no-construct": true,
+        "no-duplicate-variable": [true, "check-parameters"],
+        "no-object-literal-type-assertion": true,
+        "no-string-throw": true
     },
     "rulesDirectory": []
 }
