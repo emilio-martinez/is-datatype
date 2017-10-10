@@ -184,7 +184,7 @@ export function is(val: any, type: DataType, options?: isOptions): boolean {
   }
 
   /** Combine passed options with default options. */
-  const _options: isOptions = extendObject({}, isDefaultOptions, options)
+  const opts: isOptions = extendObject({}, isDefaultOptions, options)
 
   /**
    * Numeric particular use cases
@@ -192,13 +192,13 @@ export function is(val: any, type: DataType, options?: isOptions): boolean {
    */
   if (<DT>type === DATATYPE.integer || <DT>type === DATATYPE.natural) {
     /** Immediately return false is `multipleOf` is passed, but it's not a multiple of 1. */
-    if (!isMultipleOf(_options.multipleOf, 1)) return false
+    if (!isMultipleOf(opts.multipleOf, 1)) return false
 
-    const numOptions: isOptions = { multipleOf: _options.multipleOf === 0 ? 1 : _options.multipleOf }
+    const numOptions: isOptions = { multipleOf: opts.multipleOf === 0 ? 1 : opts.multipleOf }
     if (<DT>type === DATATYPE.natural)
-      numOptions.min = _options.min !== undefined && _options.min >= 0 ? _options.min : 0
+      numOptions.min = opts.min !== undefined && opts.min >= 0 ? opts.min : 0
 
-    return is(val, <DT>DATATYPE.number, extendObject({}, _options, numOptions))
+    return is(val, <DT>DATATYPE.number, extendObject({}, opts, numOptions))
   }
 
   /**
@@ -207,7 +207,7 @@ export function is(val: any, type: DataType, options?: isOptions): boolean {
    * If it's allowed, check for `any` or `object`
    */
   if (val === null) {
-    return !_options.allowNull ? false : <DT>type === DATATYPE.any || <DT>type === DATATYPE.object
+    return !opts.allowNull ? false : <DT>type === DATATYPE.any || <DT>type === DATATYPE.object
   }
 
   /**
@@ -232,8 +232,8 @@ export function is(val: any, type: DataType, options?: isOptions): boolean {
    */
   if (<DT>type === DATATYPE.object) {
     return (
-      (!Array.isArray(val) || _options.arrayAsObject === true) &&
-      (_options.schema === null || matchesSchema(val, _options.schema as isTypeSchema | isTypeSchema[]))
+      (!Array.isArray(val) || opts.arrayAsObject === true) &&
+      (opts.schema === null || matchesSchema(val, opts.schema as isTypeSchema | isTypeSchema[]))
     )
   }
 
@@ -243,18 +243,18 @@ export function is(val: any, type: DataType, options?: isOptions): boolean {
    */
   if (<DT>type === DATATYPE.array) {
     return (
-      (val as any[]).every(n => isOneOfMultipleTypes(n, _options.type as DataType | DataType[])) &&
-      (_options.schema === null || matchesSchema(val, _options.schema as isTypeSchema | isTypeSchema[])) &&
-      testNumberWithinBounds((val as any[]).length, _options.min, _options.max, _options.exclMin, _options.exclMax)
+      (val as any[]).every(n => isOneOfMultipleTypes(n, opts.type as DataType | DataType[])) &&
+      (opts.schema === null || matchesSchema(val, opts.schema as isTypeSchema | isTypeSchema[])) &&
+      testNumberWithinBounds((val as any[]).length, opts.min, opts.max, opts.exclMin, opts.exclMax)
     )
   }
 
   /** If type is `string` and empty is disallowed, check for an empty string. */
   if (<DT>type === DATATYPE.string) {
     return (
-      (val.length > 0 || !_options.exclEmpty) &&
-      typeof _options.pattern === 'string' &&
-      new RegExp(_options.pattern, _options.patternFlags).test(val)
+      (val.length > 0 || !opts.exclEmpty) &&
+      typeof opts.pattern === 'string' &&
+      new RegExp(opts.pattern, opts.patternFlags).test(val)
     )
   }
 
@@ -267,8 +267,8 @@ export function is(val: any, type: DataType, options?: isOptions): boolean {
    */
   if (<DT>type === DATATYPE.number) {
     return (
-      testNumberWithinBounds(val, _options.min, _options.max, _options.exclMin, _options.exclMax) &&
-      isMultipleOf(val, _options.multipleOf)
+      testNumberWithinBounds(val, opts.min, opts.max, opts.exclMin, opts.exclMax) &&
+      isMultipleOf(val, opts.multipleOf)
     )
   }
 

@@ -101,11 +101,11 @@ export function isPrimitive(val: any): boolean {
  * Tests an object against an object schema.
  *
  * @export
- * @param {*} _val
+ * @param {*} val
  * @param {(isTypeSchema|Array<isTypeSchema>)} schema
  * @returns {boolean}
  */
-export function matchesSchema(_val: any, schema: isTypeSchema | isTypeSchema[]): boolean {
+export function matchesSchema(val: any, schema: isTypeSchema | isTypeSchema[]): boolean {
   return (
     (Array.isArray(schema) ? schema : [schema])
       /** Test every schema until at least one of them matches */
@@ -114,22 +114,22 @@ export function matchesSchema(_val: any, schema: isTypeSchema | isTypeSchema[]):
         if (s.type !== undefined && !validDataType(s.type)) return false
 
         /** Cache the type. Use `any` if none is present */
-        const _type: DataType | DataType[] = s.type === undefined ? <DT>DATATYPE.any : s.type
+        const sType: DataType | DataType[] = s.type === undefined ? <DT>DATATYPE.any : s.type
 
         /** Test if any of the data types matches */
-        const _typeValid = isOneOfMultipleTypes(_val, _type, s.options)
+        const sTypeValid = isOneOfMultipleTypes(val, sType, s.options)
 
         /**
          * Whether the properties match what's reflected in the schema.
          * Initially assumed as `true`.
          */
-        let _propsValid = true
+        let sPropsValid = true
 
         /**
          * Whether the required properties are present.
          * Initially assumed as `true`.
          */
-        let _reqdValid = true
+        let sRequiredValid = true
 
         /** Extract the properties to test for into an array */
         const sProps = s.props && typeof s.props === 'object' ? s.props : {};
@@ -141,9 +141,9 @@ export function matchesSchema(_val: any, schema: isTypeSchema | isTypeSchema[]):
            * Get all keys that are required from the schema,
            * and then test for required properties.
            */
-          _reqdValid = sPropKeys
+          sRequiredValid = sPropKeys
             .filter(p => sProps[p].required === true)
-            .every(r => _val[r] !== undefined)
+            .every(r => val[r] !== undefined)
 
           /**
            * Iterate over the property keys.
@@ -154,24 +154,25 @@ export function matchesSchema(_val: any, schema: isTypeSchema | isTypeSchema[]):
            * If `p`, the property, is not an object, it won't be validated against.
            * However, if it was required, that will have been caught by the check above.
            */
-          _propsValid = sPropKeys.every(
-            p => (!!s.props && _val !== undefined && _val[p] !== undefined ? matchesSchema(_val[p], s.props[p]) : true)
+          sPropsValid = sPropKeys.every(
+            p => (!!s.props && val !== undefined && val[p] !== undefined ? matchesSchema(val[p], s.props[p]) : true)
           )
         }
 
+        /** If `type` is Any, check whether value is array. If so, check items */
+        const inferredArray = sType === <DT>DATATYPE.any && Array.isArray(val)
+
         /**
          * Whether Array items are valid
-         * Initially assumed as `true`.
+         * If we're dealing with an array, even if inferred, check the `items`. Otherwise, true.
          */
-        let _itemsValid = true
-        /** If `type` is Any, check whether value is array. If so, check items */
-        const inferredArray = _type === <DT>DATATYPE.any && Array.isArray(_val)
+        const sItemsValid = (
+          (sType === <DT>DATATYPE.array || inferredArray) && sTypeValid && s.items !== undefined
+            ? (val as any[]).every(i => matchesSchema(i, s.items as isTypeSchema | isTypeSchema[]))
+            : true
+        );
 
-        if ((_type === <DT>DATATYPE.array || inferredArray) && _typeValid && s.items !== undefined) {
-          _itemsValid = (_val as any[]).every(i => matchesSchema(i, s.items as isTypeSchema | isTypeSchema[]))
-        }
-
-        return _typeValid && _reqdValid && _propsValid && _itemsValid
+        return sTypeValid && sRequiredValid && sPropsValid && sItemsValid
       })
   )
 }
@@ -230,12 +231,12 @@ export function extendObject(dest: any, ...sources: any[]): any {
  * Invalid values will be set to the default option values.
  *
  * @export
- * @param {isOptions} _op
+ * @param {isOptions} options
  * @returns {boolean}
  */
-export function isValidOptions(_op: isOptions | undefined): boolean {
+export function isValidOptions(options: isOptions | undefined): boolean {
   /** Ensure object */
-  const op: isOptions = _op !== undefined && is(_op, <DT>DATATYPE.object) ? _op : {}
+  const op: isOptions = options !== undefined && is(options, <DT>DATATYPE.object) ? options : {}
 
   /**
    * Test every property.
