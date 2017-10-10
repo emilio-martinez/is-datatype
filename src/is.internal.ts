@@ -107,14 +107,14 @@ export function isPrimitive(val: any): boolean {
  */
 export function matchesSchema(_val: any, schema: isTypeSchema | isTypeSchema[]): boolean {
   return (
-    ((Array.isArray(schema) ? schema : [schema]) as isTypeSchema[])
+    (Array.isArray(schema) ? schema : [schema])
       /** Test every schema until at least one of them matches */
       .some((s: isTypeSchema) => {
         /** If type is defined but invalid, schema is false */
         if (s.type !== undefined && !validDataType(s.type)) return false
 
         /** Cache the type. Use `any` if none is present */
-        const _type: DataType | DataType[] = s.type === undefined ? <DT>DATATYPE.any : s.type as DataType | DataType[]
+        const _type: DataType | DataType[] = s.type === undefined ? <DT>DATATYPE.any : s.type
 
         /** Test if any of the data types matches */
         const _typeValid = isOneOfMultipleTypes(_val, _type, s.options)
@@ -232,7 +232,7 @@ export function extendObject(dest: any, ...sources: any[]): any {
  */
 export function isValidOptions(_op: isOptions | undefined): boolean {
   /** Ensure object */
-  const op: isOptions = _op !== undefined && is(_op as isOptions, <DT>DATATYPE.object) ? _op : {}
+  const op: isOptions = _op !== undefined && is(_op, <DT>DATATYPE.object) ? _op : {}
 
   /**
    * Test every property.
