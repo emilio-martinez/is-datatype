@@ -1,5 +1,7 @@
 import { DataType, isOptions } from '../../is.func'
 
+// tslint:disable no-object-literal-type-assertion object-literal-sort-keys
+
 export const arraySchemaUseCases = [
   {
     description: 'Array of objects with string value properties.',

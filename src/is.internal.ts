@@ -1,4 +1,4 @@
-import { is, DataType } from './is.func'
+import { DataType, is } from './is.func'
 import { isOptions, isTypeSchema } from './is.interfaces'
 
 /**
@@ -31,16 +31,6 @@ export const enum DATATYPE {
 type DT = DataType & DATATYPE
 
 /**
- * Strict check for whether a value is defined
- *
- * @param {*} v
- * @returns {boolean}
- */
-export function isDefined(v: any): boolean {
-  return v !== undefined
-}
-
-/**
  * Tests whether a number is multiple of another number.
  * Keep in mind that Infinity, positive or negative, would return
  * NaN when using it with the modulus operator.
@@ -49,13 +39,22 @@ export function isDefined(v: any): boolean {
  * @param {number} multipleOf
  * @returns {boolean}
  */
-export function isMultipleOf(val: number, multipleOf: number): boolean {
+export function isMultipleOf(val: number | undefined, multipleOf: number | undefined): boolean {
   return (
     multipleOf === 0 ||
-    (val !== NEG_INF &&
-      val !== POS_INF &&
-      // Using Math.abs avoids `-0`
-      Math.abs(val % multipleOf) === 0)
+    (typeof val === 'number' &&
+      /**
+     * The modulus operator here excludes both infinities, i.e.,
+     * isNaN(Infinity % 1) === true
+     */
+      !isNaN(val % 1) &&
+      /**
+     * `Math.abs` avoids `-0`
+     * The non-null assertion below is okay because we're
+     * strictly checking for the remainder to be zero
+     */
+      // tslint:disable-next-line no-non-null-assertion
+      Math.abs(val % multipleOf!) === 0)
   )
 }
 
@@ -79,10 +78,10 @@ export function testNumberWithinBounds(
 ): boolean {
   return (
     // prettier-ignore
-    (isDefined(min) && val >= min!) &&
-    (isDefined(max) && val <= max!) &&
-    (exclMin === NEG_INF || (isDefined(exclMin) && val > exclMin!)) &&
-    (exclMax === POS_INF || (isDefined(exclMax) && val < exclMax!))
+    (min !== undefined && val >= min) &&
+    (max !== undefined && val <= max) &&
+    (exclMin === NEG_INF || (exclMin !== undefined && val > exclMin)) &&
+    (exclMax === POS_INF || (exclMax !== undefined && val < exclMax))
   )
 }
 
@@ -95,55 +94,56 @@ export function testNumberWithinBounds(
  */
 export function isPrimitive(val: any): boolean {
   const t = typeof val
-  return val == null || (t != 'function' && t != 'object')
+  return val === null || (t !== 'function' && t !== 'object')
 }
 
 /**
  * Tests an object against an object schema.
  *
  * @export
- * @param {*} _val
+ * @param {*} val
  * @param {(isTypeSchema|Array<isTypeSchema>)} schema
  * @returns {boolean}
  */
-export function matchesSchema(_val: any, schema: isTypeSchema | isTypeSchema[]): boolean {
+export function matchesSchema(val: any, schema: isTypeSchema | isTypeSchema[]): boolean {
   return (
-    ((Array.isArray(schema) ? schema : [schema]) as isTypeSchema[])
+    (Array.isArray(schema) ? schema : [schema])
       /** Test every schema until at least one of them matches */
       .some((s: isTypeSchema) => {
         /** If type is defined but invalid, schema is false */
-        if (isDefined(s.type) && !validDataType(s.type)) return false
+        if (s.type !== undefined && !validDataType(s.type)) return false
 
         /** Cache the type. Use `any` if none is present */
-        const _type: DataType | DataType[] = !isDefined(s.type) ? <DT>DATATYPE.any : s.type as DataType | DataType[]
+        const sType: DataType | DataType[] = s.type === undefined ? <DT>DATATYPE.any : s.type
 
         /** Test if any of the data types matches */
-        const _typeValid = isOneOfMultipleTypes(_val, _type, s.options)
+        const sTypeValid = isOneOfMultipleTypes(val, sType, s.options)
 
         /**
          * Whether the properties match what's reflected in the schema.
          * Initially assumed as `true`.
          */
-        let _propsValid = true
+        let sPropsValid = true
 
         /**
          * Whether the required properties are present.
          * Initially assumed as `true`.
          */
-        let _reqdValid = true
+        let sRequiredValid = true
 
         /** Extract the properties to test for into an array */
-        const _propKeys: string[] = is(s.props as isOptions, <DT>DATATYPE.object) ? Object.keys(s.props!) : []
+        const sProps = s.props && typeof s.props === 'object' ? s.props : {};
+        const sPropKeys: string[] = Object.keys(sProps)
 
         /** Begin tests relevant to properties */
-        if (_propKeys.length > 0) {
+        if (sPropKeys.length > 0) {
           /**
            * Get all keys that are required from the schema,
            * and then test for required properties.
            */
-          _reqdValid = _propKeys
-            .filter(p => s.props && s.props[p] && s.props[p].required === true)
-            .every(r => isDefined(_val[r]))
+          sRequiredValid = sPropKeys
+            .filter(p => sProps[p].required === true)
+            .every(r => val[r] !== undefined)
 
           /**
            * Iterate over the property keys.
@@ -154,24 +154,27 @@ export function matchesSchema(_val: any, schema: isTypeSchema | isTypeSchema[]):
            * If `p`, the property, is not an object, it won't be validated against.
            * However, if it was required, that will have been caught by the check above.
            */
-          _propsValid = _propKeys.every(
-            p => (!!s.props && isDefined(_val) && isDefined(_val[p]) ? matchesSchema(_val[p], s.props[p]) : true)
+          sPropsValid = sPropKeys.every(p =>
+            !!s.props && val !== undefined && val[p] !== undefined
+              ? matchesSchema(val[p], s.props[p])
+              : true
           )
         }
 
+        /** If `type` is Any, check whether value is array. If so, check items */
+        const inferredArray = sType === <DT>DATATYPE.any && Array.isArray(val)
+
         /**
          * Whether Array items are valid
-         * Initially assumed as `true`.
+         * If we're dealing with an array, even if inferred, check the `items`. Otherwise, true.
          */
-        let _itemsValid = true
-        /** If `type` is Any, check whether value is array. If so, check items */
-        const inferredArray = _type == <DT>DATATYPE.any && Array.isArray(_val)
+        const sItemsValid = (
+          (sType === <DT>DATATYPE.array || inferredArray) && sTypeValid && s.items !== undefined
+            ? (val as any[]).every(i => matchesSchema(i, s.items as isTypeSchema | isTypeSchema[]))
+            : true
+        );
 
-        if ((_type == <DT>DATATYPE.array || inferredArray) && _typeValid && isDefined(s.items)) {
-          _itemsValid = (_val as any[]).every(i => matchesSchema(i, s.items as isTypeSchema | isTypeSchema[]))
-        }
-
-        return _typeValid && _reqdValid && _propsValid && _itemsValid
+        return sTypeValid && sRequiredValid && sPropsValid && sItemsValid
       })
   )
 }
@@ -186,14 +189,16 @@ export function matchesSchema(_val: any, schema: isTypeSchema | isTypeSchema[]):
  */
 export function isOneOfMultipleTypes(val: any, type: DataType | DataType[], options?: isOptions): boolean {
   /** Coerce `DataType` into an array and filter out non-`DataType` items */
-  let types = (Array.isArray(type) ? type : [type]).filter(validDataType)
+  const types = (Array.isArray(type) ? type : [type]).filter(validDataType)
 
   /**
    * If no length, return false
    * Else if `types` contain any, return true
    * Else test against `is`
    */
-  return types.length ? types.indexOf(<DT>DATATYPE.any) >= 0 || types.some(n => is(val, n, options)) : false
+  return types.length > 0
+    ? types.indexOf(<DT>DATATYPE.any) >= 0 || types.some(n => is(val, n, options))
+    : false
 }
 
 /**
@@ -206,13 +211,15 @@ export function isOneOfMultipleTypes(val: any, type: DataType | DataType[], opti
  * @returns {*}
  */
 export function extendObject(dest: any, ...sources: any[]): any {
+  /** Triple equals below is okay because we're also checking for undefined */
+  // tslint:disable-next-line triple-equals
   if (dest == null) {
     throw TypeError('Cannot convert undefined or null to object')
   }
 
-  for (let source of sources) {
-    if (source != null) {
-      for (let key in source) {
+  for (const source of sources) {
+    if (source !== null) {
+      for (const key in source) {
         if (source.hasOwnProperty(key)) {
           dest[key] = source[key]
         }
@@ -228,12 +235,12 @@ export function extendObject(dest: any, ...sources: any[]): any {
  * Invalid values will be set to the default option values.
  *
  * @export
- * @param {isOptions} _op
+ * @param {isOptions} options
  * @returns {boolean}
  */
-export function isValidOptions(_op: isOptions | undefined): boolean {
+export function isValidOptions(options: isOptions | undefined): boolean {
   /** Ensure object */
-  const op = (isDefined(_op) && is(_op as isOptions, <DT>DATATYPE.object) ? _op : {}) as isOptions
+  const op: isOptions = options !== undefined && is(options, <DT>DATATYPE.object) ? options : {}
 
   /**
    * Test every property.
@@ -241,45 +248,47 @@ export function isValidOptions(_op: isOptions | undefined): boolean {
    */
   return Object.keys(op).every(o => {
     /** DataType case */
-    if (o == 'type') {
+    if (o === 'type') {
       return validDataType(op[o])
     }
 
     /** string cases */
-    if (o == 'pattern' || o == 'patternFlags') {
-      return typeof op[o] == 'string'
+    if (o === 'pattern' || o === 'patternFlags') {
+      return typeof op[o] === 'string'
     }
 
     /** Boolean cases */
-    if (o == 'exclEmpty' || o == 'allowNull' || o == 'arrayAsObject') {
-      return typeof op[o] == 'boolean'
+    if (o === 'exclEmpty' || o === 'allowNull' || o === 'arrayAsObject') {
+      return typeof op[o] === 'boolean'
     }
 
     /** Number cases */
-    if (o == 'min' || o == 'max' || o == 'exclMin' || o == 'exclMax' || o == 'multipleOf') {
-      return typeof op[o] == 'number' && !isNaN(op[o]!)
+    if (o === 'min' || o === 'max' || o === 'exclMin' || o === 'exclMax' || o === 'multipleOf') {
+      /** The non-null assertion below is because TS is having trouble inferring type  */
+      // tslint:disable-next-line no-non-null-assertion
+      return typeof op[o] === 'number' && !isNaN(op[o]!)
     }
 
     /** Schema case */
-    if (o == 'schema') {
+    if (o === 'schema') {
       return (
         op[o] === null ||
         matchesSchema(op[o], {
           /** `isTypeSchema` is always an object */
-          type: <DT>DATATYPE.object,
           props: {
-            type: {
-              type: [<DT>DATATYPE.number, <DT>DATATYPE.array],
-              items: { type: <DT>DATATYPE.number }
-            },
-            props: { type: <DT>DATATYPE.object },
             items: {
-              type: [<DT>DATATYPE.object, <DT>DATATYPE.array],
-              items: { type: <DT>DATATYPE.object }
+              items: { type: <DT>DATATYPE.object },
+              type: [<DT>DATATYPE.object, <DT>DATATYPE.array]
             },
+            options: { type: <DT>DATATYPE.object },
+            props: { type: <DT>DATATYPE.object },
             required: { type: <DT>DATATYPE.boolean },
-            options: { type: <DT>DATATYPE.object }
-          }
+            type: {
+              items: { type: <DT>DATATYPE.number },
+              type: [<DT>DATATYPE.number, <DT>DATATYPE.array]
+            },
+          },
+          type: <DT>DATATYPE.object,
         })
       )
     }
@@ -296,7 +305,7 @@ export function isValidOptions(_op: isOptions | undefined): boolean {
  */
 export function validDataType(val: number | string | (number | string)[] | undefined): boolean {
   function check(val: number | string | undefined) {
-    return typeof val == 'number' && val in DataType
+    return typeof val === 'number' && val in DataType
   }
 
   return Array.isArray(val) ? val.every(check) : check(val)

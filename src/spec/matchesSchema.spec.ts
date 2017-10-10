@@ -2,6 +2,8 @@ import { DataType } from '../is.func'
 import { isTypeSchema } from '../is.interfaces'
 import { matchesSchema } from '../is.internal'
 
+// tslint:disable object-literal-sort-keys
+
 describe(`\`matchesSchema\` function`, () => {
   it(`should handle validating undefined`, () => {
     expect(
@@ -101,7 +103,7 @@ describe(`\`matchesSchema\` function`, () => {
     )
   })
 
-  it(`should infer an Array when type is not set to validate \`items\` from the schema with \`items\` attributes`, () => {
+  it(`should validate \`items\` when Array is inferred, even if the \`type\` is \`any\``, () => {
     testMatchesSchema(['hello', 'goodbye'], { items: { type: DataType.string } }, true)
     testMatchesSchema(['hello', 'goodbye'], { type: DataType.array, items: { type: DataType.string } }, true)
     testMatchesSchema(['hello', 'goodbye'], { items: { type: DataType.number } }, false)
@@ -196,6 +198,6 @@ describe(`\`matchesSchema\` function`, () => {
   })
 })
 
-function testMatchesSchema(_val: any, schema: isTypeSchema | isTypeSchema[], testBool: boolean) {
-  expect(matchesSchema(_val, schema)).toBe(testBool)
+function testMatchesSchema(val: any, schema: isTypeSchema | isTypeSchema[], testBool: boolean) {
+  expect(matchesSchema(val, schema)).toBe(testBool)
 }

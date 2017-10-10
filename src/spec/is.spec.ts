@@ -1,24 +1,24 @@
-import { is, DataType, isOptions } from '../is.func'
+import { DataType, is, isOptions } from '../is.func'
 import { matchesSchema } from '../is.internal'
 import {
-  validNumberUseCases,
-  validNumberNegativeUseCases,
-  invalidNumberUseCases,
-  numberRangeUseCases,
-  multipleOfUseCases,
+  arraySchemaUseCases,
+  arrayWithOptionsUseCases,
   getDataTypeUseCases,
   integerUseCases,
+  invalidNumberUseCases,
+  multipleOfUseCases,
   naturalUseCases,
-  validStringUseCases,
-  stringPatternUseCases,
-  validBooleanUseCases,
-  validArrayUseCases,
-  arrayWithOptionsUseCases,
-  arraySchemaUseCases,
-  validFunctionUseCases,
-  validObjectUseCases,
-  optionalObjectUseCases,
+  numberRangeUseCases,
   objectSchemaUseCases,
+  optionalObjectUseCases,
+  stringPatternUseCases,
+  validArrayUseCases,
+  validBooleanUseCases,
+  validFunctionUseCases,
+  validNumberNegativeUseCases,
+  validNumberUseCases,
+  validObjectUseCases,
+  validStringUseCases,
   validUndefinedUseCases
 } from './test-cases/test-cases.spec'
 
@@ -33,7 +33,7 @@ describe('`is` and `matchesSchema`', () => {
       expect(matchesSchema(false, { type: 1 })).toBe(false)
     })
 
-    it('when one of the "named" DataType keys is provided, regardless of technically being a valid DataType key', () => {
+    it('when a "named" DataType key is provided, regardless of technically being a valid DataType key', () => {
       expect(() => is(false, DataType[1] as any)).toThrow()
       expect(matchesSchema(false, { type: DataType[1] as any })).toBe(false)
     })
