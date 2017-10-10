@@ -14,7 +14,8 @@
         "variable-name": [true, "ban-keywords", "check-format"],
         "number-literal-format": true,
         "typedef-whitespace": true,
-        "unified-signatures": true
+        "unified-signatures": true,
+        "curly": [true, "ignore-same-line"]
     },
     "rulesDirectory": []
 }

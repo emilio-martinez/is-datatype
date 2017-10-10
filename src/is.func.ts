@@ -194,8 +194,10 @@ export function is(val: any, type: DataType, options?: isOptions): boolean {
     if (!isMultipleOf(opts.multipleOf, 1)) return false
 
     const numOptions: isOptions = { multipleOf: opts.multipleOf === 0 ? 1 : opts.multipleOf }
-    if (<DT>type === DATATYPE.natural)
+
+    if (<DT>type === DATATYPE.natural) {
       numOptions.min = opts.min !== undefined && opts.min >= 0 ? opts.min : 0
+    }
 
     return is(val, <DT>DATATYPE.number, extendObject({}, opts, numOptions))
   }
