@@ -154,8 +154,10 @@ export function matchesSchema(val: any, schema: isTypeSchema | isTypeSchema[]): 
            * If `p`, the property, is not an object, it won't be validated against.
            * However, if it was required, that will have been caught by the check above.
            */
-          sPropsValid = sPropKeys.every(
-            p => (!!s.props && val !== undefined && val[p] !== undefined ? matchesSchema(val[p], s.props[p]) : true)
+          sPropsValid = sPropKeys.every(p =>
+            !!s.props && val !== undefined && val[p] !== undefined
+              ? matchesSchema(val[p], s.props[p])
+              : true
           )
         }
 
@@ -194,7 +196,9 @@ export function isOneOfMultipleTypes(val: any, type: DataType | DataType[], opti
    * Else if `types` contain any, return true
    * Else test against `is`
    */
-  return types.length > 0 ? types.indexOf(<DT>DATATYPE.any) >= 0 || types.some(n => is(val, n, options)) : false
+  return types.length > 0
+    ? types.indexOf(<DT>DATATYPE.any) >= 0 || types.some(n => is(val, n, options))
+    : false
 }
 
 /**
@@ -271,20 +275,20 @@ export function isValidOptions(options: isOptions | undefined): boolean {
         op[o] === null ||
         matchesSchema(op[o], {
           /** `isTypeSchema` is always an object */
-          type: <DT>DATATYPE.object,
           props: {
-            type: {
-              type: [<DT>DATATYPE.number, <DT>DATATYPE.array],
-              items: { type: <DT>DATATYPE.number }
-            },
-            props: { type: <DT>DATATYPE.object },
             items: {
-              type: [<DT>DATATYPE.object, <DT>DATATYPE.array],
-              items: { type: <DT>DATATYPE.object }
+              items: { type: <DT>DATATYPE.object },
+              type: [<DT>DATATYPE.object, <DT>DATATYPE.array]
             },
+            options: { type: <DT>DATATYPE.object },
+            props: { type: <DT>DATATYPE.object },
             required: { type: <DT>DATATYPE.boolean },
-            options: { type: <DT>DATATYPE.object }
-          }
+            type: {
+              items: { type: <DT>DATATYPE.number },
+              type: [<DT>DATATYPE.number, <DT>DATATYPE.array]
+            },
+          },
+          type: <DT>DATATYPE.object,
         })
       )
     }

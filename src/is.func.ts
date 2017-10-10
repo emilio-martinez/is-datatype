@@ -50,18 +50,18 @@ type DT = DataType & DATATYPE
  * Default option set to use within `is`
  */
 const isDefaultOptions: isOptions = {
-  type: <DT>DATATYPE.any,
-  pattern: '[sS]*',
-  patternFlags: '',
-  exclEmpty: false,
-  schema: null,
   allowNull: false,
   arrayAsObject: false,
-  min: NEG_INF,
-  max: POS_INF,
-  exclMin: NEG_INF,
+  exclEmpty: false,
   exclMax: POS_INF,
-  multipleOf: 0
+  exclMin: NEG_INF,
+  max: POS_INF,
+  min: NEG_INF,
+  multipleOf: 0,
+  pattern: '[sS]*',
+  patternFlags: '',
+  schema: null,
+  type: <DT>DATATYPE.any,
 }
 
 /**

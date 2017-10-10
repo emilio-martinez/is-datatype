@@ -21,7 +21,17 @@
         "no-construct": true,
         "no-duplicate-variable": [true, "check-parameters"],
         "no-object-literal-type-assertion": true,
-        "no-string-throw": true
+        "no-string-throw": true,
+        "no-var-keyword": true,
+        "prefer-conditional-expression": true,
+        "radix": true,
+        "typeof-compare": true,
+        "use-isnan": true,
+        "eofline": true,
+        "linebreak-style": [true, "LF"],
+        "max-line-length": [true, 120],
+        "no-duplicate-imports": true,
+        "object-literal-sort-keys": [true, "ignore-case"]
     },
     "rulesDirectory": []
 }
