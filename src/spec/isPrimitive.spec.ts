@@ -9,11 +9,11 @@ describe('`isPrimitive` function', () => {
    * and all non-primitives to have indexes over 10.
    */
   const PRIMITIVE_CUTOFF = 10
-  const DataTypeKeys = Object.keys(DataType)
+  const dataTypeKeys = Object.keys(DataType)
     .map(k => parseInt(k, 10))
-    .filter(k => typeof k == 'number')
-  const nonPrimitiveKeys = DataTypeKeys.filter(i => i > PRIMITIVE_CUTOFF)
-  const primitiveKeys = DataTypeKeys.filter(i => i < PRIMITIVE_CUTOFF)
+    .filter(k => typeof k === 'number')
+  const nonPrimitiveKeys = dataTypeKeys.filter(i => i > PRIMITIVE_CUTOFF)
+  const primitiveKeys = dataTypeKeys.filter(i => i < PRIMITIVE_CUTOFF)
 
   it('should return true when primitive value', function() {
     /** We exclude the non-primitive keys, so only primitives should remain */

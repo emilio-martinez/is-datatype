@@ -4,7 +4,6 @@
     "jsRules": {},
     "rules": {
         "no-inferrable-types": true,
-        "no-magic-numbers": true,
         "no-non-null-assertion": true,
         "no-parameter-reassignment": true,
         "no-unnecessary-type-assertion": true,
@@ -38,7 +37,7 @@
         "no-consecutive-blank-lines": true,
         "no-irregular-whitespace": true,
         "no-unnecessary-initializer": true,
-        "ordered-imports": [true, { "import-sources-order": "case-insensitive", "named-imports-order": "case-insensitive" }]
+        "ordered-imports": [true, { "import-sources-order": "any", "named-imports-order": "case-insensitive" }]
     },
     "rulesDirectory": []
 }

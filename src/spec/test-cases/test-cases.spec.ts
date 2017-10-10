@@ -1,13 +1,13 @@
 import { DataType } from '../../is.func'
 import {
-  validNumberUseCases,
-  validNumberNegativeUseCases,
   invalidNumberUseCases,
-  validStringUseCases,
+  validArrayUseCases,
   validBooleanUseCases,
   validFunctionUseCases,
-  validArrayUseCases,
+  validNumberNegativeUseCases,
+  validNumberUseCases,
   validObjectUseCases,
+  validStringUseCases,
   validUndefinedUseCases
 } from './non-schema.spec'
 
@@ -30,8 +30,8 @@ export function getDataTypeUseCases(
    * Strings are preferred because Object key iteration will convert keys to strings anyway.
    * DataType numeric keys will be converted to strings once validated.
    */
-  let exclude: string[] = (Array.isArray(exclusions) ? exclusions : [exclusions])
-    .filter(k => typeof k == 'number' && k in DataType)
+  const exclude: string[] = (Array.isArray(exclusions) ? exclusions : [exclusions])
+    .filter(k => typeof k === 'number' && k in DataType)
     .map(k => k.toString())
 
   /**
