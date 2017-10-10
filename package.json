@@ -11,7 +11,7 @@
     "lint:watch": "nodemon -w src -w tslint.json -e 'ts,js,json' -x 'npm run lint:tslint -- --force && npm run lint:standard'",
     "lint": "npm run lint:tslint && npm run lint:standard",
     "pretest": "npm run clean:test",
-    "test": "node_modules/.bin/karma start --single-run",
+    "test": "npm run lint && node_modules/.bin/karma start --single-run",
     "pretest:watch": "npm run pretest",
     "test:watch": "node_modules/.bin/karma start --no-single-run",
     "test-ci": "npm run build && npm run test && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
