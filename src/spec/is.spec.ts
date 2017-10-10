@@ -1,4 +1,6 @@
-import { DataType, is, isOptions } from '../is.func'
+/* eslint-env jasmine */
+
+import { DataType, is } from '../is.func'
 import { matchesSchema } from '../is.internal'
 import {
   arraySchemaUseCases,

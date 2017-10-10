@@ -1,3 +1,5 @@
+/* eslint-env jasmine */
+
 import { extendObject } from '../is.internal'
 
 describe('extendObject', () => {

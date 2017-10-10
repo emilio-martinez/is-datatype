@@ -1,8 +1,9 @@
+/* eslint-env jasmine */
+// tslint:disable object-literal-sort-keys
+
 import { DataType } from '../is.func'
 import { isTypeSchema } from '../is.interfaces'
 import { matchesSchema } from '../is.internal'
-
-// tslint:disable object-literal-sort-keys
 
 describe(`\`matchesSchema\` function`, () => {
   it(`should handle validating undefined`, () => {

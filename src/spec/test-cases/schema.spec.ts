@@ -1,6 +1,7 @@
-import { DataType, isOptions } from '../../is.func'
-
+/* eslint-env jasmine */
 // tslint:disable no-object-literal-type-assertion object-literal-sort-keys
+
+import { DataType, isOptions } from '../../is.func'
 
 export const arraySchemaUseCases = [
   {

@@ -1,3 +1,5 @@
+/* eslint-env jasmine */
+
 import { DataType } from '../is.func'
 import { DATATYPE } from '../is.internal'
 import { dataTypeKeys } from './test-cases/test-cases.spec';

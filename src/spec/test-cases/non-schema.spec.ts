@@ -1,6 +1,7 @@
-import { DataType, isOptions } from '../../is.func'
-
+/* eslint-env jasmine */
 // tslint:disable object-literal-sort-keys
+
+import { DataType, isOptions } from '../../is.func'
 
 export const validNumberUseCases = [37, 3.14, Math.LN2, Infinity, Number.POSITIVE_INFINITY, Number(1)]
 

@@ -1,3 +1,5 @@
+/* eslint-env jasmine */
+
 import { DataType } from '../../is.func'
 import {
   invalidNumberUseCases,
