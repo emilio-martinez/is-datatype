@@ -5295,9 +5295,9 @@ tryit@^1.0.1:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/tryit/-/tryit-1.0.3.tgz#393be730a9446fd1ead6da59a014308f36c289cb"
 
-ts-loader@^2.3.7:
-  version "2.3.7"
-  resolved "https://registry.yarnpkg.com/ts-loader/-/ts-loader-2.3.7.tgz#a9028ced473bee12f28a75f9c5b139979d33f2fc"
+ts-loader@3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/ts-loader/-/ts-loader-3.0.2.tgz#e4aa476f54c4197bee0251cd53a783ed3665a629"
   dependencies:
     chalk "^2.0.1"
     enhanced-resolve "^3.0.0"
