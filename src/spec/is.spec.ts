@@ -28,11 +28,11 @@ describe('`is` and `matchesSchema`', () => {
   describe('should validate for invalid `type` arguments', () => {
     it('when an out of range number is provided', () => {
       expect(() => is(false, -2)).toThrow()
-      expect(matchesSchema(false, { type: -2 })).toBe(false)
+      expect(matchesSchema(false, { type: -2 })).toBe(false, 'Failed for -2')
       expect(() => is(false, 0)).toThrow()
-      expect(matchesSchema(false, { type: 0 })).toBe(false)
+      expect(matchesSchema(false, { type: 0 })).toBe(false, 'Failed for 0')
       expect(() => is(false, 1)).not.toThrow()
-      expect(matchesSchema(false, { type: 1 })).toBe(false)
+      expect(matchesSchema(false, { type: 1 })).toBe(false, 'Failed for 1')
     })
 
     it('when a "named" DataType key is provided, regardless of technically being a valid DataType key', () => {
@@ -326,7 +326,7 @@ describe('`is` and `matchesSchema`', () => {
           .toBe(true, `Failed for \`${n}\` of type \`${typeof n}\` passed when validating for \`${errType}\``)
       )
       expect(is(null, currentDataType))
-        .toBe(false, `Failed for valid \`${DataType[currentDataType]}\` test null`)
+        .toBe(true, `Failed for valid \`${DataType[currentDataType]}\` test null`)
     })
 
     it('should work in optional use cases', () => {

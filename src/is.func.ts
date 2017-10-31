@@ -168,6 +168,9 @@ export function is(val: string, type: DataType, options?: isOptionsString): bool
 export function is(val: any[], type: DataType, options?: isOptionsArray): boolean
 export function is(val: Object, type: DataType, options?: isOptionsObject): boolean
 export function is(val: any, type: DataType, options?: isOptions): boolean {
+
+  if (<DT>type === DATATYPE.any) return true;
+
   /** Validate `type` */
   if (!validDataType(type)) {
     throw Error('Provided invalid `type` argument')
@@ -204,7 +207,7 @@ export function is(val: any, type: DataType, options?: isOptions): boolean {
    * If it's allowed, check for `any` or `object`
    */
   if (val === null) {
-    return !opts.allowNull ? false : <DT>type === DATATYPE.any || <DT>type === DATATYPE.object
+    return !opts.allowNull ? false : <DT>type === DATATYPE.object
   }
 
   /**
@@ -216,9 +219,7 @@ export function is(val: any, type: DataType, options?: isOptions): boolean {
    * If `typeOfCheck` is false, return false.
    */
   const typeOfCheck =
-    <DT>type === DATATYPE.any
-      ? true
-      : <DT>type === DATATYPE.number
+    <DT>type === DATATYPE.number
         ? typeof val === DataType[type] && !isNaN(val)
         : <DT>type === DATATYPE.array ? Array.isArray(val) : typeof val === DataType[type]
   if (!typeOfCheck) return false
