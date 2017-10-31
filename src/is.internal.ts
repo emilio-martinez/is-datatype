@@ -34,10 +34,6 @@ type DT = DataType & DATATYPE
  * Tests whether a number is multiple of another number.
  * Keep in mind that Infinity, positive or negative, would return
  * NaN when using it with the modulus operator.
- *
- * @param {number} val
- * @param {number} multipleOf
- * @returns {boolean}
  */
 export function isMultipleOf(val: number | undefined, multipleOf: number | undefined): boolean {
   return (
@@ -60,14 +56,6 @@ export function isMultipleOf(val: number | undefined, multipleOf: number | undef
 
 /**
  * Tests a value within bounds of min, max, exclusive min and exclusive max
- *
- * @export
- * @param {number} val
- * @param {(number | undefined)} min
- * @param {(number | undefined)} max
- * @param {(number | undefined)} exclMin
- * @param {(number | undefined)} exclMax
- * @returns {boolean}
  */
 export function testNumberWithinBounds(
   val: number,
@@ -86,10 +74,6 @@ export function testNumberWithinBounds(
 
 /**
  * Tests whether a value is primitive or not
- *
- * @export
- * @param {*} val
- * @returns {boolean}
  */
 export function isPrimitive(val: any): boolean {
   const t = typeof val
@@ -98,11 +82,6 @@ export function isPrimitive(val: any): boolean {
 
 /**
  * Tests an object against an object schema.
- *
- * @export
- * @param {*} val
- * @param {(isTypeSchema|Array<isTypeSchema>)} schema
- * @returns {boolean}
  */
 export function matchesSchema(val: any, schema: isTypeSchema | isTypeSchema[]): boolean {
   return (
@@ -180,11 +159,6 @@ export function matchesSchema(val: any, schema: isTypeSchema | isTypeSchema[]): 
 
 /**
  * Tests a value against a series of DataTypes (one or more).
- *
- * @param {*} val
- * @param {(DataType|Array<DataType>)} type
- * @param {isOptions} [options]
- * @returns {boolean}
  */
 export function isOneOfMultipleTypes(val: any, type: DataType | DataType[], options?: isOptions): boolean {
   /** Coerce `DataType` into an array and filter out non-`DataType` items */
@@ -203,11 +177,6 @@ export function isOneOfMultipleTypes(val: any, type: DataType | DataType[], opti
 /**
  * Extends an object with the *enumerable* and *own* properties of one or more source objects,
  * similar to Object.assign.
- *
- * @export
- * @param {*} dest
- * @param {...Array<any>} sources
- * @returns {*}
  */
 export function extendObject(dest: any, ...sources: any[]): any {
   /** Triple equals below is okay because we're also checking for undefined */
@@ -232,10 +201,6 @@ export function extendObject(dest: any, ...sources: any[]): any {
 /**
  * Validates whether an options object is valid or not.
  * Invalid values will be set to the default option values.
- *
- * @export
- * @param {isOptions} options
- * @returns {boolean}
  */
 export function isValidOptions(options: isOptions | undefined): boolean {
   /** Ensure object */
@@ -298,9 +263,6 @@ export function isValidOptions(options: isOptions | undefined): boolean {
 
 /**
  * Checks for whether an item is a valid option in the DataType enum
- * @export
- * @param {(number|string|(number|string)[]|undefined)} _val
- * @returns {boolean}
  */
 export function validDataType(val: number | string | (number | string)[] | undefined): boolean {
   function check(val: number | string | undefined) {

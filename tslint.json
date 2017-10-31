@@ -37,7 +37,8 @@
         "typeof-compare": true,
         "unified-signatures": true,
         "use-isnan": true,
-        "variable-name": [true, "ban-keywords", "check-format"]
+        "variable-name": [true, "ban-keywords", "check-format"],
+        "no-redundant-jsdoc-annotations": true
     },
-    "rulesDirectory": []
+    "rulesDirectory": ["tslint-no-redundant-jsdoc-annotations"]
 }

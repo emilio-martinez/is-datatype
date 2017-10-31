@@ -21,9 +21,6 @@ import {
 
 /**
  * The available data types that `is` can validate for.
- *
- * @export
- * @enum {number}
  */
 export enum DataType {
   any = -1,
@@ -161,10 +158,9 @@ const isDefaultOptions: isOptions = {
  *
  * * Use cases for `symbol`
  *
- * @param {*} val - The value to test for.
- * @param {DataType} type - One of the DataType enum values
- * @param {isOptions} [options]
- * @returns {boolean}  Whether the validation is true or not
+ * @param val - The value to test for.
+ * @param type - One of the DataType enum values
+ * @returns Whether the validation is true or not
  */
 export function is(val: undefined | boolean, type: DataType): boolean
 export function is(val: number, type: DataType, options?: isOptionsNumber): boolean
