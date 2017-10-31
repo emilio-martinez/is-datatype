@@ -5336,6 +5336,10 @@ tslib@^1.7.1:
   version "1.8.0"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.8.0.tgz#dc604ebad64bcbf696d613da6c954aa0e7ea1eb6"
 
+tslint-no-redundant-jsdoc-annotations@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/tslint-no-redundant-jsdoc-annotations/-/tslint-no-redundant-jsdoc-annotations-1.0.0.tgz#a4043d3eb8a06ff959f74c31ce99db3104ccf401"
+
 tslint@~5.8.0:
   version "5.8.0"
   resolved "https://registry.yarnpkg.com/tslint/-/tslint-5.8.0.tgz#1f49ad5b2e77c76c3af4ddcae552ae4e3612eb13"
