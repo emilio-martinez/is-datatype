@@ -1,5 +1,3 @@
-/* eslint-env jasmine */
-
 import { is } from '../src/is'
 import { DataType } from '../src/data-type'
 import { matchesSchema } from '../src/schema'

@@ -1,5 +1,3 @@
-/* eslint-env jasmine */
-
 import { DataType, DATATYPE } from '../src/data-type'
 import { dataTypeKeys } from './test-cases/test-cases.spec'
 

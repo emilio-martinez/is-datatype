@@ -1,6 +1,4 @@
-/* eslint-env jasmine */
-/* eslint-disable no-multi-spaces */
-// tslint:disable object-literal-sort-keys
+// tslint:disable object-literal-sort-keys no-multi-spaces no-empty
 
 import { DataType } from '../../src/data-type'
 

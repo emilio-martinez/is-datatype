@@ -1,5 +1,3 @@
-/* eslint-env jasmine */
-
 import { DataType } from '../../src/data-type'
 import {
   invalidNumberUseCases,

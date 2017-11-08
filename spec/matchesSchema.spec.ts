@@ -1,5 +1,4 @@
-/* eslint-env jasmine */
-// tslint:disable object-literal-sort-keys
+// tslint:disable object-literal-sort-keys no-empty
 
 import { DataType } from '../src/data-type'
 import { matchesSchema } from '../src/schema'

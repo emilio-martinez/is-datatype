@@ -1,5 +1,3 @@
-/* eslint-env jasmine */
-
 import { DataType } from '../src/data-type'
 import { isOneOfMultipleTypes } from '../src/is'
 import { getDataTypeUseCases } from './test-cases/test-cases.spec'

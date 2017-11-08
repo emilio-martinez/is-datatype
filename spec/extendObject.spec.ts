@@ -1,5 +1,3 @@
-/* eslint-env jasmine */
-
 import { extendObject } from '../src/utils'
 
 describe('extendObject', () => {
