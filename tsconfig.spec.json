@@ -12,7 +12,6 @@
     "noImplicitAny": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "outDir": "./dist",
     "removeComments": false,
     "sourceMap": false,
     "strictNullChecks": true,
@@ -20,11 +19,5 @@
       "jasmine"
     ]
   },
-  "compileOnSave": false,
-  "files": [
-    "index.ts"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+  "compileOnSave": false
 }

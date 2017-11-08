@@ -6,10 +6,11 @@
   "types": "dist/is.func.d.ts",
   "scripts": {
     "commitmsg": "commitlint -e",
-    "lint:tslint": "node_modules/.bin/tslint --project tsconfig.json --format verbose",
-    "lint:standard": "node_modules/.bin/standard --parser typescript-eslint-parser --plugin typescript --verbose src/**/*.ts",
-    "lint:watch": "nodemon -w src -w tslint.json -e 'ts,js,json' -x 'npm run lint:tslint -- --force && npm run lint:standard'",
-    "lint": "npm run lint:tslint && npm run lint:standard",
+    "lint:tslint:src": "node_modules/.bin/tslint --format verbose --project tsconfig.json",
+    "lint:tslint:spec": "node_modules/.bin/tslint --format verbose --project tsconfig.spec.json spec/**/*.spec.ts",
+    "lint:tslint": "npm run lint:tslint:src && npm run lint:tslint:spec",
+    "lint:watch": "nodemon -w src -w tslint.json -e 'ts,js,json' -x 'npm run lint:tslint -- --force'",
+    "lint": "npm run lint:tslint",
     "prebenchmark": "npm run clean && npm run build",
     "benchmark": "node tools/benchmarks/benchmarks.js",
     "pretest": "npm run clean:test",
@@ -57,7 +58,6 @@
     "chalk": "^2.2.0",
     "compression-webpack-plugin": "^1.0.1",
     "coveralls": "^3.0.0",
-    "eslint-plugin-typescript": "^0.8.0",
     "husky": "^0.14.3",
     "jasmine-core": "^2.8.0",
     "karma": "^1.7.1",
@@ -69,13 +69,12 @@
     "np": "^2.16.0",
     "prettier": "^1.7.4",
     "rimraf": "^2.6.2",
-    "standard": "^10.0.3",
     "ts-loader": "^3.0.2",
     "tslib": "^1.7.1",
     "tslint": "~5.8.0",
+    "tslint-config-standard": "^7.0.0",
     "tslint-no-redundant-jsdoc-annotations": "^1.0.0",
     "typescript": "~2.6.1",
-    "typescript-eslint-parser": "^8.0.0",
     "webpack": "^3.6.0"
   }
 }

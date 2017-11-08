@@ -1,4 +1,6 @@
-import { DataType } from './is.func'
+// tslint:disable no-use-before-declare
+
+import { DataType } from './data-type'
 
 /**
  * A descriptive model of what an object is expected to be.

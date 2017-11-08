@@ -1,6 +1,4 @@
-/* eslint-env jasmine */
-
-import { isPrimitive } from '../is.internal'
+import { isPrimitive } from '../src/utils'
 import { dataTypeKeys, getDataTypeUseCases } from './test-cases/test-cases.spec'
 
 describe('`isPrimitive` function', () => {

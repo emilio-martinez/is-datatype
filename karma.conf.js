@@ -4,7 +4,7 @@ module.exports = function (config) {
 
     files: [
       {
-        pattern: 'src/**/*.ts'
+        pattern: '{spec,src}/**/*.ts'
       }
     ],
 

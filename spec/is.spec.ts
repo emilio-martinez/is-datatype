@@ -1,7 +1,6 @@
-/* eslint-env jasmine */
-
-import { DataType, is } from '../is.func'
-import { matchesSchema } from '../is.internal'
+import { is } from '../src/is'
+import { DataType } from '../src/data-type'
+import { matchesSchema } from '../src/schema'
 import {
   arraySchemaUseCases,
   arrayWithOptionsUseCases,

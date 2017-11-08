@@ -1,13 +1,13 @@
-/* eslint-env jasmine */
 // tslint:disable no-object-literal-type-assertion object-literal-sort-keys
 
-import { DataType, isOptions } from '../../is.func'
+import { DataType } from '../../src/data-type'
+import { isOptions } from '../../src/interfaces'
 
 export const arraySchemaUseCases = [
   {
     description: 'Array of objects with string value properties.',
     test: [{ label: 'item1', url: '/path' }, { label: 'item2', url: '/path' }, { label: 'item3', url: '/path' }],
-    options: <isOptions>{
+    options: <isOptions> {
       schema: {
         type: DataType.array,
         items: {
@@ -24,7 +24,7 @@ export const arraySchemaUseCases = [
   {
     description: 'Array of objects with an additional property.',
     test: [{ label: 'item1', url: '/path' }, { labele: 'item2', url: '/path' }, { label: 'item3', url: '/path' }],
-    options: <isOptions>{
+    options: <isOptions> {
       schema: {
         type: DataType.array,
         items: {
@@ -41,7 +41,7 @@ export const arraySchemaUseCases = [
   {
     description: 'Array of objects with an additional property.',
     test: [{ label: 'item1', url: '/path' }, { labele: 'item2', url: '/path' }, { label: 'item3', url: '/path' }],
-    options: <isOptions>{
+    options: <isOptions> {
       schema: {
         type: DataType.array,
         items: {
@@ -58,7 +58,7 @@ export const arraySchemaUseCases = [
   {
     description: 'Array of arrays testing schema array.',
     test: [['label', 'url'], ['labele', 'url'], ['label', 'url']],
-    options: <isOptions>{
+    options: <isOptions> {
       schema: {
         type: DataType.array,
         items: [
@@ -80,7 +80,7 @@ export const arraySchemaUseCases = [
       { portfolio: 'item2', assets: ['small stocks'] },
       { portfolio: 'item3', assets: ['cash', 'midstocks'] }
     ],
-    options: <isOptions>{
+    options: <isOptions> {
       schema: {
         type: DataType.array,
         items: [
@@ -106,7 +106,7 @@ export const arraySchemaUseCases = [
       { portfolio: 'item2', assets: 'small stocks' },
       { portfolio: 'item3', assets: ['cash', 'midstocks'] }
     ],
-    options: <isOptions>{
+    options: <isOptions> {
       schema: {
         type: DataType.array,
         items: [
@@ -135,7 +135,7 @@ export const arraySchemaUseCases = [
       { portfolio: 'item2', assets: 'small stocks' },
       { portfolio: 'item3', assets: 0 }
     ],
-    options: <isOptions>{
+    options: <isOptions> {
       schema: {
         type: DataType.array,
         items: [
@@ -167,7 +167,7 @@ export const objectSchemaUseCases = [
       length: 1,
       items: []
     },
-    options: <isOptions>{
+    options: <isOptions> {
       schema: {
         props: {
           headline: { type: DataType.string },
@@ -185,7 +185,7 @@ export const objectSchemaUseCases = [
       length: '2',
       items: []
     },
-    options: <isOptions>{
+    options: <isOptions> {
       schema: {
         props: {
           headline: { type: DataType.string },
@@ -203,7 +203,7 @@ export const objectSchemaUseCases = [
       length: '3',
       items: []
     },
-    options: <isOptions>{
+    options: <isOptions> {
       schema: {
         props: {
           headline: { type: DataType.string },
@@ -220,7 +220,7 @@ export const objectSchemaUseCases = [
       headline: 'test4',
       items: []
     },
-    options: <isOptions>{
+    options: <isOptions> {
       schema: {
         props: {
           headline: { type: DataType.string, required: true },
@@ -234,7 +234,7 @@ export const objectSchemaUseCases = [
   {
     description: `Expect to validate an array of a single type`,
     test: { headline: [0, 0] },
-    options: <isOptions>{
+    options: <isOptions> {
       schema: {
         props: {
           headline: { type: DataType.array, options: { type: DataType.number } }
@@ -246,7 +246,7 @@ export const objectSchemaUseCases = [
   {
     description: `Expect to validate an array of a single type`,
     test: { headline: [0, '0', 0] },
-    options: <isOptions>{
+    options: <isOptions> {
       schema: {
         props: {
           headline: { type: DataType.array, options: { type: DataType.number } }
@@ -258,7 +258,7 @@ export const objectSchemaUseCases = [
   {
     description: `Expect to validate an array of multiple posible types`,
     test: { headline: [0, '0', 0] },
-    options: <isOptions>{
+    options: <isOptions> {
       schema: {
         props: {
           headline: { type: [DataType.array, DataType.string] }
@@ -270,7 +270,7 @@ export const objectSchemaUseCases = [
   {
     description: `Expect to validate an array of multiple posible types`,
     test: { headline: "[ 0, '0', 0 ]" },
-    options: <isOptions>{
+    options: <isOptions> {
       schema: {
         props: {
           headline: { type: [DataType.array, DataType.string] }
@@ -282,7 +282,7 @@ export const objectSchemaUseCases = [
   {
     description: `Expect to validate an array with nested properties`,
     test: { stats: { name: 'John', age: 40 } },
-    options: <isOptions>{
+    options: <isOptions> {
       schema: {
         props: {
           stats: {
@@ -300,7 +300,7 @@ export const objectSchemaUseCases = [
   {
     description: `Expect to validate an array with nested properties`,
     test: { stats: { name: 'John', page: 40 } },
-    options: <isOptions>{
+    options: <isOptions> {
       schema: {
         props: {
           stats: {
@@ -323,7 +323,7 @@ export const objectSchemaUseCases = [
       city: 'Washington',
       country: 'USA'
     },
-    options: <isOptions>{
+    options: <isOptions> {
       schema: {
         type: DataType.object,
         props: {
@@ -349,7 +349,7 @@ export const objectSchemaUseCases = [
         additional2: 2
       }
     },
-    options: <isOptions>{
+    options: <isOptions> {
       schema: {
         props: {
           foo: { type: DataType.number },
