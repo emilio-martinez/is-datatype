@@ -2,8 +2,10 @@ const path = require('path')
 const webpack = require('webpack')
 const CompressionPlugin = require('compression-webpack-plugin')
 
+const ENTRY = path.resolve(__dirname, './index.ts')
 const SRC_DIR = path.resolve(__dirname, './src')
 const DIST_DIR = path.resolve(__dirname, './dist')
+const LIB_NAME = 'isDatatype';
 
 module.exports = function (_env) {
   const env = {
@@ -30,13 +32,13 @@ module.exports = function (_env) {
     context: SRC_DIR,
     devtool: 'cheap-module-source-map',
     entry: {
-      'is.func': path.resolve(SRC_DIR, './is.func.ts')
+      [LIB_NAME]: ENTRY
     },
     output: {
       path: path.resolve(DIST_DIR, './bundle'),
       filename: `[name].umd${env.min ? '.min' : ''}.js`,
       sourceMapFilename: '[file].map',
-      library: 'isDatatype',
+      library: LIB_NAME,
       libraryTarget: 'umd',
       pathinfo: false
     },

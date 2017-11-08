@@ -1,7 +1,8 @@
 /* eslint-env jasmine */
+/* eslint-disable no-multi-spaces */
 // tslint:disable object-literal-sort-keys
 
-import { DataType, isOptions } from '../../is.func'
+import { DataType } from '../../src/data-type'
 
 export const validNumberUseCases = [37, 3.14, Math.LN2, Infinity, Number.POSITIVE_INFINITY, Number(1)]
 
@@ -87,14 +88,12 @@ export const numberRangeUseCases = [
   { test: -3.13,  options: { min: -3.13, exclMin: -3.13 },  expect: false },
 
   // With inconsequential option
-  { test: -3.13,  options: { min: -3.13, exclMin: -3.13, someOtherProp: true },  expect: false },
-];
+  { test: -3.13,  options: { min: -3.13, exclMin: -3.13, someOtherProp: true },  expect: false }
+]
 
 export const multipleOfUseCases = [
-  { test: Number.POSITIVE_INFINITY,
-                    options: { multipleOf: 1 },     expect: false },
-  { test: Number.NEGATIVE_INFINITY,
-                    options: { multipleOf: 1 },     expect: false },
+  { test: Number.POSITIVE_INFINITY, options: { multipleOf: 1 },     expect: false },
+  { test: Number.NEGATIVE_INFINITY, options: { multipleOf: 1 },     expect: false },
   { test: 0,        options: { multipleOf: 1 },     expect: true },
   { test: 0,        options: { multipleOf: -1 },    expect: true },
   { test: 1,        options: { multipleOf: 1 },     expect: true },
@@ -112,7 +111,7 @@ export const multipleOfUseCases = [
 
   // With inconsequential option
   { test: 6.28,     options: { multipleOf: -3.14, someOtherProp: true }, expect: true }
-];
+]
 
 export const integerUseCases = [
   { test: 21,             options: {},  expect: true },
@@ -134,7 +133,7 @@ export const integerUseCases = [
 
   // With inconsequential option
   { test: 3.14,           options: { multipleOf: 3.14, someOtherProp: true },  expect: false }
-];
+]
 
 export const naturalUseCases = [
   { test: 21,             options: {},  expect: true },
@@ -164,7 +163,7 @@ export const naturalUseCases = [
 
   // With inconsequential option
   { test: 0,              options: { exclMax: 0, someOtherProp: true },  expect: false }
-];
+]
 
 export const validStringUseCases = [
   'bla',
@@ -185,53 +184,53 @@ export const stringPatternUseCases = [
 
   // With inconsequential option
   { test: 'John Smith',     options: { pattern: '(\\w+)\\s(\\w+)', someOtherProp: true },  expect: true }
-];
+]
 
 export const validBooleanUseCases = [true, false, Boolean(true)]
 
 export const validArrayUseCases = [
-  { test: [1, 2, 4],              options: { type: DataType.number } },
-  { test: [true, false],          options: { type: DataType.boolean } },
-  { test: [() => {}],             options: { type: DataType.function } },
-  { test: [{a:1}, new Object()],  options: { type: DataType.object } },
-  { test: ['1', '2', '4'],        options: { type: DataType.string } },
-  { test: [[1], [2], [4]],        options: { type: DataType.array } },
+  { test: [1, 2, 4],          options: { type: DataType.number } },
+  { test: [true, false],      options: { type: DataType.boolean } },
+  { test: [() => {}],         options: { type: DataType.function } },
+  { test: [{ a: 1 }, {}],     options: { type: DataType.object } },
+  { test: ['1', '2', '4'],    options: { type: DataType.string } },
+  { test: [[1], [2], [4]],    options: { type: DataType.array } },
 
   // With inconsequential option
-  { test: [[1], [2], [4]],        options: { type: DataType.array, someOtherProp: true } }
-];
+  { test: [[1], [2], [4]],    options: { type: DataType.array, someOtherProp: true } }
+]
 
 export const arrayWithOptionsUseCases = [
-  { test: [1, '2', 4],        options: { type: DataType.number },     expect: false },
-  { test: [true, 'false'],    options: { type: DataType.boolean },    expect: false },
-  { test: [() => {}, {a:1}],  options: { type: DataType.function },   expect: false },
-  { test: [{a:1}, 4],         options: { type: DataType.object },     expect: false },
-  { test: ['1', 2, '4'],      options: { type: DataType.string },     expect: false },
-  { test: [[1], 2, [4]],      options: { type: DataType.array },      expect: false },
+  { test: [1, '2', 4],            options: { type: DataType.number },     expect: false },
+  { test: [true, 'false'],        options: { type: DataType.boolean },    expect: false },
+  { test: [() => {}, { a: 1 }],   options: { type: DataType.function },   expect: false },
+  { test: [{ a: 1 }, 4],          options: { type: DataType.object },     expect: false },
+  { test: ['1', 2, '4'],          options: { type: DataType.string },     expect: false },
+  { test: [[1], 2, [4]],          options: { type: DataType.array },      expect: false },
 
-  { test: [1, '2', 4],        options: { type: [ DataType.number, DataType.string ] },     expect: true },
-  { test: [true, 'false'],    options: { type: [ DataType.boolean, DataType.string ] },    expect: true },
-  { test: [() => {}, {a:1}],  options: { type: [ DataType.function, DataType.object ] },   expect: true },
-  { test: [{a:1}, 4],         options: { type: [ DataType.object, DataType.number ] },     expect: true },
-  { test: ['1', 2, '4'],      options: { type: [ DataType.string, DataType.number ] },     expect: true },
-  { test: [[1], 2, [4]],      options: { type: [ DataType.array, DataType.number ] },      expect: true },
+  { test: [1, '2', 4],            options: { type: [ DataType.number, DataType.string ] },     expect: true },
+  { test: [true, 'false'],        options: { type: [ DataType.boolean, DataType.string ] },    expect: true },
+  { test: [() => {}, { a: 1 }],   options: { type: [ DataType.function, DataType.object ] },   expect: true },
+  { test: [{ a: 1 }, 4],          options: { type: [ DataType.object, DataType.number ] },     expect: true },
+  { test: ['1', 2, '4'],          options: { type: [ DataType.string, DataType.number ] },     expect: true },
+  { test: [[1], 2, [4]],          options: { type: [ DataType.array, DataType.number ] },      expect: true },
 
-  { test: [1],                options: { min: 2 },      expect: false },
-  { test: [1, 2],             options: { min: 2 },      expect: true },
-  { test: [1, 2],             options: { max: 2 },      expect: true },
-  { test: [1, 2, 3],          options: { max: 2 },      expect: false },
-  { test: [1, 2, 3],          options: { exclMax: 3 },      expect: false },
-  { test: [1, 2],             options: { exclMax: 3 },      expect: true },
-  { test: [1, 2, 3],          options: { exclMin: 3 },      expect: false },
-  { test: [1, 2, 3, 4],       options: { exclMin: 3 },      expect: true },
+  { test: [1],                    options: { min: 2 },      expect: false },
+  { test: [1, 2],                 options: { min: 2 },      expect: true },
+  { test: [1, 2],                 options: { max: 2 },      expect: true },
+  { test: [1, 2, 3],              options: { max: 2 },      expect: false },
+  { test: [1, 2, 3],              options: { exclMax: 3 },  expect: false },
+  { test: [1, 2],                 options: { exclMax: 3 },  expect: true },
+  { test: [1, 2, 3],              options: { exclMin: 3 },  expect: false },
+  { test: [1, 2, 3, 4],           options: { exclMin: 3 },  expect: true },
 
   // With inconsequential option
-  { test: [1, 2, 3, 4],       options: { exclMin: 3, someOtherProp: true },      expect: true }
-];
+  { test: [1, 2, 3, 4],           options: { exclMin: 3, someOtherProp: true },      expect: true }
+]
 
-export const validFunctionUseCases = [function() {}, class C {}, Math.sin]
+export const validFunctionUseCases = [function () {}, class C {}, Math.sin]
 
-export const validObjectUseCases = [{ a: 1 }, new Object()]
+export const validObjectUseCases = [{ a: 1 }, {}]
 
 export const optionalObjectUseCases = [
   { test: null, options: { allowNull: true } },

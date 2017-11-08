@@ -14,7 +14,7 @@
     "noUnusedParameters": true,
     "outDir": "./dist",
     "removeComments": false,
-    "sourceMap": true,
+    "sourceMap": false,
     "strictNullChecks": true,
     "types": [
       "jasmine"
@@ -22,7 +22,7 @@
   },
   "compileOnSave": false,
   "files": [
-    "src/is.func.ts"
+    "index.ts"
   ],
   "exclude": [
     "node_modules"

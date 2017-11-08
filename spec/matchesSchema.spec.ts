@@ -1,10 +1,10 @@
 /* eslint-env jasmine */
 // tslint:disable object-literal-sort-keys
 
-import { DataType } from '../is.func'
-import { matchesSchema } from '../is.internal'
+import { DataType } from '../src/data-type'
+import { matchesSchema } from '../src/schema'
 // eslint-disable-next-line no-unused-vars
-import { isTypeSchema } from '../is.interfaces'
+import { isTypeSchema } from '../src/interfaces'
 
 describe(`\`matchesSchema\` function`, () => {
   it(`should handle validating undefined`, () => {

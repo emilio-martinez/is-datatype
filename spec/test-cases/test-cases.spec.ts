@@ -1,6 +1,6 @@
 /* eslint-env jasmine */
 
-import { DataType } from '../../is.func'
+import { DataType } from '../../src/data-type'
 import {
   invalidNumberUseCases,
   validArrayUseCases,
@@ -23,7 +23,7 @@ const dataTypeTestCaseMap = {
   [DataType.undefined]: [...validUndefinedUseCases]
 }
 
-export function getDataTypeUseCases(
+export function getDataTypeUseCases (
   exclusions?: DataType | DataType[],
   testCaseMap: { [k: number]: any[] } = dataTypeTestCaseMap
 ): any[] {

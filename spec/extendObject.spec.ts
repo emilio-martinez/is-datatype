@@ -1,6 +1,6 @@
 /* eslint-env jasmine */
 
-import { extendObject } from '../is.internal'
+import { extendObject } from '../src/utils'
 
 describe('extendObject', () => {
   it('should extend an object', () => {

@@ -5,43 +5,12 @@ import {
   isOptionsObject,
   isOptionsString,
   isTypeSchema
-} from './is.interfaces'
-import {
-  DATATYPE,
-  extendObject,
-  isMultipleOf,
-  isOneOfMultipleTypes,
-  isValidOptions,
-  matchesSchema,
-  NEG_INF,
-  POS_INF,
-  testNumberWithinBounds,
-  validDataType
-} from './is.internal'
-
-/**
- * The available data types that `is` can validate for.
- */
-export enum DataType {
-  any = -1,
-  // Primitives
-  undefined = 1,
-  boolean,
-  number,
-  integer,
-  natural,
-  string,
-  // Non-primitives
-  function = 11,
-  object,
-  array
-}
-
-/**
- * Merged type to help TS understand these enums have the same values
- * although one is a regular `enum` and the other is `const enum`
- */
-type DT = DataType & DATATYPE
+} from './interfaces'
+import { extendObject, isValidOptions } from './utils'
+import { matchesSchema } from './schema'
+import { isMultipleOf, testNumberWithinBounds } from './number-helpers'
+import { DATATYPE, DataType, DT, validDataType } from './data-type'
+import { NEGATIVE_INFINITY, POSITIVE_INFINITY } from './constants'
 
 /**
  * Default option set to use within `is`
@@ -50,15 +19,15 @@ const isDefaultOptions: isOptions = {
   allowNull: false,
   arrayAsObject: false,
   exclEmpty: false,
-  exclMax: POS_INF,
-  exclMin: NEG_INF,
-  max: POS_INF,
-  min: NEG_INF,
+  exclMax: POSITIVE_INFINITY,
+  exclMin: NEGATIVE_INFINITY,
+  max: POSITIVE_INFINITY,
+  min: NEGATIVE_INFINITY,
   multipleOf: 0,
   pattern: '[sS]*',
   patternFlags: '',
   schema: null,
-  type: <DT>DATATYPE.any,
+  type: <DT> DATATYPE.any
 }
 
 /**
@@ -162,14 +131,14 @@ const isDefaultOptions: isOptions = {
  * @param type - One of the DataType enum values
  * @returns Whether the validation is true or not
  */
-export function is(val: undefined | boolean, type: DataType): boolean
-export function is(val: number, type: DataType, options?: isOptionsNumber): boolean
-export function is(val: string, type: DataType, options?: isOptionsString): boolean
-export function is(val: any[], type: DataType, options?: isOptionsArray): boolean
-export function is(val: Object, type: DataType, options?: isOptionsObject): boolean
-export function is(val: any, type: DataType, options?: isOptions): boolean {
+export function is (val: undefined | boolean, type: DataType): boolean
+export function is (val: number, type: DataType, options?: isOptionsNumber): boolean
+export function is (val: string, type: DataType, options?: isOptionsString): boolean
+export function is (val: any[], type: DataType, options?: isOptionsArray): boolean
+export function is (val: Object, type: DataType, options?: isOptionsObject): boolean
+export function is (val: any, type: DataType, options?: isOptions): boolean {
 
-  if (<DT>type === DATATYPE.any) return true;
+  if (<DT> type === DATATYPE.any) return true
 
   /** Validate `type` */
   if (!validDataType(type)) {
@@ -188,17 +157,17 @@ export function is(val: any, type: DataType, options?: isOptions): boolean {
    * Numeric particular use cases
    * All leverage the `number` check by setting the options their use case requires.
    */
-  if (<DT>type === DATATYPE.integer || <DT>type === DATATYPE.natural) {
+  if (<DT> type === DATATYPE.integer || <DT> type === DATATYPE.natural) {
     /** Immediately return false is `multipleOf` is passed, but it's not a multiple of 1. */
     if (!isMultipleOf(opts.multipleOf, 1)) return false
 
     const numOptions: isOptions = { multipleOf: opts.multipleOf === 0 ? 1 : opts.multipleOf }
 
-    if (<DT>type === DATATYPE.natural) {
+    if (<DT> type === DATATYPE.natural) {
       numOptions.min = opts.min !== undefined && opts.min >= 0 ? opts.min : 0
     }
 
-    return is(val, <DT>DATATYPE.number, extendObject({}, opts, numOptions))
+    return is(val, <DT> DATATYPE.number, extendObject({}, opts, numOptions))
   }
 
   /**
@@ -207,7 +176,7 @@ export function is(val: any, type: DataType, options?: isOptions): boolean {
    * If it's allowed, check for `any` or `object`
    */
   if (val === null) {
-    return !opts.allowNull ? false : <DT>type === DATATYPE.object
+    return !opts.allowNull ? false : <DT> type === DATATYPE.object
   }
 
   /**
@@ -218,17 +187,18 @@ export function is(val: any, type: DataType, options?: isOptions): boolean {
    *
    * If `typeOfCheck` is false, return false.
    */
-  const typeOfCheck =
-    <DT>type === DATATYPE.number
-        ? typeof val === DataType[type] && !isNaN(val)
-        : <DT>type === DATATYPE.array ? Array.isArray(val) : typeof val === DataType[type]
+  const typeOfCheck = <DT> type === DATATYPE.number
+    ? typeof val === DataType[type] && !isNaN(val)
+    : <DT> type === DATATYPE.array
+      ? Array.isArray(val)
+      : typeof val === DataType[type]
   if (!typeOfCheck) return false
 
   /**
    * If `array` is disallowed as object (default), check that the obj is not an array.
    * Is the schema option is set, the object will be validated against the schema.
    */
-  if (<DT>type === DATATYPE.object) {
+  if (<DT> type === DATATYPE.object) {
     return (
       (!Array.isArray(val) || opts.arrayAsObject === true) &&
       (opts.schema === null || matchesSchema(val, opts.schema as isTypeSchema | isTypeSchema[]))
@@ -239,7 +209,7 @@ export function is(val: any, type: DataType, options?: isOptions): boolean {
    * If type is `array` and the `type` option is different than `any`,
    * check that all items in the array are of that type.
    */
-  if (<DT>type === DATATYPE.array) {
+  if (<DT> type === DATATYPE.array) {
     return (
       (val as any[]).every(n => isOneOfMultipleTypes(n, opts.type as DataType | DataType[])) &&
       (opts.schema === null || matchesSchema(val, opts.schema as isTypeSchema | isTypeSchema[])) &&
@@ -248,7 +218,7 @@ export function is(val: any, type: DataType, options?: isOptions): boolean {
   }
 
   /** If type is `string` and empty is disallowed, check for an empty string. */
-  if (<DT>type === DATATYPE.string) {
+  if (<DT> type === DATATYPE.string) {
     return (
       (val.length > 0 || !opts.exclEmpty) &&
       typeof opts.pattern === 'string' &&
@@ -263,7 +233,7 @@ export function is(val: any, type: DataType, options?: isOptions): boolean {
    * `multipleOf` will only be checked when different than 0.
    * When val is either negative or positive Infinity, `multipleOf` will be false.
    */
-  if (<DT>type === DATATYPE.number) {
+  if (<DT> type === DATATYPE.number) {
     return (
       testNumberWithinBounds(val, opts.min, opts.max, opts.exclMin, opts.exclMax) &&
       isMultipleOf(val, opts.multipleOf)
@@ -274,4 +244,17 @@ export function is(val: any, type: DataType, options?: isOptions): boolean {
   return true
 }
 
-export { isOptions } from './is.interfaces'
+/**
+ * Tests a value against a series of DataTypes (one or more).
+ */
+export function isOneOfMultipleTypes (val: any, type: DataType | DataType[], options?: isOptions): boolean {
+  /** Coerce `DataType` into an array and filter out non-`DataType` items */
+  const types = (Array.isArray(type) ? type : [type]).filter(validDataType)
+
+  /**
+   * If no length, return false
+   * Else if `types` contain any, return true
+   * Else test against `is`
+   */
+  return types.length > 0 ? types.some(n => is(val, n, options)) : false
+}

@@ -66,4 +66,4 @@ function benchmark (version, older, newer) {
   // printSingleSummary(SUITES, NEW_VERSION)
 }
 
-benchmark('v0.3.1', require('./is.func-0-3-1.umd.min'), require('../../dist/bundle/is.func.umd.min'))
+benchmark('v0.3.1', require('./is.func-0-3-1.umd.min'), require('../../dist/bundle/isDatatype.umd.min'))

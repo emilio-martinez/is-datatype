@@ -1,7 +1,6 @@
 /* eslint-env jasmine */
 
-import { DataType } from '../is.func'
-import { DATATYPE } from '../is.internal'
+import { DataType, DATATYPE } from '../src/data-type'
 import { dataTypeKeys } from './test-cases/test-cases.spec'
 
 describe('`DataType` parity', () => {
