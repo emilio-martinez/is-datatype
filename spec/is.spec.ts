@@ -337,70 +337,82 @@ describe('`is` and `matchesSchema`', () => {
 
   describe('`options` validation', () => {
     it('should detect invalid values assigned to `type`', () => {
+      expect(() => is([''], DataType.array, { type: undefined })).not.toThrow()
       expect(() => is([''], DataType.array, { type: DataType.string })).not.toThrow()
       expect(() => is([''], DataType.array, { type: DataType[DataType.string] } as any)).toThrow()
     })
 
     it('should detect invalid values assigned to `pattern`', () => {
+      expect(() => is('hello', DataType.string, { pattern: undefined })).not.toThrow()
       expect(() => is('hello', DataType.string, { pattern: 'hello' })).not.toThrow()
       expect(() => is('hello', DataType.string, { pattern: /(hello)/ } as any)).toThrow()
     })
 
     it('should detect invalid values assigned to `patternFlags`', () => {
+      expect(() => is('hello', DataType.string, { patternFlags: undefined })).not.toThrow()
       expect(() => is('hello', DataType.string, { patternFlags: '' })).not.toThrow()
       expect(() => is('hello', DataType.string, { patternFlags: 'ig' })).not.toThrow()
       expect(() => is('hello', DataType.string, { patternFlags: null } as any)).toThrow()
     })
 
     it('should detect invalid values assigned to `exclEmpty`', () => {
+      expect(() => is('hello', DataType.string, { exclEmpty: undefined })).not.toThrow()
       expect(() => is('hello', DataType.string, { exclEmpty: true })).not.toThrow()
       expect(() => is('hello', DataType.string, { exclEmpty: 'true' } as any)).toThrow()
       expect(() => is('hello', DataType.string, { exclEmpty: 1 } as any)).toThrow()
     })
 
     it('should detect invalid values assigned to `schema`', () => {
+      expect(() => is({}, DataType.object, { schema: undefined })).not.toThrow()
       expect(() => is({}, DataType.object, { schema: null })).not.toThrow()
       expect(() => is({}, DataType.object, { schema: {} })).not.toThrow()
-      expect(() => is({}, DataType.object, { schema: undefined } as any)).toThrow()
+      expect(() => is({}, DataType.object, { schema: 'true' } as any)).toThrow()
     })
 
     it('should detect invalid values assigned to `allowNull`', () => {
+      expect(() => is(null, DataType.object, { allowNull: undefined })).not.toThrow()
       expect(() => is(null, DataType.object, { allowNull: true })).not.toThrow()
       expect(() => is(null, DataType.object, { allowNull: 'true' } as any)).toThrow()
       expect(() => is(null, DataType.object, { allowNull: 1 } as any)).toThrow()
     })
 
     it('should detect invalid values assigned to `arrayAsObject`', () => {
+      expect(() => is([''], DataType.object, { arrayAsObject: undefined })).not.toThrow()
       expect(() => is([''], DataType.object, { arrayAsObject: true })).not.toThrow()
       expect(() => is([''], DataType.object, { arrayAsObject: 'true' } as any)).toThrow()
       expect(() => is([''], DataType.object, { arrayAsObject: 1 } as any)).toThrow()
     })
 
     it('should detect invalid values assigned to `min`', () => {
+      expect(() => is(100, DataType.number, { min: undefined })).not.toThrow()
       expect(() => is(100, DataType.number, { min: 0 })).not.toThrow()
       expect(() => is(100, DataType.number, { min: '0' } as any)).toThrow()
       expect(() => is(100, DataType.number, { min: NaN })).toThrow()
     })
 
     it('should detect invalid values assigned to `max`', () => {
+      expect(() => is(100, DataType.number, { max: undefined })).not.toThrow()
       expect(() => is(100, DataType.number, { max: 0 })).not.toThrow()
       expect(() => is(100, DataType.number, { max: '0' } as any)).toThrow()
       expect(() => is(100, DataType.number, { max: NaN })).toThrow()
     })
 
     it('should detect invalid values assigned to `exclMin`', () => {
+      expect(() => is(100, DataType.number, { exclMin: undefined })).not.toThrow()
       expect(() => is(100, DataType.number, { exclMin: 0 })).not.toThrow()
       expect(() => is(100, DataType.number, { exclMin: '0' } as any)).toThrow()
       expect(() => is(100, DataType.number, { exclMin: NaN })).toThrow()
     })
 
     it('should detect invalid values assigned to `exclMax`', () => {
+      expect(() => is(100, DataType.number, { exclMax: undefined })).not.toThrow()
       expect(() => is(100, DataType.number, { exclMax: 0 })).not.toThrow()
       expect(() => is(100, DataType.number, { exclMax: '0' } as any)).toThrow()
       expect(() => is(100, DataType.number, { exclMax: NaN })).toThrow()
     })
 
     it('should detect invalid values assigned to `multipleOf`', () => {
+      expect(() => is(100, DataType.number, { multipleOf: undefined })).not.toThrow()
       expect(() => is(100, DataType.number, { multipleOf: 0 })).not.toThrow()
       expect(() => is(100, DataType.number, { multipleOf: '0' } as any)).toThrow()
       expect(() => is(100, DataType.number, { multipleOf: NaN })).toThrow()

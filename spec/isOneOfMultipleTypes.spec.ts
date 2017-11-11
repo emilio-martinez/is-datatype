@@ -8,7 +8,7 @@ const invalidTypeValues = [
   'hello',
   ['hello'],
   {},
-  function () {},
+  function () { /**/ },
   null,
   undefined
 ]

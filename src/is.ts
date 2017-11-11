@@ -4,31 +4,12 @@ import {
   isOptionsNumber,
   isOptionsObject,
   isOptionsString,
-  isTypeSchema
+  StrictOptions
 } from './interfaces'
-import { extendObject, isValidOptions } from './utils'
 import { matchesSchema } from './schema'
 import { isMultipleOf, testNumberWithinBounds } from './number-helpers'
 import { DATATYPE, DataType, DT, validDataType } from './data-type'
-import { NEGATIVE_INFINITY, POSITIVE_INFINITY } from './constants'
-
-/**
- * Default option set to use within `is`
- */
-const isDefaultOptions: isOptions = {
-  allowNull: false,
-  arrayAsObject: false,
-  exclEmpty: false,
-  exclMax: POSITIVE_INFINITY,
-  exclMin: NEGATIVE_INFINITY,
-  max: POSITIVE_INFINITY,
-  min: NEGATIVE_INFINITY,
-  multipleOf: 0,
-  pattern: '[sS]*',
-  patternFlags: '',
-  schema: null,
-  type: <DT> DATATYPE.any
-}
+import { Options } from './options'
 
 /**
  * Type validation function meant to go beyond the use cases of operators
@@ -145,13 +126,8 @@ export function is (val: any, type: DataType, options?: isOptions): boolean {
     throw Error('Provided invalid `type` argument')
   }
 
-  /** Validate `options` */
-  if (!isValidOptions(options)) {
-    throw Error('Provided invalid options object:' + JSON.stringify(options))
-  }
-
-  /** Combine passed options with default options. */
-  const opts: isOptions = extendObject({}, isDefaultOptions, options)
+  /** Sanitize options object */
+  const opts = Options.ensure(options)
 
   /**
    * Numeric particular use cases
@@ -161,13 +137,11 @@ export function is (val: any, type: DataType, options?: isOptions): boolean {
     /** Immediately return false is `multipleOf` is passed, but it's not a multiple of 1. */
     if (!isMultipleOf(opts.multipleOf, 1)) return false
 
-    const numOptions: isOptions = { multipleOf: opts.multipleOf === 0 ? 1 : opts.multipleOf }
+    const numOptions: StrictOptions = opts
+    numOptions.multipleOf = numOptions.multipleOf === 0 ? 1 : numOptions.multipleOf
+    if (<DT> type === DATATYPE.natural) numOptions.min = Math.max(0, numOptions.min)
 
-    if (<DT> type === DATATYPE.natural) {
-      numOptions.min = opts.min !== undefined && opts.min >= 0 ? opts.min : 0
-    }
-
-    return is(val, <DT> DATATYPE.number, extendObject({}, opts, numOptions))
+    return is(val, <DT> DATATYPE.number, numOptions)
   }
 
   /**
@@ -201,7 +175,7 @@ export function is (val: any, type: DataType, options?: isOptions): boolean {
   if (<DT> type === DATATYPE.object) {
     return (
       (!Array.isArray(val) || opts.arrayAsObject === true) &&
-      (opts.schema === null || matchesSchema(val, opts.schema as isTypeSchema | isTypeSchema[]))
+      (opts.schema === null || matchesSchema(val, opts.schema))
     )
   }
 
@@ -211,8 +185,8 @@ export function is (val: any, type: DataType, options?: isOptions): boolean {
    */
   if (<DT> type === DATATYPE.array) {
     return (
-      (val as any[]).every(n => isOneOfMultipleTypes(n, opts.type as DataType | DataType[])) &&
-      (opts.schema === null || matchesSchema(val, opts.schema as isTypeSchema | isTypeSchema[])) &&
+      (val as any[]).every(n => isOneOfMultipleTypes(n, opts.type)) &&
+      (opts.schema === null || matchesSchema(val, opts.schema)) &&
       testNumberWithinBounds((val as any[]).length, opts.min, opts.max, opts.exclMin, opts.exclMax)
     )
   }
