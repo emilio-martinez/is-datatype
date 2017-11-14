@@ -9,6 +9,8 @@ describe('`DataType` parity', () => {
     testedTypes.push(DataType.any)
     expect(DataType.undefined).toBe(DATATYPE.undefined as number, 'Failed for `undefined`')
     testedTypes.push(DataType.undefined)
+    expect(DataType.null).toBe(DATATYPE.null as number, 'Failed for `null`')
+    testedTypes.push(DataType.null)
     expect(DataType.boolean).toBe(DATATYPE.boolean as number, 'Failed for `boolean`')
     testedTypes.push(DataType.boolean)
     expect(DataType.number).toBe(DATATYPE.number as number, 'Failed for `number`')

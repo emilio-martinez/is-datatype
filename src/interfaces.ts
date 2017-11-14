@@ -51,7 +51,6 @@ export interface StrictOptionsArray extends StrictOptionsMinMax, StrictOptionsSc
  */
 export type isOptionsObject = Partial<StrictOptionsObject>
 export interface StrictOptionsObject extends StrictOptionsSchema {
-  allowNull: boolean
   arrayAsObject: boolean
 }
 

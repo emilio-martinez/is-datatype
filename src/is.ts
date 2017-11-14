@@ -33,9 +33,6 @@ import { Options } from './options'
  *
  * This function is opinionated in the sense that:
  *
- * * When testing for `object` and `any`, `null` will be disallowed
- *   by default. If desired, an optional `allowNull` can be passed
- *   to allow that use case.
  * * When testing for an `object`, Arrays will be disallowed by default.
  *   If desired, an optional `arrayAsObject` can be passed to allow that
  *   use case. Note that there is a separate check for `array`.
@@ -50,7 +47,6 @@ import { Options } from './options'
  * type: DataType.any // Used for `array` use cases
  * exclEmpty: false // Used for `string` use cases
  * schema: null // Used for `object` and `any` use cases
- * allowNull: false // Used for `object` and `any` use cases
  * arrayAsObject: false // Used for `object` use cases
  * min: Number.NEGATIVE_INFINITY // Used for `number` use cases
  * max: Number.POSITIVE_INFINITY // Used for `number` use cases
@@ -112,14 +108,25 @@ import { Options } from './options'
  * @param type - One of the DataType enum values
  * @returns Whether the validation is true or not
  */
-export function is (val: undefined | boolean, type: DataType): boolean
+export function is (val: undefined | null | boolean, type: DataType): boolean
 export function is (val: number, type: DataType, options?: isOptionsNumber): boolean
 export function is (val: string, type: DataType, options?: isOptionsString): boolean
 export function is (val: any[], type: DataType, options?: isOptionsArray): boolean
-export function is (val: Object, type: DataType, options?: isOptionsObject): boolean
+export function is (val: object, type: DataType, options?: isOptionsObject): boolean
 export function is (val: any, type: DataType, options?: isOptions): boolean {
 
+  /** Any */
   if (<DT> type === DATATYPE.any) return true
+
+  /** Undefined */
+  if (<DT> type === DATATYPE.undefined || val === undefined) {
+    return <DT> type === DATATYPE.undefined && val === undefined
+  }
+
+  /** Null */
+  if (<DT> type === DATATYPE.null || val === null) {
+    return <DT> type === DATATYPE.null && val === null
+  }
 
   /** Validate `type` */
   if (!validDataType(type)) {
@@ -142,15 +149,6 @@ export function is (val: any, type: DataType, options?: isOptions): boolean {
     if (<DT> type === DATATYPE.natural) numOptions.min = Math.max(0, numOptions.min)
 
     return is(val, <DT> DATATYPE.number, numOptions)
-  }
-
-  /**
-   * Test for `null`
-   * If it's not allowed, return `false`
-   * If it's allowed, check for `any` or `object`
-   */
-  if (val === null) {
-    return !opts.allowNull ? false : <DT> type === DATATYPE.object
   }
 
   /**

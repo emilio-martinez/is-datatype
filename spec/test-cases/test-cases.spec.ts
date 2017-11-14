@@ -4,6 +4,7 @@ import {
   validArrayUseCases,
   validBooleanUseCases,
   validFunctionUseCases,
+  validNullUseCases,
   validNumberNegativeUseCases,
   validNumberUseCases,
   validObjectUseCases,
@@ -18,7 +19,8 @@ const dataTypeTestCaseMap = {
   [DataType.function]: [...validFunctionUseCases],
   [DataType.array]: validArrayUseCases.slice().map(n => n.test),
   [DataType.object]: [...validObjectUseCases],
-  [DataType.undefined]: [...validUndefinedUseCases]
+  [DataType.undefined]: [...validUndefinedUseCases],
+  [DataType.null]: [...validNullUseCases]
 }
 
 export function getDataTypeUseCases (

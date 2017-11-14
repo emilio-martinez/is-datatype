@@ -5,6 +5,7 @@ export enum DataType {
   any = -1,
   // Primitives
   undefined = 1,
+  null,
   boolean,
   number,
   integer,
@@ -24,6 +25,7 @@ export const enum DATATYPE {
   any = -1,
   // Primitives
   undefined = 1,
+  null,
   boolean,
   number,
   integer,
