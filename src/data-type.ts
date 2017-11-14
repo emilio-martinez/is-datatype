@@ -44,8 +44,8 @@ export type DT = DataType & DATATYPE
 /**
  * Checks for whether an item is a valid option in the DataType enum
  */
-export function validDataType (val: number | string | (number | string)[] | undefined): boolean {
-  function check (val: number | string | undefined) {
+export function validDataType (val: DataType | DataType[] | undefined): boolean {
+  function check (val: DataType | undefined) {
     return typeof val === 'number' && val in DataType
   }
 

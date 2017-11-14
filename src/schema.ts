@@ -32,7 +32,7 @@ export function matchesSchema (val: any, schema: isTypeSchema | isTypeSchema[]):
     let sRequiredValid = true
 
     /** Extract the properties to test for into an array */
-    const sProps = s.props && typeof s.props === 'object' ? s.props : {}
+    const sProps = !!s.props && typeof s.props === 'object' ? s.props : {}
     const sPropKeys: string[] = Object.keys(sProps)
 
     /** Begin tests relevant to properties */
@@ -53,7 +53,11 @@ export function matchesSchema (val: any, schema: isTypeSchema | isTypeSchema[]):
        * However, if it was required, that will have been caught by the check above.
        */
       sPropsValid = sPropKeys.every(
-        p => (!!s.props && val !== undefined && val[p] !== undefined ? matchesSchema(val[p], s.props[p]) : true)
+        p => (
+          !!s.props && typeof val === 'object' && val && val[p] !== undefined
+          ? matchesSchema(val[p], s.props[p])
+          : true
+        )
       )
     }
 

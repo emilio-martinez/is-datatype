@@ -16,52 +16,60 @@ export interface isTypeSchema {
 /**
  * The entirety of the options available to use with `is`
  */
-export interface isOptions extends isOptionsNumber, isOptionsString, isOptionsArray, isOptionsObject {}
+export type isOptions = Partial<StrictOptions>
+export interface StrictOptions extends
+  StrictOptionsNumber, StrictOptionsString, StrictOptionsArray, StrictOptionsObject {}
 
 /**
  * The options available to use on a number type use case with `is`
  */
-export interface isOptionsNumber extends isOptionsMinMax {
-  multipleOf?: number
+export type isOptionsNumber = Partial<StrictOptionsNumber>
+export interface StrictOptionsNumber extends StrictOptionsMinMax {
+  multipleOf: number
 }
 
 /**
  * The options available to use on a string type use case with `is`
  */
-export interface isOptionsString {
-  pattern?: string
-  patternFlags?: string
-  exclEmpty?: boolean
+export type isOptionsString = Partial<StrictOptionsString>
+export interface StrictOptionsString {
+  pattern: string
+  patternFlags: string
+  exclEmpty: boolean
 }
 
 /**
  * The options available to use on an Array type use case with `is`
  */
-export interface isOptionsArray extends isOptionsMinMax, isOptionsSchema {
-  type?: DataType | DataType[]
+export type isOptionsArray = Partial<StrictOptionsArray>
+export interface StrictOptionsArray extends StrictOptionsMinMax, StrictOptionsSchema {
+  type: DataType | DataType[]
 }
 
 /**
  * The options available to use on an Object type use case with `is`
  */
-export interface isOptionsObject extends isOptionsSchema {
-  allowNull?: boolean
-  arrayAsObject?: boolean
+export type isOptionsObject = Partial<StrictOptionsObject>
+export interface StrictOptionsObject extends StrictOptionsSchema {
+  allowNull: boolean
+  arrayAsObject: boolean
 }
 
 /**
  * A shared interface for those option sets that use the `schema` options
  */
-export interface isOptionsSchema {
-  schema?: isTypeSchema | isTypeSchema[] | null
+export type isOptionsSchema = Partial<StrictOptionsSchema>
+export interface StrictOptionsSchema {
+  schema: isTypeSchema | isTypeSchema[] | null
 }
 
 /**
  * A shared interface for those option sets that use the `min` and `max` options
  */
-export interface isOptionsMinMax {
-  min?: number
-  max?: number
-  exclMin?: number
-  exclMax?: number
+export type isOptionsMinMax = Partial<StrictOptionsMinMax>
+export interface StrictOptionsMinMax {
+  min: number
+  max: number
+  exclMin: number
+  exclMax: number
 }
