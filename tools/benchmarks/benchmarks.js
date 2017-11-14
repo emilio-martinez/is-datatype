@@ -11,8 +11,8 @@ function benchmark (version, older, newer) {
     return () => {
       const suite = new Benchmark.Suite(`${name}`);
       suite
-        .add(OLD_VERSION, function () { OLD.is(val, OLD.DataType[type]) })
-        .add(NEW_VERSION, function () { NEW.is(val, NEW.DataType[type]) })
+        .add(OLD_VERSION, function () { OLD.is(val, OLD.DataType[type]) }, { minSamples: 200 })
+        .add(NEW_VERSION, function () { NEW.is(val, NEW.DataType[type]) }, { minSamples: 200 })
       return suite;
     }
   }
@@ -39,6 +39,25 @@ function benchmark (version, older, newer) {
     setupTest('Array (invalid)', 'array', 'array')
   ]
 
+  function getPercentDiff (suite) {
+    const benchmarks = suite.map(({ name, hz }) => ({ name, hz }))
+    const fastest = suite.filter('fastest').map('name')
+
+    let fast = 0;
+    let rest = 0;
+
+    benchmarks.forEach(b => {
+      if (fastest.indexOf(b.name) !== -1) {
+        fast += parseInt(b.hz, 10);
+      } else {
+        rest += parseInt(b.hz, 10);
+      }
+    })
+
+    var avg = (fast / (+rest / (benchmarks.length - 1)) * 100);
+    return `${Benchmark.formatNumber(avg.toFixed())}%`;
+  }
+
   function runTest (test, i, tests) {
     const last = i !== tests.length - 1;
     const suite = test();
@@ -47,7 +66,7 @@ function benchmark (version, older, newer) {
       .on('complete', function () {
         const fastest = this.filter('fastest').map('name');
         const color = fastest.length > 1 ? chalk.yellow : fastest.indexOf(NEW_VERSION) >=0 ? chalk.green : chalk.red;
-        console.log(color(`[${this.name}] Fastest is '${fastest.join("' & '")}'`))
+        console.log(color(`[${this.name}] Fastest is '${fastest.join("' & '")}' (${getPercentDiff(this)})`))
         console.log('')
       })
       .run()
