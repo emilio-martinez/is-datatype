@@ -23,6 +23,12 @@ function validSchema (val: any) {
   })
 }
 
+const toKeyRegex = (arr: (keyof isOptions)[]) => RegExp(`^(${arr.join('|')})$`)
+
+const stringParamRegex = toKeyRegex(['pattern', 'patternFlags'])
+const booleanParamRegex = toKeyRegex(['exclEmpty', 'allowNull', 'arrayAsObject'])
+const numberParamRegex = toKeyRegex(['min', 'max', 'exclMin', 'exclMax', 'multipleOf'])
+
 export class Options implements StrictOptions {
   // from StrictOptionsObject
   readonly allowNull: boolean = false
@@ -52,10 +58,10 @@ export class Options implements StrictOptions {
       if (this.hasOwnProperty(k) && val !== undefined) {
         if (
           (<keyof isOptions> k === 'type' && validDataType(<isOptions['type']> val)) ||
-          (typeof val === 'string' && /^(pattern|patternFlags)$/.test(k)) ||
-          (typeof val === 'boolean' && /^(exclEmpty|allowNull|arrayAsObject)$/.test(k)) ||
-          (typeof val === 'number' && !isNaN(val) && /^(min|max|exclMin|exclMax|multipleOf)$/.test(k)) ||
-          (<keyof isOptions> k === 'schema' && validSchema(val))
+          (typeof val === 'string' && stringParamRegex.test(k)) ||
+          (typeof val === 'boolean' && booleanParamRegex.test(k)) ||
+          (typeof val === 'number' && !isNaN(val) && numberParamRegex.test(k)) ||
+          (<keyof isOptions> k === 'schema' && validSchema(<isOptions['schema']> val))
         ) {
           this[<keyof isOptions> k] = val
         } else {
