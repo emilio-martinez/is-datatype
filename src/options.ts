@@ -26,12 +26,11 @@ function validSchema (val: any) {
 const toKeyRegex = (arr: (keyof isOptions)[]) => RegExp(`^(${arr.join('|')})$`)
 
 const stringParamRegex = toKeyRegex(['pattern', 'patternFlags'])
-const booleanParamRegex = toKeyRegex(['exclEmpty', 'allowNull', 'arrayAsObject'])
+const booleanParamRegex = toKeyRegex(['exclEmpty', 'arrayAsObject'])
 const numberParamRegex = toKeyRegex(['min', 'max', 'exclMin', 'exclMax', 'multipleOf'])
 
 export class Options implements StrictOptions {
   // from StrictOptionsObject
-  readonly allowNull: boolean = false
   readonly arrayAsObject: boolean = false
   // from StrictOptionsMinMax
   readonly min: number = NEGATIVE_INFINITY

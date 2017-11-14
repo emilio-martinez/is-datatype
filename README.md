@@ -23,11 +23,11 @@ The data types available to test for are:
 * `object`
 * `array`
 * `undefined`
+* `null`
 * `any`: catch all
 
 This function is opinionated in the sense that:
 
-* When testing for `object` and `any`, `null` will be disallowed by default. If desired, an optional `allowNull` can be passed to allow that use case.
 * When testing for an `object`, Arrays will be disallowed by default. If desired, an optional `arrayAsObject` can be passed to allow that use case. Note that there is a separate check for `array`.
 * When testing for `number`, `integer`, or `natural`, `NaN` will be disallowed at all times.
 
@@ -101,7 +101,6 @@ The default values for options are:
 type: DataType.any // Used for `array` use cases
 exclEmpty: false // Used for `string` use cases
 schema: null // Used for `object` and `any` use cases
-allowNull: false // Used for `object` and `any` use cases
 arrayAsObject: false // Used for `object` use cases
 min: Number.NEGATIVE_INFINITY // Used for `number` use cases
 max: Number.POSITIVE_INFINITY // Used for `number` use cases

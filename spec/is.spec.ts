@@ -16,6 +16,7 @@ import {
   validArrayUseCases,
   validBooleanUseCases,
   validFunctionUseCases,
+  validNullUseCases,
   validNumberNegativeUseCases,
   validNumberUseCases,
   validObjectUseCases,
@@ -315,6 +316,25 @@ describe('`is` and `matchesSchema`', () => {
     })
   })
 
+  describe('for `null` types', () => {
+    const currentDataType = DataType.null
+    const errType = DataType[currentDataType]
+
+    it('should work for regular use cases', () => {
+      validNullUseCases.forEach(n =>
+        expect(is(n, currentDataType) && matchesSchema(n, { type: currentDataType }))
+          .toBe(true, `Failed for valid \`${DataType[currentDataType]}\` test ${n}`)
+      )
+    })
+
+    it('should work when passed other data types', () => {
+      getDataTypeUseCases(currentDataType).forEach(n =>
+        expect(is(n, currentDataType) && matchesSchema(n, { type: currentDataType }))
+          .toBe(false, `Failed for \`${n}\` of type \`${typeof n}\` passed when validating for \`${errType}\``)
+      )
+    })
+  })
+
   describe('for `any` types', () => {
     const currentDataType = DataType.any
     const errType = DataType[currentDataType]
@@ -326,12 +346,6 @@ describe('`is` and `matchesSchema`', () => {
       )
       expect(is(null, currentDataType))
         .toBe(true, `Failed for valid \`${DataType[currentDataType]}\` test null`)
-    })
-
-    it('should work in optional use cases', () => {
-      const test = is(null, currentDataType, { allowNull: true }) &&
-          matchesSchema(null, { type: currentDataType, options: { allowNull: true } })
-      expect(test).toBe(true, `Failed for valid \`${DataType[currentDataType]}\` test null`)
     })
   })
 
@@ -367,13 +381,6 @@ describe('`is` and `matchesSchema`', () => {
       expect(() => is({}, DataType.object, { schema: null })).not.toThrow()
       expect(() => is({}, DataType.object, { schema: {} })).not.toThrow()
       expect(() => is({}, DataType.object, { schema: 'true' } as any)).toThrow()
-    })
-
-    it('should detect invalid values assigned to `allowNull`', () => {
-      expect(() => is(null, DataType.object, { allowNull: undefined })).not.toThrow()
-      expect(() => is(null, DataType.object, { allowNull: true })).not.toThrow()
-      expect(() => is(null, DataType.object, { allowNull: 'true' } as any)).toThrow()
-      expect(() => is(null, DataType.object, { allowNull: 1 } as any)).toThrow()
     })
 
     it('should detect invalid values assigned to `arrayAsObject`', () => {

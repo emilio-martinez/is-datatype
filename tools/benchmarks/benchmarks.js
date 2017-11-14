@@ -21,6 +21,8 @@ function benchmark (version, older, newer) {
     setupTest('Any', 'any', {}),
     setupTest('Undefined (valid)', 'undefined', undefined),
     setupTest('Undefined (invalid)', 'undefined', 'undefined'),
+    setupTest('Null (valid)', 'null', null),
+    setupTest('Null (invalid)', 'null', 'null'),
     setupTest('Boolean (valid)', 'boolean', true),
     setupTest('Boolean (invalid)', 'boolean', 'boolean'),
     setupTest('Number (valid)', 'number', 10),

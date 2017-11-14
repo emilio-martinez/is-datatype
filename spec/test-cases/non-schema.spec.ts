@@ -231,11 +231,12 @@ export const validFunctionUseCases = [function () {}, class C {}, Math.sin]
 export const validObjectUseCases = [{ a: 1 }, {}]
 
 export const optionalObjectUseCases = [
-  { test: null, options: { allowNull: true } },
   { test: [], options: { arrayAsObject: true } },
 
   // With inconsequential option
   { test: [], options: { arrayAsObject: true, someOtherProp: true } }
 ]
+
+export const validNullUseCases = [null]
 
 export const validUndefinedUseCases = [undefined]
