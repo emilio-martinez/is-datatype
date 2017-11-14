@@ -1,3 +1,12 @@
 export { is } from './src/is'
 export { DataType } from './src/data-type'
-export * from './src/interfaces'
+export {
+  isOptions,
+  isOptionsArray,
+  isOptionsMinMax,
+  isOptionsNumber,
+  isOptionsObject,
+  isOptionsSchema,
+  isOptionsString,
+  isTypeSchema
+} from './src/interfaces'

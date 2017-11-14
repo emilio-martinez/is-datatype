@@ -18,7 +18,7 @@ export interface isTypeSchema {
  */
 export type isOptions = Partial<StrictOptions>
 export interface StrictOptions extends
-StrictOptionsNumber, StrictOptionsString, StrictOptionsArray, StrictOptionsObject {}
+  StrictOptionsNumber, StrictOptionsString, StrictOptionsArray, StrictOptionsObject {}
 
 /**
  * The options available to use on a number type use case with `is`
