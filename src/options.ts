@@ -51,7 +51,7 @@ export class Options implements StrictOptions {
       const val = options[<keyof isOptions> k]
       if (this.hasOwnProperty(k) && val !== undefined) {
         if (
-          (<keyof isOptions> k === 'type' && validDataType(val)) ||
+          (<keyof isOptions> k === 'type' && validDataType(<isOptions['type']> val)) ||
           (typeof val === 'string' && /^(pattern|patternFlags)$/.test(k)) ||
           (typeof val === 'boolean' && /^(exclEmpty|allowNull|arrayAsObject)$/.test(k)) ||
           (typeof val === 'number' && !isNaN(val) && /^(min|max|exclMin|exclMax|multipleOf)$/.test(k)) ||
