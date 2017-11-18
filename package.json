@@ -47,7 +47,7 @@
   },
   "homepage": "https://github.com/emilio-martinez/is-datatype#readme",
   "devDependencies": {
-    "@commitlint/cli": "^4.1.1",
+    "@commitlint/cli": "^5.0.0",
     "@commitlint/config-angular": "^4.2.0",
     "@types/jasmine": "~2.8.0",
     "@types/node": "~8.0.34",
