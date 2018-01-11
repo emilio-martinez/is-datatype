@@ -71,7 +71,7 @@
     "rimraf": "^2.6.2",
     "ts-loader": "^3.0.2",
     "tslib": "^1.7.1",
-    "tslint": "~5.8.0",
+    "tslint": "~5.9.0",
     "tslint-config-standard": "^7.0.0",
     "tslint-no-redundant-jsdoc-annotations": "^1.0.0",
     "typescript": "~2.6.1",
