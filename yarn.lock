@@ -13,15 +13,15 @@
     lodash "4.17.4"
     meow "3.7.0"
 
-"@commitlint/config-angular-type-enum@^5.1.1":
-  version "5.1.1"
-  resolved "https://registry.yarnpkg.com/@commitlint/config-angular-type-enum/-/config-angular-type-enum-5.1.1.tgz#cabda0be798e95369fc401046dfddf0c5906f0ff"
+"@commitlint/config-angular-type-enum@^6.0.2":
+  version "6.0.2"
+  resolved "https://registry.yarnpkg.com/@commitlint/config-angular-type-enum/-/config-angular-type-enum-6.0.2.tgz#043d6b07080967e946d54196dae887a56ef3f5dc"
 
-"@commitlint/config-angular@^5.1.1":
-  version "5.1.1"
-  resolved "https://registry.yarnpkg.com/@commitlint/config-angular/-/config-angular-5.1.1.tgz#3f13debe83a12cd4004e86b72b77ff076d4c6385"
+"@commitlint/config-angular@6.0.2":
+  version "6.0.2"
+  resolved "https://registry.yarnpkg.com/@commitlint/config-angular/-/config-angular-6.0.2.tgz#2fecb198a877f34e134b1844dad65cbd8066480f"
   dependencies:
-    "@commitlint/config-angular-type-enum" "^5.1.1"
+    "@commitlint/config-angular-type-enum" "^6.0.2"
 
 "@commitlint/core@^5.2.0":
   version "5.2.0"
@@ -75,9 +75,9 @@
   version "2.8.2"
   resolved "https://registry.yarnpkg.com/@types/jasmine/-/jasmine-2.8.2.tgz#6ae4d8740c0da5d5a627df725b4eed71b8e36668"
 
-"@types/node@8.5.5":
-  version "8.5.5"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-8.5.5.tgz#6f9e8164ae1a55a9beb1d2571cfb7acf9d720c61"
+"@types/node@~8.5.5":
+  version "8.5.8"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-8.5.8.tgz#92509422653f10e9c0ac18d87e0610b39f9821c7"
 
 JSONStream@^1.0.3:
   version "1.3.2"
@@ -3307,7 +3307,7 @@ karma-typescript@^3.0.7:
     util "^0.10.3"
     vm-browserify "0.0.4"
 
-karma@2.0.0:
+karma@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/karma/-/karma-2.0.0.tgz#a02698dd7f0f05ff5eb66ab8f65582490b512e58"
   dependencies:
