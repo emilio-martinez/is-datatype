@@ -38,7 +38,6 @@
         "strict-type-predicates": false,
         "triple-equals": true,
         "typedef-whitespace": true,
-        "typeof-compare": true,
         "unified-signatures": true,
         "use-isnan": true,
         "variable-name": [true, "ban-keywords", "check-format"]
