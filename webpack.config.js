@@ -1,6 +1,7 @@
 const path = require('path')
 const webpack = require('webpack')
 const CompressionPlugin = require('compression-webpack-plugin')
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
 const ENTRY = path.resolve(__dirname, './index.ts')
 const SRC_DIR = path.resolve(__dirname, './src')
@@ -29,6 +30,7 @@ module.exports = function (_env) {
   }
 
   return {
+    mode: 'production',
     context: SRC_DIR,
     devtool: 'cheap-module-source-map',
     entry: {
@@ -40,7 +42,8 @@ module.exports = function (_env) {
       sourceMapFilename: '[file].map',
       library: LIB_NAME,
       libraryTarget: 'umd',
-      pathinfo: false
+      pathinfo: false,
+      globalObject: 'this'
     },
     module: {
       rules: [
@@ -73,28 +76,32 @@ module.exports = function (_env) {
         }
       ]
     },
+    optimization: {
+      minimize: true,
+      minimizer: [
+        new UglifyJsPlugin({
+          sourceMap: true,
+          uglifyOptions: (env.min
+            ? {
+              comments: false,
+            }
+            : {
+              compress: false,
+              output: {
+                beautify: true,
+                indent_level: 2
+              },
+              mangle: false
+            }
+          )
+        })
+      ]
+    },
     plugins: [
-      new webpack.optimize.ModuleConcatenationPlugin(),
       new webpack.LoaderOptionsPlugin({
         minimize: env.min,
         debug: false
       }),
-      new webpack.optimize.UglifyJsPlugin(
-        env.min
-          ? {
-            compress: { warnings: false, screw_ie8: true },
-            output: { comments: false },
-            sourceMap: true,
-            mangle: { screw_ie8: true }
-          }
-          : {
-            compress: false,
-            output: { comments: false, indent_level: 2 },
-            sourceMap: true,
-            mangle: false,
-            beautify: true
-          }
-      ),
       env.min ? new CompressionPlugin({ test: /\.js/, asset: '[path].gz[query]' }) : null
     ].filter(v => !!v),
     resolve: {
