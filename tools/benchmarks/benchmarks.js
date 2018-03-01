@@ -1,49 +1,79 @@
+// @ts-check
+
 const Benchmark = require('benchmark');
-const chalk = require('chalk')
+const chalk = require('chalk');
 
-function benchmark (version, older, newer) {
-  const OLD = { is: older.is, DataType: older.DataType }
-  const NEW = { is: newer.is, DataType: newer.DataType }
-  const OLD_VERSION = `${version}`;
-  const NEW_VERSION = 'latest';
+const { releases, currentReleaseName } = require('./releases');
+const { tests } = require('./tests');
 
-  const setupTest = (name, type, val) => {
-    return () => {
-      const suite = new Benchmark.Suite(`${name}`);
-      suite
-        .add(OLD_VERSION, function () { OLD.is(val, OLD.DataType[type]) }, { minSamples: 200 })
-        .add(NEW_VERSION, function () { NEW.is(val, NEW.DataType[type]) }, { minSamples: 200 })
-      return suite;
+class BenchmarkTestCases {
+  constructor(test, releases) {
+    this.test = test;
+    this.releases = this._releasesAsMap(releases);
+    this.results = [];
+
+    this.suite = new Benchmark.Suite(test.key);
+
+    for (let [name, release] of this.releases) {
+      this.suite.add(
+        release.name,
+        function() {
+          release.lib.is(test.test, release.lib.DataType[test.dataType]);
+        },
+        { minSamples: 200 }
+      );
     }
   }
 
-  const TESTS = [
-    setupTest('Any', 'any', {}),
-    setupTest('Undefined (valid)', 'undefined', undefined),
-    setupTest('Undefined (invalid)', 'undefined', 'undefined'),
-    setupTest('Null (valid)', 'null', null),
-    setupTest('Null (invalid)', 'null', 'null'),
-    setupTest('Boolean (valid)', 'boolean', true),
-    setupTest('Boolean (invalid)', 'boolean', 'boolean'),
-    setupTest('Number (valid)', 'number', 10),
-    setupTest('Number (invalid)', 'number', 'number'),
-    setupTest('Integer (valid)', 'integer', 10),
-    setupTest('Integer (invalid)', 'integer', 'integer'),
-    setupTest('Natural (valid)', 'natural', 10),
-    setupTest('Natural (invalid)', 'natural', 'natural'),
-    setupTest('String (valid)', 'string', 'hello'),
-    setupTest('String (invalid)', 'string', 10),
-    setupTest('Function (valid)', 'function', () => {}),
-    setupTest('Function (invalid)', 'function', 'function'),
-    setupTest('Object (valid)', 'object', {}),
-    setupTest('Object (invalid)', 'object', 'object'),
-    setupTest('Array (valid)', 'array', []),
-    setupTest('Array (invalid)', 'array', 'array')
-  ]
+  /** Runs the declared benchmarks */
+  run() {
+    const { key, name } = this.test;
+    const results = [];
+    const suite = this.suite;
 
-  function getPercentDiff (suite) {
-    const benchmarks = suite.map(({ name, hz }) => ({ name, hz }))
-    const fastest = suite.filter('fastest').map('name')
+    suite
+      .on('cycle', event => {
+        results.push(event);
+        this._print(String(event.target));
+      })
+      .on('complete', () => {
+        this.results = results;
+        this._printFastest();
+      })
+      .run();
+  }
+
+  /** Converts set result data into result records */
+  getResultRecords() {
+    const resultRecords = [];
+
+    return this.results.map(res => {
+      const releaseName = res.target.name;
+      const release = this.releases.get(releaseName);
+
+      return {
+        sha: release.sha,
+        tags: release.tags,
+        name: this.test.name,
+        key: this.test.key,
+        timeStamp: res.timeStamp,
+        stats: {
+          rme: res.target.stats.rme,
+          hz: res.target.hz
+        }
+      };
+    });
+  }
+
+  /** Gets the fastest run's name */
+  _getFastest() {
+    return this.suite.filter('fastest').map('name');
+  }
+
+  /** Returns a percentage-based increase/decrease in performance */
+  _getFastestDiff() {
+    const benchmarks = this.suite.map(({ name, hz }) => ({ name, hz }));
+    const fastest = this._getFastest();
 
     let fast = 0;
     let rest = 0;
@@ -54,37 +84,35 @@ function benchmark (version, older, newer) {
       } else {
         rest += parseInt(b.hz, 10);
       }
-    })
+    });
 
-    var avg = (fast / (+rest / (benchmarks.length - 1)) * 100);
+    var avg = fast / (+rest / (benchmarks.length - 1)) * 100;
     return `${Benchmark.formatNumber(avg.toFixed())}%`;
   }
 
-  function runTest (test, i, tests) {
-    const last = i !== tests.length - 1;
-    const suite = test();
-    return suite
-      .on('cycle', function (event) { console.log(`[${this.name}] ${String(event.target)}`) })
-      .on('complete', function () {
-        const fastest = this.filter('fastest').map('name');
-        const color = fastest.length > 1 ? chalk.yellow : fastest.indexOf(NEW_VERSION) >=0 ? chalk.green : chalk.red;
-        console.log(color(`[${this.name}] Fastest is '${fastest.join("' & '")}' (${getPercentDiff(this)})`))
-        console.log('')
-      })
-      .run()
+  /** Prints a message stating the fastest run for this tests */
+  _printFastest() {
+    const fastest = this._getFastest();
+    const color =
+      fastest.length > 1 ? chalk.yellow : fastest.indexOf(currentReleaseName) >= 0 ? chalk.green : chalk.red;
+
+    const msg = `Fastest is '${fastest.join("' & '")}' (${this._getFastestDiff()})\r\n`;
+
+    this._print(color(msg));
   }
 
-  function printSingleSummary (suites, version) {
-    const color = version === (NEW_VERSION) ? chalk.green : chalk.red;
-    const winners = suites.filter(suite => suite.filter('fastest').map('name').indexOf(version) >= 0).map(s => s.name)
-    console.log(color(`'${version}' is faster for '${winners.join("', '")}'`))
+  /** Print a message namespaces with the test key */
+  _print(msg) {
+    console.log(`[${this.test.key}] ${msg}`);
   }
 
-  /** Execute tests */
-  const SUITES = TESTS.map(runTest)
-  /** Print Summaries */
-  // printSingleSummary(SUITES, OLD_VERSION)
-  // printSingleSummary(SUITES, NEW_VERSION)
+  /** Converts releases intro an ES2015 Map */
+  _releasesAsMap(releases) {
+    const map = new Map();
+    releases.forEach(r => map.set(r.name, r));
+    return map;
+  }
 }
 
-benchmark('v0.3.1', require('./is.func-0-3-1.umd.min'), require('../../dist/bundle/isDatatype.umd.min'))
+// RUN
+tests.map(t => new BenchmarkTestCases(t, releases)).forEach(t => t.run());
