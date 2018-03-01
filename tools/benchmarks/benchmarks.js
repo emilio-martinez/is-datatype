@@ -1,7 +1,7 @@
 // @ts-check
 
 const Benchmark = require('benchmark');
-const chalk = require('chalk');
+const chalk = require('chalk').default;
 
 const { releases, currentReleaseName } = require('./releases');
 const { tests } = require('./tests');
@@ -27,11 +27,9 @@ class BenchmarkTestCases {
 
   /** Runs the declared benchmarks */
   run() {
-    const { key, name } = this.test;
     const results = [];
-    const suite = this.suite;
 
-    suite
+    this.suite
       .on('cycle', event => {
         results.push(event);
         this._print(String(event.target));
@@ -45,8 +43,6 @@ class BenchmarkTestCases {
 
   /** Converts set result data into result records */
   getResultRecords() {
-    const resultRecords = [];
-
     return this.results.map(res => {
       const releaseName = res.target.name;
       const release = this.releases.get(releaseName);
@@ -67,7 +63,7 @@ class BenchmarkTestCases {
 
   /** Gets the fastest run's name */
   _getFastest() {
-    return this.suite.filter('fastest').map('name');
+    return this.suite.filter('fastest').map(s => s.name);
   }
 
   /** Returns a percentage-based increase/decrease in performance */
@@ -86,8 +82,9 @@ class BenchmarkTestCases {
       }
     });
 
-    var avg = fast / (+rest / (benchmarks.length - 1)) * 100;
-    return `${Benchmark.formatNumber(avg.toFixed())}%`;
+    let avg = fast / (+rest / (benchmarks.length - 1)) * 100;
+    avg = parseFloat(avg.toFixed());
+    return `${Benchmark.formatNumber(avg)}%`;
   }
 
   /** Prints a message stating the fastest run for this tests */
@@ -103,7 +100,7 @@ class BenchmarkTestCases {
 
   /** Print a message namespaces with the test key */
   _print(msg) {
-    console.log(`[${this.test.key}] ${msg}`);
+    console.log(chalk.cyan(`[${this.test.key}]`) + ` ${msg}`);
   }
 
   /** Converts releases intro an ES2015 Map */
