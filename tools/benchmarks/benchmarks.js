@@ -3,20 +3,41 @@
 const Benchmark = require('benchmark');
 const chalk = require('chalk').default;
 
-const { releases, currentReleaseName } = require('./releases');
-const { tests } = require('./tests');
+/**
+ * @typedef BenchmarkEventRecord
+ * @property {string} timeStamp
+ * @property {{ name: string; hz: string; stats: { rme: string } }} target
+ */
+
+/**
+ * @typedef BenchmarkResultRecord
+ * @property {string} sha
+ * @property {string} name
+ * @property {string} key
+ * @property {string} timeStamp
+ */
+
+const { releases, currentReleaseName, BenchmarkRelease } = require('./releases');
+const { tests, BenchmarkTest } = require('./tests');
 
 class BenchmarkTestCases {
+  /**
+   * Creates an instance of BenchmarkTestCases.
+   * @param {BenchmarkTest} test
+   * @param {BenchmarkRelease[]} releases
+   */
   constructor(test, releases) {
     this.test = test;
     this.releases = this._releasesAsMap(releases);
+
+    /** @type BenchmarkEventRecord[] */
     this.results = [];
 
     this.suite = new Benchmark.Suite(test.key);
 
     for (let [name, release] of this.releases) {
       this.suite.add(
-        release.name,
+        release.tag,
         function() {
           release.lib.is(test.test, release.lib.DataType[test.dataType]);
         },
@@ -25,7 +46,10 @@ class BenchmarkTestCases {
     }
   }
 
-  /** Runs the declared benchmarks */
+  /**
+   * Runs the declared benchmarks.
+   * After running, the results property will be populated
+   */
   run() {
     const results = [];
 
@@ -41,15 +65,19 @@ class BenchmarkTestCases {
       .run();
   }
 
-  /** Converts set result data into result records */
+  /**
+   * Converts set result data into result records
+   * @returns {BenchmarkResultRecord[]}
+   */
   getResultRecords() {
-    return this.results.map(res => {
+    /** @type BenchmarkResultRecord[] */
+    const records = this.results.map(res => {
       const releaseName = res.target.name;
       const release = this.releases.get(releaseName);
 
       return {
         sha: release.sha,
-        tags: release.tags,
+        tag: release.tag,
         name: this.test.name,
         key: this.test.key,
         timeStamp: res.timeStamp,
@@ -59,6 +87,7 @@ class BenchmarkTestCases {
         }
       };
     });
+    return records;
   }
 
   /** Gets the fastest run's name */
@@ -103,10 +132,15 @@ class BenchmarkTestCases {
     console.log(chalk.cyan(`[${this.test.key}]`) + ` ${msg}`);
   }
 
-  /** Converts releases intro an ES2015 Map */
+  /**
+   * Converts releases intro an ES2015 Map
+   * @param {BenchmarkRelease[]} releases
+   * @returns {Map<string, BenchmarkRelease>}
+   */
   _releasesAsMap(releases) {
+    /** @type Map<string, BenchmarkRelease> */
     const map = new Map();
-    releases.forEach(r => map.set(r.name, r));
+    releases.forEach(r => map.set(r.tag, r));
     return map;
   }
 }

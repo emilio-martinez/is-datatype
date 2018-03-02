@@ -1,24 +1,47 @@
 // @ts-check
 
-const { gitSha, gitTagsBySha } = require('../utils/git');
+/**
+ * @typedef {Object} IsDataTypeRelease
+ * @property {any} is
+ * @property {any} DataType
+ */
+
+/**
+ * @typedef {Object} BenchmarkReleaseConfig
+ * @property {string} tag - Git tag marking a release
+ * @property {IsDataTypeRelease} lib - isDataType release
+ */
+
+const { gitSha, gitShaByTag } = require('../utils/git');
 
 const currentGitSha = gitSha();
 const currentReleaseName = 'HEAD';
 
-const releases = [
-  {
-    name: 'v0.3.1',
-    sha: 'c6da5dc7afcfbd790103099f1fcd9aeeb962093d',
-    lib: require('./is.func-0-3-1.umd.min')
-  },
-  {
-    name: 'HEAD',
-    sha: currentGitSha,
-    lib: require('../../dist/bundle/isDatatype.umd.min')
+class BenchmarkRelease {
+  /**
+   * Creates an instance of BenchmarkRelease.
+   * @param {BenchmarkReleaseConfig} config
+   */
+  constructor(config) {
+    this.tag = config.tag;
+    this.lib = config.lib;
+    this.sha = this.tag === currentReleaseName ? currentGitSha : gitShaByTag(this.tag);
   }
-].map(r => Object.assign({}, r, { tags: gitTagsBySha(r.sha) }));
+}
+
+const releases = [
+  new BenchmarkRelease({
+    tag: 'v0.3.1',
+    lib: require('./is.func-0-3-1.umd.min')
+  }),
+  new BenchmarkRelease({
+    tag: currentReleaseName,
+    lib: require('../../dist/bundle/isDatatype.umd.min')
+  })
+];
 
 module.exports = {
   releases,
-  currentReleaseName
+  currentReleaseName,
+  BenchmarkRelease
 };
