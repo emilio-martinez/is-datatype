@@ -127,7 +127,10 @@ class BenchmarkTestCases {
     this._print(color(msg));
   }
 
-  /** Print a message namespaces with the test key */
+  /**
+   * Print a message namespaces with the test key
+   * @param {string} msg
+   */
   _print(msg) {
     console.log(chalk.cyan(`[${this.test.key}]`) + ` ${msg}`);
   }
