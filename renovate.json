@@ -4,6 +4,5 @@
     ":semanticCommitTypeAll(build)",
     ":semanticCommitScope(package)"
   ],
-  "commitMessage": "{{semanticPrefix}}update {{depName}} to version {{newVersion}}",
-  "pinVersions": false
+  "commitMessage": "{{semanticPrefix}}update {{depName}} to version {{newVersion}}"
 }
