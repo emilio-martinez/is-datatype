@@ -2,6 +2,7 @@
   "name": "is-datatype",
   "version": "0.3.1",
   "description": "Type validation function meant to go beyond the use cases of operators such as `typeof` by providing a few more common pseudo data types to check against, as well as a certain degree of options to validate against as well",
+  "sideEffects": false,
   "main": "dist/bundle/is.func.umd.min.js",
   "types": "dist/is.func.d.ts",
   "scripts": {
