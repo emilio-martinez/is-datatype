@@ -1,5 +1,5 @@
 import { isTypeSchema } from './interfaces'
-import { DATATYPE, DataType, DT, validDataType } from './data-type'
+import { DATATYPE, DataType, DT, validMultiDataType } from './data-type'
 import { isOneOfMultipleTypes } from './is'
 
 /**
@@ -11,7 +11,7 @@ export function matchesSchema (val: any, schema: isTypeSchema | isTypeSchema[]):
   /** Test every schema until at least one of them matches */
   return schemas.some((s: isTypeSchema) => {
     /** If type is defined but invalid, schema is false */
-    if (s.type !== undefined && !validDataType(s.type)) return false
+    if (s.type !== undefined && !validMultiDataType(s.type)) return false
 
     /** Cache the type. Use `any` if none is present */
     const sType: DataType | DataType[] = s.type === undefined ? <DT> DATATYPE.any : s.type

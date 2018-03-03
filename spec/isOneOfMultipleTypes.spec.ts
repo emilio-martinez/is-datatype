@@ -15,9 +15,7 @@ const invalidTypeValues = [
 
 describe(`isOneOfMultipleTypes`, () => {
   it(`should only take valid \`DataType\` values for the \`type\` argument`, () => {
-    invalidTypeValues.forEach(n =>
-      expect(isOneOfMultipleTypes(true, n as DataType)).toBe(false, `Failed test for ${JSON.stringify(n)}`)
-    )
+    invalidTypeValues.forEach(n => expect(() => isOneOfMultipleTypes(true, n as DataType)).toThrow())
   })
 
   it(`should immediately return \`true\` when \`any\` is passed`, () => {

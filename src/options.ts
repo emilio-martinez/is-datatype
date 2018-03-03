@@ -1,4 +1,4 @@
-import { DataType, DATATYPE, DT, validDataType } from './data-type'
+import { DataType, DATATYPE, DT, validMultiDataType } from './data-type'
 import { isOptions, isTypeSchema, StrictOptions } from './interfaces'
 import { NEGATIVE_INFINITY, POSITIVE_INFINITY } from './constants'
 import { matchesSchema } from './schema'
@@ -56,7 +56,7 @@ export class Options implements StrictOptions {
       const val = options[<keyof isOptions> k]
       if (this.hasOwnProperty(k) && val !== undefined) {
         if (
-          (<keyof isOptions> k === 'type' && validDataType(<isOptions['type']> val)) ||
+          (<keyof isOptions> k === 'type' && validMultiDataType(<isOptions['type']> val)) ||
           (typeof val === 'string' && stringParamRegex.test(k)) ||
           (typeof val === 'boolean' && booleanParamRegex.test(k)) ||
           (typeof val === 'number' && !isNaN(val) && numberParamRegex.test(k)) ||

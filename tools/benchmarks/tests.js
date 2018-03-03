@@ -29,11 +29,6 @@ const tests = [
     test: undefined
   }),
   new BenchmarkTest({
-    name: 'Undefined (valid)',
-    dataType: 'undefined',
-    test: undefined
-  }),
-  new BenchmarkTest({
     name: 'Undefined (invalid)',
     dataType: 'undefined',
     test: 'undefined'
