@@ -36,7 +36,7 @@ class BenchmarkResultRecord {
 }
 
 /**
- *
+ * A record tha reflects a single test case matched to multiple releases
  * @class BenchmarkTestCases
  */
 class BenchmarkTestCases {
