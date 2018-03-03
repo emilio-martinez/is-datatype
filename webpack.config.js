@@ -1,17 +1,17 @@
-const path = require('path')
-const webpack = require('webpack')
-const CompressionPlugin = require('compression-webpack-plugin')
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const path = require('path');
+const webpack = require('webpack');
+const CompressionPlugin = require('compression-webpack-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
-const ENTRY = path.resolve(__dirname, './index.ts')
-const SRC_DIR = path.resolve(__dirname, './src')
-const DIST_DIR = path.resolve(__dirname, './dist')
+const ENTRY = path.resolve(__dirname, './index.ts');
+const SRC_DIR = path.resolve(__dirname, './src');
+const DIST_DIR = path.resolve(__dirname, './dist');
 const LIB_NAME = 'isDatatype';
 
-module.exports = function (_env) {
+module.exports = function(_env) {
   const env = {
     min: !!_env && !!_env.min
-  }
+  };
 
   const babelOptions = {
     presets: [
@@ -27,7 +27,20 @@ module.exports = function (_env) {
         }
       ]
     ]
-  }
+  };
+
+  const uglifyOptions = env.min
+    ? {
+        comments: false
+      }
+    : {
+        compress: false,
+        output: {
+          beautify: true,
+          indent_level: 2
+        },
+        mangle: false
+      };
 
   return {
     mode: 'production',
@@ -77,35 +90,22 @@ module.exports = function (_env) {
       ]
     },
     optimization: {
+      noEmitOnErrors: true,
       minimize: true,
       minimizer: [
         new UglifyJsPlugin({
           sourceMap: true,
-          uglifyOptions: (env.min
-            ? {
-              comments: false,
-            }
-            : {
-              compress: false,
-              output: {
-                beautify: true,
-                indent_level: 2
-              },
-              mangle: false
-            }
-          )
+          uglifyOptions: {
+            warnings: true,
+            safari10: true,
+            ...uglifyOptions
+          }
         })
       ]
     },
-    plugins: [
-      new webpack.LoaderOptionsPlugin({
-        minimize: env.min,
-        debug: false
-      }),
-      env.min ? new CompressionPlugin({ test: /\.js/, asset: '[path].gz[query]' }) : null
-    ].filter(v => !!v),
+    plugins: [env.min ? new CompressionPlugin({ test: /\.js/, asset: '[path].gz[query]' }) : null].filter(v => !!v),
     resolve: {
       extensions: ['.tsx', '.ts', '.js']
     }
-  }
-}
+  };
+};
