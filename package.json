@@ -12,7 +12,7 @@
     "lint:watch": "nodemon -w src -w tslint.json -e 'ts,js,json' -x 'npm run lint:tslint -- --force'",
     "lint": "npm run lint:tslint",
     "prebenchmark": "npm run clean && npm run build",
-    "benchmark": "node tools/benchmarks/benchmarks.js",
+    "benchmark": "node tools/benchmarks/index.js",
     "pretest": "npm run clean:test",
     "test": "npm run lint && node_modules/.bin/karma start --single-run",
     "pretest:watch": "npm run pretest",
