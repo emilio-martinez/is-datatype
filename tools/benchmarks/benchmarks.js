@@ -146,4 +146,5 @@ class BenchmarkTestCases {
 }
 
 // RUN
+console.log('\r\nStarting to run tests...\r\n');
 tests.map(t => new BenchmarkTestCases(t, releases)).forEach(t => t.run());
