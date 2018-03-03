@@ -69,13 +69,13 @@
     "np": "^2.20.1",
     "prettier": "^1.10.2",
     "rimraf": "^2.6.2",
-    "ts-loader": "^4.0.0",
+    "ts-loader": "^4.0.1",
     "tslib": "~1.9.0",
     "tslint": "~5.9.1",
     "tslint-config-standard": "^7.0.0",
     "tslint-no-redundant-jsdoc-annotations": "^1.0.1",
     "typescript": "~2.7.2",
     "webpack": "^4.0.1",
-    "webpack-cli": "^2.0.9"
+    "webpack-cli": "^2.0.10"
   }
 }
