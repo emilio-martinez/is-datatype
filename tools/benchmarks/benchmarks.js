@@ -1,25 +1,44 @@
 // @ts-check
 
-const Benchmark = require('benchmark');
-const chalk = require('chalk').default;
-
 /**
- * @typedef BenchmarkEventRecord
+ * @typedef BenchmarkCycleEvent
  * @property {string} timeStamp
  * @property {{ name: string; hz: string; stats: { rme: string } }} target
  */
 
+const Benchmark = require('benchmark');
+const chalk = require('chalk').default;
+const { currentReleaseName, BenchmarkRelease } = require('./releases');
+const { BenchmarkTest } = require('./tests');
+
 /**
- * @typedef BenchmarkResultRecord
- * @property {string} sha
- * @property {string} name
- * @property {string} key
- * @property {string} timeStamp
+ * A consolidated result record
+ * @class BenchmarkResultRecord
  */
+class BenchmarkResultRecord {
+  /**
+   * Creates an instance of BenchmarkResultRecord.
+   * @param {BenchmarkRelease} release
+   * @param {BenchmarkTest} test
+   * @param {BenchmarkCycleEvent} benchmarkEvent
+   */
+  constructor(release, test, benchmarkEvent) {
+    this.sha = release.sha;
+    this.tag = release.tag;
+    this.name = test.name;
+    this.key = test.key;
+    this.timeStamp = benchmarkEvent.timeStamp;
+    this.stats = {
+      rme: benchmarkEvent.target.stats.rme,
+      hz: benchmarkEvent.target.hz
+    };
+  }
+}
 
-const { releases, currentReleaseName, BenchmarkRelease } = require('./releases');
-const { tests, BenchmarkTest } = require('./tests');
-
+/**
+ *
+ * @class BenchmarkTestCases
+ */
 class BenchmarkTestCases {
   /**
    * Creates an instance of BenchmarkTestCases.
@@ -30,7 +49,7 @@ class BenchmarkTestCases {
     this.test = test;
     this.releases = this._releasesAsMap(releases);
 
-    /** @type BenchmarkEventRecord[] */
+    /** @type BenchmarkCycleEvent[] */
     this.results = [];
 
     this.suite = new Benchmark.Suite(test.key);
@@ -46,10 +65,7 @@ class BenchmarkTestCases {
     }
   }
 
-  /**
-   * Runs the declared benchmarks.
-   * After running, the results property will be populated
-   */
+  /** Runs the declared benchmarks. After running, the results property will be populated. */
   run() {
     const results = [];
 
@@ -70,24 +86,12 @@ class BenchmarkTestCases {
    * @returns {BenchmarkResultRecord[]}
    */
   getResultRecords() {
-    /** @type BenchmarkResultRecord[] */
-    const records = this.results.map(res => {
+    return this.results.map(res => {
       const releaseName = res.target.name;
       const release = this.releases.get(releaseName);
 
-      return {
-        sha: release.sha,
-        tag: release.tag,
-        name: this.test.name,
-        key: this.test.key,
-        timeStamp: res.timeStamp,
-        stats: {
-          rme: res.target.stats.rme,
-          hz: res.target.hz
-        }
-      };
+      return new BenchmarkResultRecord(release, this.test, res);
     });
-    return records;
   }
 
   /** Gets the fastest run's name */
@@ -148,6 +152,7 @@ class BenchmarkTestCases {
   }
 }
 
-// RUN
-console.log('\r\nStarting to run tests...\r\n');
-tests.map(t => new BenchmarkTestCases(t, releases)).forEach(t => t.run());
+module.exports = {
+  BenchmarkTestCases,
+  BenchmarkResultRecord
+};
