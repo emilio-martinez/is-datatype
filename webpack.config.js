@@ -1,16 +1,17 @@
-const path = require('path')
-const webpack = require('webpack')
-const CompressionPlugin = require('compression-webpack-plugin')
+const path = require('path');
+const webpack = require('webpack');
+const CompressionPlugin = require('compression-webpack-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
-const ENTRY = path.resolve(__dirname, './index.ts')
-const SRC_DIR = path.resolve(__dirname, './src')
-const DIST_DIR = path.resolve(__dirname, './dist')
+const ENTRY = path.resolve(__dirname, './index.ts');
+const SRC_DIR = path.resolve(__dirname, './src');
+const DIST_DIR = path.resolve(__dirname, './dist');
 const LIB_NAME = 'isDatatype';
 
-module.exports = function (_env) {
+module.exports = function(_env) {
   const env = {
     min: !!_env && !!_env.min
-  }
+  };
 
   const babelOptions = {
     presets: [
@@ -26,9 +27,23 @@ module.exports = function (_env) {
         }
       ]
     ]
-  }
+  };
+
+  const uglifyOptions = env.min
+    ? {
+        comments: false
+      }
+    : {
+        compress: false,
+        output: {
+          beautify: true,
+          indent_level: 2
+        },
+        mangle: false
+      };
 
   return {
+    mode: 'production',
     context: SRC_DIR,
     devtool: 'cheap-module-source-map',
     entry: {
@@ -40,7 +55,8 @@ module.exports = function (_env) {
       sourceMapFilename: '[file].map',
       library: LIB_NAME,
       libraryTarget: 'umd',
-      pathinfo: false
+      pathinfo: false,
+      globalObject: 'this'
     },
     module: {
       rules: [
@@ -73,32 +89,23 @@ module.exports = function (_env) {
         }
       ]
     },
-    plugins: [
-      new webpack.optimize.ModuleConcatenationPlugin(),
-      new webpack.LoaderOptionsPlugin({
-        minimize: env.min,
-        debug: false
-      }),
-      new webpack.optimize.UglifyJsPlugin(
-        env.min
-          ? {
-            compress: { warnings: false, screw_ie8: true },
-            output: { comments: false },
-            sourceMap: true,
-            mangle: { screw_ie8: true }
+    optimization: {
+      noEmitOnErrors: true,
+      minimize: true,
+      minimizer: [
+        new UglifyJsPlugin({
+          sourceMap: true,
+          uglifyOptions: {
+            warnings: true,
+            safari10: true,
+            ...uglifyOptions
           }
-          : {
-            compress: false,
-            output: { comments: false, indent_level: 2 },
-            sourceMap: true,
-            mangle: false,
-            beautify: true
-          }
-      ),
-      env.min ? new CompressionPlugin({ test: /\.js/, asset: '[path].gz[query]' }) : null
-    ].filter(v => !!v),
+        })
+      ]
+    },
+    plugins: [env.min ? new CompressionPlugin({ test: /\.js/, asset: '[path].gz[query]' }) : null].filter(v => !!v),
     resolve: {
       extensions: ['.tsx', '.ts', '.js']
     }
-  }
-}
+  };
+};
