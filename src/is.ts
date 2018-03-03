@@ -115,6 +115,10 @@ export function is (val: any[], type: DataType, options?: isOptionsArray): boole
 export function is (val: object, type: DataType, options?: isOptionsObject): boolean
 export function is (val: any, type: DataType, options?: isOptions): boolean {
 
+  if (!validDataType(type)) {
+    throw TypeError(`Invalid DataType provided: ${val}`)
+  }
+
   /** Any */
   if (<DT> type === DATATYPE.any) return true
 
@@ -126,11 +130,6 @@ export function is (val: any, type: DataType, options?: isOptions): boolean {
   /** Null */
   if (<DT> type === DATATYPE.null || val === null) {
     return <DT> type === DATATYPE.null && val === null
-  }
-
-  /** Validate `type` */
-  if (!validDataType(type)) {
-    throw Error('Provided invalid `type` argument')
   }
 
   /** Sanitize options object */
@@ -221,12 +220,12 @@ export function is (val: any, type: DataType, options?: isOptions): boolean {
  */
 export function isOneOfMultipleTypes (val: any, type: DataType | DataType[], options?: isOptions): boolean {
   /** Coerce `DataType` into an array and filter out non-`DataType` items */
-  const types = (Array.isArray(type) ? type : [type]).filter(validDataType)
+  const types = Array.isArray(type) ? type : [type]
 
   /**
    * If no length, return false
    * Else if `types` contain any, return true
    * Else test against `is`
    */
-  return types.length > 0 ? types.some(n => is(val, n, options)) : false
+  return types.some(n => is(val, n, options))
 }

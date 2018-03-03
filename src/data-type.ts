@@ -43,13 +43,12 @@ export const enum DATATYPE {
  */
 export type DT = DataType & DATATYPE
 
-/**
- * Checks for whether an item is a valid option in the DataType enum
- */
-export function validDataType (val: DataType | DataType[] | undefined): boolean {
-  function check (val: DataType | undefined) {
-    return typeof val === 'number' && val in DataType
-  }
+/** Validates a single DataType */
+export function validDataType (dt: DataType | undefined | null): boolean {
+  return typeof dt === 'number' && dt in DataType
+}
 
-  return Array.isArray(val) ? val.every(check) : check(val)
+/** Validates multiple DataTypes */
+export function validMultiDataType (dt: DataType | DataType[] | undefined | null): boolean {
+  return Array.isArray(dt) ? dt.every(validDataType) : validDataType(dt)
 }
