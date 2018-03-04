@@ -4,5 +4,11 @@
     ":semanticCommitTypeAll(build)",
     ":semanticCommitScope(package)"
   ],
-  "commitMessage": "{{semanticPrefix}}update {{depName}} to version {{newVersion}}"
+  "commitMessage": "{{semanticPrefix}}update {{depName}} to version {{newVersion}}",
+  "packageRules": [
+    {
+      "packagePatterns": ["^@commitlint\/.*"],
+      "groupName": "commitlint"
+    }
+  ]
 }
