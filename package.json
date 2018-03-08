@@ -76,7 +76,7 @@
     "tslint-config-standard": "7.0.0",
     "tslint-no-redundant-jsdoc-annotations": "1.0.1",
     "typescript": "2.7.2",
-    "webpack": "4.1.0",
+    "webpack": "4.1.1",
     "webpack-cli": "2.0.10"
   }
 }
