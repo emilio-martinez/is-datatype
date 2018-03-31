@@ -3,19 +3,21 @@
     "module": "es2015",
     "target": "es2015",
     "declaration": true,
-    "alwaysStrict": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "forceConsistentCasingInFileNames": true,
     "importHelpers": true,
     "moduleResolution": "node",
     "noEmitHelpers": true,
     "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "outDir": "./dist",
     "removeComments": false,
     "sourceMap": false,
-    "strictNullChecks": true,
+    "strict": true,
     "types": [
       "jasmine"
     ]
