@@ -65,7 +65,7 @@
     "karma-jasmine": "1.1.2",
     "karma-phantomjs-launcher": "1.0.4",
     "karma-typescript": "3.0.12",
-    "nodemon": "1.17.3",
+    "nodemon": "1.17.4",
     "np": "2.20.1",
     "prettier": "1.12.1",
     "rimraf": "2.6.2",
