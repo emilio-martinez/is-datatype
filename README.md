@@ -78,7 +78,6 @@ is(-10, DataType.natural); // false
 
 // Using options to affect validation
 is(-10, DataType.number, { min: -10 }); // true
-is(-10, DataType.number, { exclMin: -10 }); // false
 
 // Another example using options
 // Arrays have they're own data type, but can be allowed to be treated as objects, i.e., `typeof [] === 'object'`
@@ -104,8 +103,6 @@ schema: null // Used for `object` and `any` use cases
 arrayAsObject: false // Used for `object` use cases
 min: Number.NEGATIVE_INFINITY // Used for `number` use cases
 max: Number.POSITIVE_INFINITY // Used for `number` use cases
-exclMin: Number.NEGATIVE_INFINITY // Used for `number` use cases
-exclMax: Number.POSITIVE_INFINITY // Used for `number` use cases
 multipleOf: 0 // Used for `number` use cases. `0` means no `multipleOf` check
 ```
 
@@ -118,22 +115,16 @@ Strings have an optional value to exclude empty values by passing `exclEmpty` in
 * `type`: `DataType|DataType[]`
 * `min`: `number`
 * `max`: `number`
-* `exclMin`: `number`
-* `exclMax`: `number`
 
 With the `type` option, arrays can be tested to see whether their values are of a single type or one of multiple types, in which case an array of types needs to be passed into the `type` option. To clarify, this is strictly testing for "one of multiple types"; as long as a single one of the types passed validates as `true`, then `is` will return `true`.
 
-Additionally, arrays can be tested to have a `min`, `max`, `exclMin`, and `exclMax` lengths. `min` and `max` are inclusive in their checks (`>=` and `<=`, respectively), where `exclMin` and `exclMax` are check lengths exclusively (`<` and `>`, respectively).
+Additionally, arrays can be tested to have `min` and `max` lengths. `min` and `max` are inclusive in their checks.
 
 #### Number options
 
 * `min`: `number`
 * `max`: `number`
-* `exclMin`: `number`
-* `exclMax`: `number`
 * `multipleOf`: `number`
-
-As with Arrays, `exclMin` and `exclMax` are exclusive variants of `min` and `max` with the exception of negative and positive infinity.
 
 `multipleOf` will check whether the number being evaluated is a multiple of the value in this option. Please note that when negative and positive infinities are used as the value to test for, the use of `multipleOf` will result in `false` because using Infinity on the left side of modulus is `NaN`.
 

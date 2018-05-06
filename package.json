@@ -24,7 +24,7 @@
     "clean:test": "node_modules/.bin/rimraf coverage",
     "clean:dist": "node_modules/.bin/rimraf dist",
     "clean": "npm run clean:test & npm run clean:dist",
-    "dev": "npm run clean:dist && nodemon --watch 'src' -e 'ts' -x 'node_modules/.bin/tsc'",
+    "dev": "npm run clean:dist && node_modules/.bin/tsc --watch",
     "prebuild": "npm run clean:dist",
     "build:compile": "node_modules/.bin/tsc",
     "build:bundle": "node_modules/.bin/webpack --env.min && node_modules/.bin/webpack",

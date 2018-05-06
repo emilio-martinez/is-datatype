@@ -480,20 +480,6 @@ describe('`is` and `matchesSchema`', () => {
       expect(() => is(100, DataType.number, { max: NaN })).toThrow();
     });
 
-    it('should detect invalid values assigned to `exclMin`', () => {
-      expect(() => is(100, DataType.number, { exclMin: undefined })).not.toThrow();
-      expect(() => is(100, DataType.number, { exclMin: 0 })).not.toThrow();
-      expect(() => is(100, DataType.number, { exclMin: '0' } as any)).toThrow();
-      expect(() => is(100, DataType.number, { exclMin: NaN })).toThrow();
-    });
-
-    it('should detect invalid values assigned to `exclMax`', () => {
-      expect(() => is(100, DataType.number, { exclMax: undefined })).not.toThrow();
-      expect(() => is(100, DataType.number, { exclMax: 0 })).not.toThrow();
-      expect(() => is(100, DataType.number, { exclMax: '0' } as any)).toThrow();
-      expect(() => is(100, DataType.number, { exclMax: NaN })).toThrow();
-    });
-
     it('should detect invalid values assigned to `multipleOf`', () => {
       expect(() => is(100, DataType.number, { multipleOf: undefined })).not.toThrow();
       expect(() => is(100, DataType.number, { multipleOf: 0 })).not.toThrow();

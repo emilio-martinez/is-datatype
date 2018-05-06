@@ -50,8 +50,6 @@ import { Options } from './options';
  * arrayAsObject: false // Used for `object` use cases
  * min: Number.NEGATIVE_INFINITY // Used for `number` use cases
  * max: Number.POSITIVE_INFINITY // Used for `number` use cases
- * exclMin: Number.NEGATIVE_INFINITY // Used for `number` use cases
- * exclMax: Number.POSITIVE_INFINITY // Used for `number` use cases
  * multipleOf: 0 // Used for `number` use cases. `0` means no `multipleOf` check
  * ```
  *
@@ -65,8 +63,6 @@ import { Options } from './options';
  * * `type`: `DataType|Array<DataType>`
  * * `min`: `number`
  * * `max`: `number`
- * * `exclMin`: `number`
- * * `exclMax`: `number`
  *
  * With the `type` option, arrays can be tested to see whether their
  * values are of a single type or one of multiple types, in which case
@@ -75,21 +71,14 @@ import { Options } from './options';
  * as long as a single one of the types passed validates as `true`,
  * then `is` will return `true`.
  *
- * Additionally, arrays can be tested to have a `min`, `max`, `exclMin`,
- * and `exclMax` lengths. `min` and `max` are inclusive in their checks
- * (`>=` and `<=`, respectively), where `exclMin` and `exclMax` are check
- * lengths exclusively (`<` and `>`, respectively).
+ * Additionally, arrays can be tested to have `min` and `max` lengths.
+ * `min` and `max` are inclusive in their checks.
  *
  * ### Number options
  *
  * * `min`: `number`
  * * `max`: `number`
- * * `exclMin`: `number`
- * * `exclMax`: `number`
  * * `multipleOf`: `number`
- *
- * As with Arrays, `exclMin` and `exclMax` are exclusive variants of
- * `min` and `max` with the exception of negative and positive infinity.
  *
  * `multipleOf` will check whether the number being evaluated is a
  * multiple of the value in this option. Please note that when negative
@@ -184,7 +173,7 @@ export function is(val: any, type: DataType, options?: isOptions): boolean {
     return (
       (val as any[]).every(n => isOneOfMultipleTypes(n, opts.type)) &&
       (opts.schema === null || matchesSchema(val, opts.schema)) &&
-      testNumberWithinBounds((val as any[]).length, opts.min, opts.max, opts.exclMin, opts.exclMax)
+      testNumberWithinBounds((val as any[]).length, opts.min, opts.max)
     );
   }
 
@@ -199,16 +188,11 @@ export function is(val: any, type: DataType, options?: isOptions): boolean {
 
   /**
    * If type is `number` check against it's optional values.
-   * If `exclMin` won't exclude Number.NEGATIVE_INFINITY.
-   * If `exclMax` won't exclude Number.POSITIVE_INFINITY.
    * `multipleOf` will only be checked when different than 0.
    * When val is either negative or positive Infinity, `multipleOf` will be false.
    */
   if (<DT>type === DATATYPE.number) {
-    return (
-      testNumberWithinBounds(val, opts.min, opts.max, opts.exclMin, opts.exclMax) &&
-      isMultipleOf(val, opts.multipleOf)
-    );
+    return testNumberWithinBounds(val, opts.min, opts.max) && isMultipleOf(val, opts.multipleOf);
   }
 
   /** All checks passed. */

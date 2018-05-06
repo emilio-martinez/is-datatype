@@ -30,7 +30,7 @@ const toKeyRegex = (arr: (keyof isOptions)[]) => RegExp(`^(${arr.join('|')})$`);
 
 const stringParamRegex = toKeyRegex(['pattern', 'patternFlags']);
 const booleanParamRegex = toKeyRegex(['exclEmpty', 'arrayAsObject']);
-const numberParamRegex = toKeyRegex(['min', 'max', 'exclMin', 'exclMax', 'multipleOf']);
+const numberParamRegex = toKeyRegex(['min', 'max', 'multipleOf']);
 
 export class Options implements StrictOptions {
   // from StrictOptionsObject
@@ -38,8 +38,6 @@ export class Options implements StrictOptions {
   // from StrictOptionsMinMax
   readonly min: number = NEGATIVE_INFINITY;
   readonly max: number = POSITIVE_INFINITY;
-  readonly exclMin: number = NEGATIVE_INFINITY;
-  readonly exclMax: number = POSITIVE_INFINITY;
   // from StrictOptionsNumber
   readonly multipleOf: number = 0;
   // from StrictOptionsString
