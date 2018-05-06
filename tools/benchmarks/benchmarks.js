@@ -59,8 +59,7 @@ class BenchmarkTestCases {
         release.tag,
         function() {
           release.lib.is(test.test, release.lib.DataType[test.dataType]);
-        },
-        { minSamples: 200 }
+        }
       );
     }
   }
