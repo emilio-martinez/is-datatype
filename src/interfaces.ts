@@ -72,6 +72,4 @@ export type isOptionsMinMax = Partial<StrictOptionsMinMax>;
 export interface StrictOptionsMinMax {
   min: number;
   max: number;
-  exclMin: number;
-  exclMax: number;
 }

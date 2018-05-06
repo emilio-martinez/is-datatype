@@ -1,5 +1,3 @@
-import { NEGATIVE_INFINITY, POSITIVE_INFINITY } from './constants';
-
 /**
  * Tests whether a number is multiple of another number.
  * Keep in mind that Infinity, positive or negative, would return
@@ -30,15 +28,7 @@ export function isMultipleOf(val: number | undefined, multipleOf: number | undef
 export function testNumberWithinBounds(
   val: number,
   min: number | undefined,
-  max: number | undefined,
-  exclMin: number | undefined,
-  exclMax: number | undefined
+  max: number | undefined
 ): boolean {
-  return (
-    min !== undefined &&
-    val >= min &&
-    (max !== undefined && val <= max) &&
-    (exclMin === NEGATIVE_INFINITY || (exclMin !== undefined && val > exclMin)) &&
-    (exclMax === POSITIVE_INFINITY || (exclMax !== undefined && val < exclMax))
-  );
+  return min !== undefined && val >= min && (max !== undefined && val <= max);
 }
