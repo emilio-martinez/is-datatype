@@ -1,5 +1,5 @@
-export { is } from './src/is'
-export { DataType } from './src/data-type'
+export { is } from './src/is';
+export { DataType } from './src/data-type';
 export {
   isOptions,
   isOptionsArray,
@@ -9,4 +9,4 @@ export {
   isOptionsSchema,
   isOptionsString,
   isTypeSchema
-} from './src/interfaces'
+} from './src/interfaces';
