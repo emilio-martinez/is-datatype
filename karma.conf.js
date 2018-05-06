@@ -4,11 +4,9 @@ module.exports = function (config) {
   config.set({
     frameworks: ['jasmine', 'karma-typescript'],
 
-    files: [
-      {
-        pattern: '{spec,src}/**/*.ts'
-      }
-    ],
+    files: [{
+      pattern: '{spec,src}/**/*.ts'
+    }],
 
     preprocessors: {
       '**/*.ts': ['karma-typescript']
@@ -22,9 +20,20 @@ module.exports = function (config) {
 
     karmaTypescriptConfig: {
       reports: {
-        html: { directory: 'coverage', subdirectory: '.' },
-        lcovonly: { directory: 'coverage', subdirectory: '.', filename: 'lcov.info' },
-        json: { directory: 'coverage', subdirectory: '.', filename: 'coverage-final.json' },
+        html: {
+          directory: 'coverage',
+          subdirectory: '.'
+        },
+        lcovonly: {
+          directory: 'coverage',
+          subdirectory: '.',
+          filename: 'lcov.info'
+        },
+        json: {
+          directory: 'coverage',
+          subdirectory: '.',
+          filename: 'coverage-final.json'
+        },
         // destination ' will redirect output to the console
         'text-summary': ''
       }
@@ -38,5 +47,5 @@ module.exports = function (config) {
 
     browsers: ['jsdom'],
     concurrency: 1
-  })
-}
+  });
+};

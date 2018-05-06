@@ -41,14 +41,14 @@ export const enum DATATYPE {
  * Merged type to help TS understand these enums have the same values
  * although one is a regular `enum` and the other is `const enum`
  */
-export type DT = DataType & DATATYPE
+export type DT = DataType & DATATYPE;
 
 /** Validates a single DataType */
-export function validDataType (dt: DataType | undefined | null): boolean {
-  return typeof dt === 'number' && dt in DataType
+export function validDataType(dt: DataType | undefined | null): boolean {
+  return typeof dt === 'number' && dt in DataType;
 }
 
 /** Validates multiple DataTypes */
-export function validMultiDataType (dt: DataType | DataType[] | undefined | null): boolean {
-  return Array.isArray(dt) ? dt.every(validDataType) : validDataType(dt)
+export function validMultiDataType(dt: DataType | DataType[] | undefined | null): boolean {
+  return Array.isArray(dt) ? dt.every(validDataType) : validDataType(dt);
 }

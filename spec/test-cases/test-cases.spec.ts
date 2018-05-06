@@ -1,4 +1,4 @@
-import { DataType } from '../../src/data-type'
+import { DataType } from '../../src/data-type';
 import {
   invalidNumberUseCases,
   validArrayUseCases,
@@ -10,10 +10,14 @@ import {
   validObjectUseCases,
   validStringUseCases,
   validUndefinedUseCases
-} from './non-schema.spec'
+} from './non-schema.spec';
 
 const dataTypeTestCaseMap = {
-  [DataType.number]: [...validNumberUseCases, ...validNumberNegativeUseCases, ...invalidNumberUseCases],
+  [DataType.number]: [
+    ...validNumberUseCases,
+    ...validNumberNegativeUseCases,
+    ...invalidNumberUseCases
+  ],
   [DataType.string]: [...validStringUseCases],
   [DataType.boolean]: [...validBooleanUseCases],
   [DataType.function]: [...validFunctionUseCases],
@@ -21,9 +25,9 @@ const dataTypeTestCaseMap = {
   [DataType.object]: [...validObjectUseCases],
   [DataType.undefined]: [...validUndefinedUseCases],
   [DataType.null]: [...validNullUseCases]
-}
+};
 
-export function getDataTypeUseCases (
+export function getDataTypeUseCases(
   exclusions?: DataType | DataType[],
   testCaseMap: { [k: number]: any[] } = dataTypeTestCaseMap
 ): any[] {
@@ -34,7 +38,7 @@ export function getDataTypeUseCases (
    */
   const exclude: string[] = (Array.isArray(exclusions) ? exclusions : [exclusions])
     .filter(k => typeof k === 'number' && k in DataType)
-    .map(k => k.toString())
+    .map(k => k.toString());
 
   /**
    * Create array from sample data types.
@@ -43,7 +47,7 @@ export function getDataTypeUseCases (
   return Object.keys(testCaseMap)
     .filter(k => testCaseMap.hasOwnProperty(k) && k in DataType && exclude.indexOf(k) === -1)
     .map(k => testCaseMap[k])
-    .reduce((a, b) => a.concat(b), [])
+    .reduce((a, b) => a.concat(b), []);
 }
 
 /**
@@ -51,7 +55,7 @@ export function getDataTypeUseCases (
  */
 export const dataTypeKeys: number[] = Object.keys(DataType)
   .map(k => parseInt(k, 10))
-  .filter(k => typeof k === 'number' && !isNaN(k))
+  .filter(k => typeof k === 'number' && !isNaN(k));
 
-export * from './non-schema.spec'
-export * from './schema.spec'
+export * from './non-schema.spec';
+export * from './schema.spec';
