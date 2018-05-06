@@ -104,7 +104,7 @@ export function is(val: any[], type: DataType, options?: isOptionsArray): boolea
 export function is(val: object, type: DataType, options?: isOptionsObject): boolean;
 export function is(val: any, type: DataType, options?: isOptions): boolean {
   if (!validDataType(type)) {
-    throw TypeError(`Invalid DataType provided: ${val}`);
+    throw TypeError('Invalid `type` argument.');
   }
 
   /** Any */
