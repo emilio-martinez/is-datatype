@@ -1,3 +1,5 @@
+const jsdomVersion = require('jsdom/package.json').version;
+
 module.exports = function (config) {
   config.set({
     frameworks: ['jasmine', 'karma-typescript'],
@@ -28,7 +30,13 @@ module.exports = function (config) {
       }
     },
 
-    browsers: ['PhantomJS'], // Chrome
+    jsdomLauncher: {
+      jsdom: {
+        userAgent: `jsdom/${jsdomVersion}`
+      }
+    },
+
+    browsers: ['jsdom'],
     concurrency: 1
   })
 }
