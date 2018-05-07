@@ -5,4 +5,4 @@ const { tests } = require('./tests');
 const { BenchmarkTestCases } = require('./benchmarks');
 
 console.log('\r\nStarting to run tests...\r\n');
-tests.map(t => new BenchmarkTestCases(t, releases)).forEach(t => t.run());
+tests.forEach(t => new BenchmarkTestCases(t, releases).run())
