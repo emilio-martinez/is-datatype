@@ -1,6 +1,12 @@
 // @ts-check
 
 /**
+ * @typedef {Object} IsDataTypeRelease
+ * @property {any} is
+ * @property {any} DataType
+ */
+
+/**
  * @typedef BenchmarkCycleEvent
  * @property {string} timeStamp
  * @property {{ name: string; hz: string; stats: { rme: string } }} target
@@ -43,41 +49,63 @@ class BenchmarkTestCases {
   /**
    * Creates an instance of BenchmarkTestCases.
    * @param {BenchmarkTest} test
-   * @param {BenchmarkRelease[]} releases
+   * @param {Map<string, BenchmarkRelease>} releases
    */
   constructor(test, releases) {
     this.test = test;
-    this.releases = this._releasesAsMap(releases);
+    this.releases = releases;
 
     /** @type BenchmarkCycleEvent[] */
     this.results = [];
 
-    this.suite = new Benchmark.Suite(test.key);
+    this.suite = new Benchmark.Suite(test.key, {
+      onStart: () => this._onSuiteStart(),
+      onCycle: (event) => this._onSuiteCycle(event),
+      onComplete: () => this._onSuiteComplete()
+    });
 
     for (let [name, release] of this.releases) {
-      this.suite.add(
-        release.tag,
-        function() {
-          release.lib.is(test.test, release.lib.DataType[test.dataType]);
-        }
-      );
+      this.suite.add({
+        name,
+        fn: () => this._onSuiteTestCall(release),
+        minSamples: 120
+      });
     }
   }
 
-  /** Runs the declared benchmarks. After running, the results property will be populated. */
-  run() {
-    const results = [];
+  /**
+   * @param {BenchmarkRelease} release
+   */
+  _onSuiteTestCall(release) {
+    // Requiring on every test reduces cycle performance but it helps
+    // minimize engine optimizations which skew benchmark results
+    const { is, DataType } = require(release.libPath);
+    is(this.test.test, DataType[this.test.dataType]);
+  }
 
-    this.suite
-      .on('cycle', event => {
-        results.push(event);
-        this._print(String(event.target));
-      })
-      .on('complete', () => {
-        this.results = results;
-        this._printFastest();
-      })
-      .run();
+  /** Ensures no results */
+  _onSuiteStart() {
+    this.results = [];
+  }
+
+  /** Prints results */
+  _onSuiteComplete() {
+    this._printFastest();
+  }
+
+  /**
+   * Saves and prints cycle results
+   * @param {BenchmarkCycleEvent} event
+   */
+  _onSuiteCycle(event) {
+    this.results = this.results.concat(event);
+    this._print(String(event.target));
+  }
+
+  /** Runs the declared benchmarks. */
+  run() {
+    this.suite.reset();
+    this.suite.run();
   }
 
   /**
@@ -100,7 +128,10 @@ class BenchmarkTestCases {
 
   /** Returns a percentage-based increase/decrease in performance */
   _getFastestDiff() {
-    const benchmarks = this.suite.map(({ name, hz }) => ({ name, hz }));
+    const benchmarks = this.suite.map(s => ({
+      name: s.name,
+      hz: s.hz
+    }));
     const fastest = this._getFastest();
 
     let fast = 0;
@@ -114,9 +145,9 @@ class BenchmarkTestCases {
       }
     });
 
-    let avg = fast / (+rest / (benchmarks.length - 1)) * 100;
-    avg = parseFloat(avg.toFixed());
-    return `${Benchmark.formatNumber(avg)}%`;
+    let avg = fast / (+rest / (benchmarks.length - 1)) * 1000;
+    avg = parseFloat(avg.toFixed()) / 1000;
+    return avg;
   }
 
   /** Prints a message stating the fastest run for this tests */
@@ -125,7 +156,8 @@ class BenchmarkTestCases {
     const color =
       fastest.length > 1 ? chalk.yellow : fastest.indexOf(currentReleaseName) >= 0 ? chalk.green : chalk.red;
 
-    const msg = `Fastest is '${fastest.join("' & '")}' (${this._getFastestDiff()})\r\n`;
+    const fastestName = fastest.join("' & '");
+    const msg = `Fastest is '${fastestName}' (${this._getFastestDiff()}x)\r\n`;
 
     this._print(color(msg));
   }
@@ -136,18 +168,6 @@ class BenchmarkTestCases {
    */
   _print(msg) {
     console.log(chalk.cyan(`[${this.test.key}]`) + ` ${msg}`);
-  }
-
-  /**
-   * Converts releases intro an ES2015 Map
-   * @param {BenchmarkRelease[]} releases
-   * @returns {Map<string, BenchmarkRelease>}
-   */
-  _releasesAsMap(releases) {
-    /** @type Map<string, BenchmarkRelease> */
-    const map = new Map();
-    releases.forEach(r => map.set(r.tag, r));
-    return map;
   }
 }
 
