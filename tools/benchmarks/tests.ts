@@ -1,20 +1,18 @@
-// @ts-check
+import { toKebabCase } from './utils';
 
-/**
- * @typedef {Object} BenchmarkTestConfig
- * @property {string} name - The human-readable name of the test
- * @property {string} dataType - The data type the test will test for
- * @property {any} test - The value that will be tested against the dataType
- */
+interface BenchmarkTestConfig {
+  name: string;
+  dataType: string;
+  test: any;
+}
 
-const { toKebabCase } = require('../utils/string');
+export class BenchmarkTest {
+  name: string;
+  dataType: string;
+  test: any;
+  key: string;
 
-class BenchmarkTest {
-  /**
-   * Creates an instance of BenchmarkTest.
-   * @param {BenchmarkTestConfig} config
-   */
-  constructor(config) {
+  constructor(config: BenchmarkTestConfig) {
     this.name = config.name;
     this.dataType = config.dataType;
     this.test = config.test;
@@ -22,110 +20,105 @@ class BenchmarkTest {
   }
 }
 
-const tests = [
+export const tests = [
   new BenchmarkTest({
-    name: 'Undefined (valid)',
     dataType: 'undefined',
+    name: 'Undefined (valid)',
     test: undefined
   }),
   new BenchmarkTest({
-    name: 'Undefined (invalid)',
     dataType: 'undefined',
+    name: 'Undefined (invalid)',
     test: 'undefined'
   }),
   new BenchmarkTest({
-    name: 'Null (valid)',
     dataType: 'null',
+    name: 'Null (valid)',
     test: null
   }),
   new BenchmarkTest({
-    name: 'Null (invalid)',
     dataType: 'null',
+    name: 'Null (invalid)',
     test: 'null'
   }),
   new BenchmarkTest({
-    name: 'Boolean (valid)',
     dataType: 'boolean',
+    name: 'Boolean (valid)',
     test: true
   }),
   new BenchmarkTest({
-    name: 'Boolean (invalid)',
     dataType: 'boolean',
+    name: 'Boolean (invalid)',
     test: 'boolean'
   }),
   new BenchmarkTest({
-    name: 'Number (valid)',
     dataType: 'number',
+    name: 'Number (valid)',
     test: 10
   }),
   new BenchmarkTest({
-    name: 'Number (invalid)',
     dataType: 'number',
+    name: 'Number (invalid)',
     test: 'number'
   }),
   new BenchmarkTest({
-    name: 'Integer (valid)',
     dataType: 'integer',
+    name: 'Integer (valid)',
     test: 10
   }),
   new BenchmarkTest({
-    name: 'Integer (invalid)',
     dataType: 'integer',
+    name: 'Integer (invalid)',
     test: 'integer'
   }),
   new BenchmarkTest({
-    name: 'Natural (valid)',
     dataType: 'natural',
+    name: 'Natural (valid)',
     test: 10
   }),
   new BenchmarkTest({
-    name: 'Natural (invalid)',
     dataType: 'natural',
+    name: 'Natural (invalid)',
     test: 'natural'
   }),
   new BenchmarkTest({
-    name: 'String (valid)',
     dataType: 'string',
+    name: 'String (valid)',
     test: 'hello'
   }),
   new BenchmarkTest({
-    name: 'String (invalid)',
     dataType: 'string',
+    name: 'String (invalid)',
     test: 10
   }),
   new BenchmarkTest({
-    name: 'Function (valid)',
     dataType: 'function',
-    test: () => {}
+    name: 'Function (valid)',
+    test: Function()
   }),
   new BenchmarkTest({
-    name: 'Function (invalid)',
     dataType: 'function',
+    name: 'Function (invalid)',
     test: 'function'
   }),
   new BenchmarkTest({
-    name: 'Object (valid)',
     dataType: 'object',
+    name: 'Object (valid)',
     test: {}
   }),
   new BenchmarkTest({
-    name: 'Object (invalid)',
     dataType: 'object',
+    name: 'Object (invalid)',
     test: 'object'
   }),
   new BenchmarkTest({
-    name: 'Array (valid)',
     dataType: 'array',
+    name: 'Array (valid)',
     test: []
   }),
   new BenchmarkTest({
-    name: 'Array (invalid)',
     dataType: 'array',
+    name: 'Array (invalid)',
     test: 'array'
   })
 ];
-
-module.exports = {
-  tests,
-  BenchmarkTest
-};
