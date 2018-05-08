@@ -11,7 +11,7 @@
     "lint:tslint:spec": "node_modules/.bin/tslint --format verbose --project tsconfig.spec.json spec/**/*.spec.ts",
     "lint:tslint": "npm run lint:tslint:src && npm run lint:tslint:spec",
     "lint": "npm run lint:tslint",
-    "format:base": "node_modules/.bin/prettier --write *.ts src/**/*.ts spec/**/*.ts",
+    "format:base": "node_modules/.bin/prettier --write *.ts src/**/*.ts tools/**/*.ts spec/**/*.ts",
     "format:write": "npm run format:base -- --write",
     "format:check": "npm run format:base -- --list-different",
     "prebenchmark": "npm run clean && npm run build",

@@ -25,8 +25,5 @@
   "compileOnSave": false,
   "files": [
     "index.ts"
-  ],
-  "exclude": [
-    "node_modules"
   ]
 }
