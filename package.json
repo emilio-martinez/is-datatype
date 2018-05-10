@@ -55,7 +55,7 @@
     "@types/node": "8.10.13",
     "babel-core": "6.26.3",
     "babel-loader": "7.1.4",
-    "babel-preset-env": "1.6.1",
+    "babel-preset-env": "1.7.0",
     "benchmark": "2.1.4",
     "chalk": "2.4.1",
     "compression-webpack-plugin": "1.1.11",
