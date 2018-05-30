@@ -73,7 +73,7 @@
     "rimraf": "2.6.2",
     "ts-loader": "4.3.0",
     "ts-node": "6.0.5",
-    "tslib": "1.9.1",
+    "tslib": "1.9.2",
     "tslint": "5.10.0",
     "tslint-config-standard": "7.0.0",
     "tslint-no-redundant-jsdoc-annotations": "1.0.1",
