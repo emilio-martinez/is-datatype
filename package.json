@@ -54,7 +54,7 @@
     "@types/jasmine": "2.8.8",
     "@types/node": "8.10.20",
     "babel-core": "6.26.3",
-    "babel-loader": "7.1.4",
+    "babel-loader": "7.1.5",
     "babel-preset-env": "1.7.0",
     "benchmark": "2.1.4",
     "chalk": "2.4.1",
