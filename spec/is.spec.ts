@@ -41,7 +41,7 @@ describe('`is` and `matchesSchema`', () => {
     });
 
     it('when undefined is passed', () => {
-      expect(() => is(false, undefined)).toThrow();
+      expect(() => is(false, undefined as any)).toThrow();
       /** NOTE: `matchesSchema` here would ignore the `type` because it's optional */
     });
   });
@@ -243,7 +243,7 @@ describe('`is` and `matchesSchema`', () => {
           matchesSchema(n.test, { type: currentDataType, options: n.options });
         const errOptions = JSON.stringify(n.options);
         const errMessage =
-          `Failed for valid \`${errType}\` test ${n.test} ` + `with options ${errOptions}`;
+          `Failed for valid \`${errType}\` test ${n.test}` + `with options ${errOptions}`;
         expect(test).toBe(true, errMessage);
       });
       arrayWithOptionsUseCases.forEach(n => {
@@ -252,8 +252,7 @@ describe('`is` and `matchesSchema`', () => {
           matchesSchema(n.test, { type: currentDataType, options: n.options });
         const errOptions = JSON.stringify(n.options);
         const errMessage =
-          `Failed for invalid \`${errType}\` test ${n.test} ` +
-          `with options ${errOptions}. ${n['describe'] || ''}`;
+          `Failed for invalid \`${errType}\` test ${n.test}` + `with options ${errOptions}.`;
         expect(test).toBe(n.expect, errMessage);
       });
     });
@@ -489,7 +488,7 @@ describe('`is` and `matchesSchema`', () => {
 
     it('should not fail when passed unexpected values', () => {
       expect(() => is(100, DataType.number, {})).not.toThrow();
-      expect(() => is(100, DataType.number, null)).not.toThrow();
+      expect(() => is(100, DataType.number, null as any)).not.toThrow();
       expect(() => is(100, DataType.number, undefined)).not.toThrow();
       expect(() => is(100, DataType.number, NaN as any)).not.toThrow();
       expect(() => is(100, DataType.number, 'hello' as any)).not.toThrow();

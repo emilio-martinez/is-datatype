@@ -1,8 +1,14 @@
 // tslint:disable object-literal-sort-keys no-multi-spaces no-empty
 
 import { DataType } from '../../src/data-type';
+import {
+  isOptionsArray,
+  isOptionsNumber,
+  isOptionsObject,
+  isOptionsString
+} from '../../src/interfaces';
 
-export const validNumberUseCases = [
+export const validNumberUseCases: number[] = [
   37,
   3.14,
   Math.LN2,
@@ -11,16 +17,20 @@ export const validNumberUseCases = [
   Number(1)
 ];
 
-export const validNumberNegativeUseCases = [
+export const validNumberNegativeUseCases: number[] = [
   Number.NEGATIVE_INFINITY,
   -37,
   -3.14,
   -Number.POSITIVE_INFINITY
 ];
 
-export const invalidNumberUseCases = [NaN, Number.NaN];
+export const invalidNumberUseCases: number[] = [NaN, Number.NaN];
 
-export const numberRangeUseCases = [
+export const numberRangeUseCases: Array<{
+  test: number;
+  options: isOptionsNumber;
+  expect: boolean;
+}> = [
   // `max` tests against 0
   { test: 0, options: { max: 0 }, expect: true },
   { test: -1, options: { max: 0 }, expect: true },
@@ -58,7 +68,11 @@ export const numberRangeUseCases = [
   { test: -3.13, options: { min: -3.13 }, expect: true }
 ];
 
-export const multipleOfUseCases = [
+export const multipleOfUseCases: Array<{
+  test: number;
+  options: isOptionsNumber;
+  expect: boolean;
+}> = [
   { test: Number.POSITIVE_INFINITY, options: { multipleOf: 1 }, expect: false },
   { test: Number.NEGATIVE_INFINITY, options: { multipleOf: 1 }, expect: false },
   { test: 0, options: { multipleOf: 1 }, expect: true },
@@ -77,7 +91,11 @@ export const multipleOfUseCases = [
   { test: 6.28, options: { multipleOf: -3.14 }, expect: true }
 ];
 
-export const integerUseCases = [
+export const integerUseCases: Array<{
+  test: number;
+  options: isOptionsNumber;
+  expect: boolean;
+}> = [
   { test: 21, options: {}, expect: true },
   { test: 4, options: {}, expect: true },
   { test: 0, options: {}, expect: true },
@@ -96,7 +114,11 @@ export const integerUseCases = [
   { test: 3.14, options: { multipleOf: 3.14 }, expect: false }
 ];
 
-export const naturalUseCases = [
+export const naturalUseCases: Array<{
+  test: number;
+  options: isOptionsNumber;
+  expect: boolean;
+}> = [
   { test: 21, options: {}, expect: true },
   { test: 4, options: {}, expect: true },
   { test: 0, options: {}, expect: true },
@@ -121,13 +143,17 @@ export const naturalUseCases = [
   { test: 0, options: { max: 0 }, expect: true }
 ];
 
-export const validStringUseCases = [
+export const validStringUseCases: string[] = [
   'bla',
   typeof 1, // `typeof` always returns a string
   String('abc')
 ];
 
-export const stringPatternUseCases = [
+export const stringPatternUseCases: Array<{
+  test: string;
+  options: isOptionsString;
+  expect: boolean;
+}> = [
   { test: 'cdbbdbsbz', options: { pattern: 'd(b+)d', patternFlags: 'g' }, expect: true },
   { test: 'hi there!', options: { pattern: '!' }, expect: true },
   { test: 'hi there!', options: { pattern: '$' }, expect: true },
@@ -141,7 +167,10 @@ export const stringPatternUseCases = [
 
 export const validBooleanUseCases = [true, false, Boolean(true)];
 
-export const validArrayUseCases = [
+export const validArrayUseCases: Array<{
+  test: any[];
+  options: isOptionsArray;
+}> = [
   { test: [1, 2, 4], options: { type: DataType.number } },
   { test: [true, false], options: { type: DataType.boolean } },
   { test: [() => {}], options: { type: DataType.function } },
@@ -150,7 +179,11 @@ export const validArrayUseCases = [
   { test: [[1], [2], [4]], options: { type: DataType.array } }
 ];
 
-export const arrayWithOptionsUseCases = [
+export const arrayWithOptionsUseCases: Array<{
+  test: any[];
+  options: isOptionsArray;
+  expect: boolean;
+}> = [
   { test: [1, '2', 4], options: { type: DataType.number }, expect: false },
   { test: [true, 'false'], options: { type: DataType.boolean }, expect: false },
   { test: [() => {}, { a: 1 }], options: { type: DataType.function }, expect: false },
@@ -175,12 +208,15 @@ export const arrayWithOptionsUseCases = [
   { test: [1, 2, 3], options: { max: 2 }, expect: false }
 ];
 
-export const validFunctionUseCases = [function() {}, class C {}, Math.sin];
+export const validFunctionUseCases: Function[] = [function() {}, class C {}, Math.sin];
 
-export const validObjectUseCases = [{ a: 1 }, {}];
+export const validObjectUseCases: object[] = [{ a: 1 }, {}];
 
-export const optionalObjectUseCases = [{ test: [], options: { arrayAsObject: true } }];
+export const optionalObjectUseCases: Array<{
+  test: object;
+  options: isOptionsObject;
+}> = [{ test: [], options: { arrayAsObject: true } }];
 
-export const validNullUseCases = [null];
+export const validNullUseCases: null[] = [null];
 
-export const validUndefinedUseCases = [undefined];
+export const validUndefinedUseCases: undefined[] = [undefined];

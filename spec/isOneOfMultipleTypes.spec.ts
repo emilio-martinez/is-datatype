@@ -34,11 +34,11 @@ describe(`isOneOfMultipleTypes`, () => {
   });
 
   it(`should test multiple \`DataType\` in addition to a single one`, () => {
-    const testCases: {
-      test: any;
+    const testCases: Array<{
+      test: any[];
       type: DataType | DataType[];
       expect: boolean;
-    }[] = [
+    }> = [
       { test: [10, 'a'], type: [DataType.number, DataType.string], expect: true },
       { test: [10], type: DataType.number, expect: true },
       { test: [10], type: DataType.string, expect: false },

@@ -8,7 +8,7 @@ import { isTypeSchema } from '../src/interfaces';
 describe(`\`matchesSchema\` function`, () => {
   it(`should handle validating undefined`, () => {
     expect(
-      matchesSchema(undefined as object, {
+      matchesSchema(undefined, {
         type: DataType.undefined,
         props: { headline: { type: DataType.string } }
       })
@@ -16,11 +16,11 @@ describe(`\`matchesSchema\` function`, () => {
   });
 
   it(`should test multiple schemas in addition to a single one`, () => {
-    const testCases: {
-      test: any;
+    const testCases: Array<{
+      test: any[];
       schema: isTypeSchema | isTypeSchema[];
       expect: boolean;
-    }[] = [
+    }> = [
       {
         test: [10, 'a'],
         schema: [{ type: DataType.number }, { type: DataType.string }],

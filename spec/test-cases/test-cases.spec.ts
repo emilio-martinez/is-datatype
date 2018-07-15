@@ -37,17 +37,25 @@ export function getDataTypeUseCases(
    * DataType numeric keys will be converted to strings once validated.
    */
   const exclude: string[] = (Array.isArray(exclusions) ? exclusions : [exclusions])
-    .filter(k => typeof k === 'number' && k in DataType)
-    .map(k => k.toString());
+    .reduce<string[]>(
+      (acc, k) => typeof k === 'number' && k in DataType ? acc.concat(k.toString()) : acc,
+      []
+    );
 
   /**
    * Create array from sample data types.
    * Filters out exclusions and remaps into an array of arrays of sample data
    */
   return Object.keys(testCaseMap)
-    .filter(k => testCaseMap.hasOwnProperty(k) && k in DataType && exclude.indexOf(k) === -1)
-    .map(k => testCaseMap[k])
-    .reduce((a, b) => a.concat(b), []);
+    .reduce<any[][]>(
+      (acc, k) =>
+        testCaseMap.hasOwnProperty(k) && typeof k === 'number' &&
+        k in DataType && exclude.indexOf(k) === -1
+          ? acc.concat(testCaseMap[k])
+          : acc,
+      []
+    )
+    .reduce<any[]>((a, b) => a.concat(b), []);
 }
 
 /**

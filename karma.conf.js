@@ -19,6 +19,24 @@ module.exports = function (config) {
     },
 
     karmaTypescriptConfig: {
+      coverageOptions: {
+        instrumentation: true,
+        // exclude: /\.(d|spec|test)\.ts/i,
+        threshold: {
+          global: {
+            statements: 95,
+            branches: 95,
+            functions: 95,
+            lines: 95
+          },
+          file: {
+            statements: 95,
+            branches: 95,
+            functions: 95,
+            lines: 95
+          }
+        },
+      },
       reports: {
         html: {
           directory: 'coverage',
@@ -36,7 +54,8 @@ module.exports = function (config) {
         },
         // destination ' will redirect output to the console
         'text-summary': ''
-      }
+      },
+      tsconfig: './tsconfig.spec.json'
     },
 
     jsdomLauncher: {
