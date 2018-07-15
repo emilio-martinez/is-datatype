@@ -9,7 +9,7 @@ export function gitSha() {
 
 /** Takes a git tag and returns a git sha (commit hash) */
 export function gitShaByTag(tag: string): string {
-  if (!tag) return '';
+  if (Boolean(tag)) return '';
 
   const sha = execSync(`git rev-list -n 1 ${tag}`)
     .toString()

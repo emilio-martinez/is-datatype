@@ -3,7 +3,7 @@ import { dataTypeKeys } from './test-cases/test-cases.spec';
 
 describe('`DataType` parity', () => {
   it(`should have the same values`, () => {
-    const testedTypes = [];
+    const testedTypes: DataType[] = [];
 
     expect(DataType.any).toBe(DATATYPE.any as number, 'Failed for `any`');
     testedTypes.push(DataType.any);

@@ -8,7 +8,7 @@
   "scripts": {
     "commitmsg": "commitlint -e",
     "lint:tslint:src": "node_modules/.bin/tslint --format verbose --project tsconfig.json",
-    "lint:tslint:spec": "node_modules/.bin/tslint --format verbose --project tsconfig.spec.json spec/**/*.spec.ts",
+    "lint:tslint:spec": "node_modules/.bin/tslint --format verbose --project tsconfig.spec.json",
     "lint:tslint": "npm run lint:tslint:src && npm run lint:tslint:spec",
     "lint": "npm run lint:tslint",
     "format:base": "node_modules/.bin/prettier --write *.ts **/*.ts !dist/**/*.ts",

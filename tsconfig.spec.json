@@ -1,25 +1,11 @@
 {
+  "extends": "./tsconfig-base.json",
   "compilerOptions": {
-    "module": "es2015",
+    "module": "commonjs",
     "target": "es2015",
-    "declaration": true,
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "forceConsistentCasingInFileNames": true,
-    "importHelpers": true,
-    "moduleResolution": "node",
-    "noEmitHelpers": true,
-    "noImplicitAny": true,
-    "noImplicitReturns": true,
-    "noImplicitThis": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "removeComments": false,
-    "sourceMap": false,
-    "strict": true,
-    "types": [
-      "jasmine"
-    ]
+    "sourceMap": true
   },
-  "compileOnSave": false
+  "exclude": [
+    "tools/benchmarks/**/*.ts"
+  ]
 }
