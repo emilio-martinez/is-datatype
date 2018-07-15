@@ -3,7 +3,12 @@
 import { DataType } from '../../src/data-type';
 import { isOptions } from '../../src/interfaces';
 
-export const arraySchemaUseCases = [
+export const arraySchemaUseCases: Array<{
+  description: string,
+  test: object[],
+  options: isOptions,
+  expect: boolean
+}> = [
   {
     description: 'Array of objects with string value properties.',
     test: [
@@ -171,7 +176,12 @@ export const arraySchemaUseCases = [
   }
 ];
 
-export const objectSchemaUseCases = [
+export const objectSchemaUseCases: Array<{
+  description: string,
+  test: object
+  options: isOptions,
+  expect: boolean
+}> = [
   {
     description: `Expect to validate that props are the correct type`,
     test: {
