@@ -6,7 +6,7 @@ import { isOneOfMultipleTypes } from './is';
  * Tests an object against an object schema.
  */
 export function matchesSchema(val: any, schema: isTypeSchema | isTypeSchema[]): boolean {
-  const schemas = Array.isArray(schema) ? schema : [schema];
+  const schemas = (<isTypeSchema[]>[]).concat(schema);
 
   /** Test every schema until at least one of them matches */
   return schemas.some((s: isTypeSchema) => {
