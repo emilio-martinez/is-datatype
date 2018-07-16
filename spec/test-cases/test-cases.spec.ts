@@ -28,7 +28,7 @@ const dataTypeTestCaseMap = {
 };
 
 export function getDataTypeUseCases(
-  exclusions?: DataType | DataType[],
+  exclusions: DataType | DataType[] = [],
   testCaseMap: { [k: number]: any[] } = dataTypeTestCaseMap
 ): any[] {
   /**
@@ -36,7 +36,7 @@ export function getDataTypeUseCases(
    * Strings are preferred because Object key iteration will convert keys to strings anyway.
    * DataType numeric keys will be converted to strings once validated.
    */
-  const exclude: string[] = (Array.isArray(exclusions) ? exclusions : [exclusions])
+  const exclude: string[] = (<DataType[]>[]).concat(exclusions)
     .reduce<string[]>(
       (acc, k) => typeof k === 'number' && k in DataType ? acc.concat(k.toString()) : acc,
       []
