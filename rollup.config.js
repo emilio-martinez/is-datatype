@@ -13,7 +13,7 @@ const file = {
   main: pkg.main,
   module: pkg.module,
   browser: pkg.browser,
-  browserMin: replaceExtension(pkg.browser, 'umd.min.js')
+  browserMin: replaceExtension(pkg.browser, 'min.js')
 };
 
 export default [
