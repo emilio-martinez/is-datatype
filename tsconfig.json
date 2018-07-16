@@ -2,9 +2,9 @@
   "extends": "./tsconfig-base.json",
   "compilerOptions": {
     "module": "es2015",
-    "target": "es2015",
-    "declaration": true,
-    "outDir": "./dist"
+    "target": "es5",
+    "outDir": "__build",
+    "sourceMap": true
   },
   "files": [
     "index.ts"
