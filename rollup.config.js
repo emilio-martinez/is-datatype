@@ -12,8 +12,8 @@ const input = path.resolve(__dirname, './__build/index.js');
 const file = {
   main: pkg.main,
   module: pkg.module,
-  umd: replaceFilename(pkg.main, `${pkg.name}.umd.js`),
-  umdMin: replaceFilename(pkg.main, `${pkg.name}.umd.min.js`)
+  browser: pkg.browser,
+  browserMin: replaceExtension(pkg.browser, 'umd.min.js')
 };
 
 export default [
@@ -22,7 +22,7 @@ export default [
     output: [
       { file: file.main, name: libraryName, format: 'cjs', sourcemap: false },
       { file: file.module, format: 'es', sourcemap: false },
-      { file: file.umd, name: libraryName, format: 'umd', sourcemap: false }
+      { file: file.browser, name: libraryName, format: 'umd', sourcemap: false }
     ],
     plugins: [
       prettier({
@@ -36,7 +36,7 @@ export default [
   {
     input,
     output: [
-      { file: file.umdMin, name: libraryName, format: 'umd', sourcemap: true }
+      { file: file.browserMin, name: libraryName, format: 'umd', sourcemap: true }
     ],
     plugins: [
       compiler(),
@@ -46,7 +46,7 @@ export default [
   }
 ];
 
-function replaceFilename (filePath, filename) {
+function replaceExtension(filePath, ext) {
   if (typeof filePath !== 'string') {
     return filePath;
   }
@@ -55,5 +55,6 @@ function replaceFilename (filePath, filename) {
     return filePath;
   }
 
-  return path.join(path.dirname(filePath), filename);
+  const fileName = path.basename(filePath, path.extname(filePath)) + `.${ext}`;
+  return path.join(path.dirname(filePath), fileName);
 }

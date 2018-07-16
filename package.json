@@ -5,6 +5,7 @@
   "sideEffects": false,
   "main": "dist/index.js",
   "module": "dist/index.esm5.js",
+  "browser": "dist/is-datatype.umd.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "commitmsg": "commitlint -e",
