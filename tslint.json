@@ -18,7 +18,7 @@
     "no-debugger": true,
     "no-duplicate-imports": true,
     "no-duplicate-variable": [true, "check-parameters"],
-    "no-inferrable-types": true,
+    "no-inferrable-types": false,
     "no-irregular-whitespace": true,
     "no-non-null-assertion": true,
     "no-object-literal-type-assertion": true,
@@ -29,7 +29,7 @@
     "no-unnecessary-type-assertion": true,
     "no-var-keyword": true,
     "number-literal-format": true,
-    "object-literal-sort-keys": [true, "ignore-case"],
+    "object-literal-sort-keys": false,
     "ordered-imports": [
       true,
       { "import-sources-order": "any", "named-imports-order": "case-insensitive" }
