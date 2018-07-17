@@ -1,40 +1,41 @@
+import { test } from 'ava';
 import { DataType, DATATYPE } from '../src/data-type';
-import { dataTypeKeys } from './test-cases/test-cases.spec';
+import { dataTypeKeys } from './test-cases/index';
 
-describe('`DataType` parity', () => {
-  it(`should have the same values`, () => {
-    const testedTypes: DataType[] = [];
+test(`DataType should have value parity`, t => {
+  const testedTypes: DataType[] = [];
 
-    expect(DataType.any).toBe(DATATYPE.any as number, 'Failed for `any`');
-    testedTypes.push(DataType.any);
-    expect(DataType.undefined).toBe(DATATYPE.undefined as number, 'Failed for `undefined`');
-    testedTypes.push(DataType.undefined);
-    expect(DataType.null).toBe(DATATYPE.null as number, 'Failed for `null`');
-    testedTypes.push(DataType.null);
-    expect(DataType.boolean).toBe(DATATYPE.boolean as number, 'Failed for `boolean`');
-    testedTypes.push(DataType.boolean);
-    expect(DataType.number).toBe(DATATYPE.number as number, 'Failed for `number`');
-    testedTypes.push(DataType.number);
-    expect(DataType.integer).toBe(DATATYPE.integer as number, 'Failed for `integer`');
-    testedTypes.push(DataType.integer);
-    expect(DataType.natural).toBe(DATATYPE.natural as number, 'Failed for `natural`');
-    testedTypes.push(DataType.natural);
-    expect(DataType.string).toBe(DATATYPE.string as number, 'Failed for `string`');
-    testedTypes.push(DataType.string);
-    expect(DataType.function).toBe(DATATYPE.function as number, 'Failed for `function`');
-    testedTypes.push(DataType.function);
-    expect(DataType.object).toBe(DATATYPE.object as number, 'Failed for `object`');
-    testedTypes.push(DataType.object);
-    expect(DataType.array).toBe(DATATYPE.array as number, 'Failed for `array`');
-    testedTypes.push(DataType.array);
+  t.is(DataType.any, DATATYPE.any as number, 'Failed for `any`');
+  testedTypes.push(DataType.any);
+  t.is(DataType.undefined, DATATYPE.undefined as number, 'Failed for `undefined`');
+  testedTypes.push(DataType.undefined);
+  t.is(DataType.null, DATATYPE.null as number, 'Failed for `null`');
+  testedTypes.push(DataType.null);
+  t.is(DataType.boolean, DATATYPE.boolean as number, 'Failed for `boolean`');
+  testedTypes.push(DataType.boolean);
+  t.is(DataType.number, DATATYPE.number as number, 'Failed for `number`');
+  testedTypes.push(DataType.number);
+  t.is(DataType.integer, DATATYPE.integer as number, 'Failed for `integer`');
+  testedTypes.push(DataType.integer);
+  t.is(DataType.natural, DATATYPE.natural as number, 'Failed for `natural`');
+  testedTypes.push(DataType.natural);
+  t.is(DataType.string, DATATYPE.string as number, 'Failed for `string`');
+  testedTypes.push(DataType.string);
+  t.is(DataType.function, DATATYPE.function as number, 'Failed for `function`');
+  testedTypes.push(DataType.function);
+  t.is(DataType.object, DATATYPE.object as number, 'Failed for `object`');
+  testedTypes.push(DataType.object);
+  t.is(DataType.array, DATATYPE.array as number, 'Failed for `array`');
+  testedTypes.push(DataType.array);
 
-    /** This test should validate that all types have been accounted for */
-    expect(Object.keys(DataType).length / 2).toBe(
-      dataTypeKeys.length,
-      '`dataTypeKeys` has an incorrect length'
-    );
-    expect(dataTypeKeys.every(k => testedTypes.indexOf(k) >= 0)).toBeTruthy(
-      `There's a type that hasn't been accounted for.`
-    );
-  });
+  /** This test should validate that all types have been accounted for */
+  t.is(
+    Object.keys(DataType).length / 2,
+    dataTypeKeys.length,
+    '`dataTypeKeys` has an incorrect length'
+  );
+  t.true(
+    dataTypeKeys.every(k => testedTypes.indexOf(k) >= 0),
+    `There's a type that hasn't been accounted for.`
+  );
 });
