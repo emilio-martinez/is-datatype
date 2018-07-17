@@ -14,21 +14,21 @@ const invalidTypeValues: any[] = [
   undefined
 ];
 
-test(`should only take valid \`DataType\` values for the \`type\` argument`, t => {
+test(`should only take valid 'DataType' values for the 'type' argument`, t => {
   invalidTypeValues.forEach(n => {
     t.throws(() => isOneOfMultipleTypes(true, n as DataType), TypeError);
   });
 });
 
-test(`should immediately return \`true\` when \`any\` is passed`, t => {
+test(`should immediately return 'true' when 'any' is passed`, t => {
   getDataTypeUseCases().forEach(n => {
-    const msg = `Failed for \`${n}\` of type \`${typeof n}\``;
+    const msg = `Failed for '${n}' of type '${typeof n}'`;
     t.true(isOneOfMultipleTypes(n, DataType.any), msg);
     t.true(isOneOfMultipleTypes(n, [DataType.any]), msg);
   });
 });
 
-test(`should test multiple \`DataType\` in addition to a single one`, t => {
+test(`should test multiple 'DataType' in addition to a single one`, t => {
   const testCases: Array<{
     test: any[];
     type: DataType | DataType[];
@@ -47,7 +47,7 @@ test(`should test multiple \`DataType\` in addition to a single one`, t => {
       t.is(
         isOneOfMultipleTypes(m, n.type),
         n.expect,
-        `Failed for ${m} when \`type\` is ${JSON.stringify(n.type)}`
+        `Failed for ${m} when 'type' is ${JSON.stringify(n.type)}`
       );
     })
   );

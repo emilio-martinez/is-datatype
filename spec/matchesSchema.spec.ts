@@ -42,13 +42,13 @@ test(`should test multiple schemas in addition to a single one`, t => {
       t.is(
         matchesSchema(m, n.schema),
         n.expect,
-        `Failed for ${m} when \`type\` is ${JSON.stringify(n.schema)}`
+        `Failed for ${m} when 'type' is ${JSON.stringify(n.schema)}`
       );
     })
   );
 });
 
-test(`should use \`any\`  as a \`DataType\` when no \`type\` is present`, t => {
+test(`should use 'any'  as a 'DataType' when no 'type' is present`, t => {
   const testCases: any[] = [
     0,
     100,
@@ -66,7 +66,7 @@ test(`should use \`any\`  as a \`DataType\` when no \`type\` is present`, t => {
   });
 });
 
-test(`should not mistake \`props\` from the schema with \`props\` attributes`, t => {
+test(`should not mistake 'props' from the schema with 'props' attributes`, t => {
   const testCases = [
     { type: DataType.array, value: [] },
     { type: DataType.boolean, value: false },
@@ -94,7 +94,7 @@ test(`should not mistake \`props\` from the schema with \`props\` attributes`, t
   });
 });
 
-test(`should execute \`matchesSchema\` for multiple depths of nested \`props\``, t => {
+test(`should execute 'matchesSchema' for multiple depths of nested 'props'`, t => {
   t.true(
     matchesSchema(
       { my: 'qwerty', props: { my: () => {}, props: 100 } },
@@ -114,7 +114,7 @@ test(`should execute \`matchesSchema\` for multiple depths of nested \`props\``,
   );
 });
 
-test(`should not mistake \`items\` from the schema with \`items\` attributes`, t => {
+test(`should not mistake 'items' from the schema with 'items' attributes`, t => {
   t.true(
     matchesSchema([{ hello: () => {} }, { items: 10 }], {
       type: DataType.array,
@@ -128,7 +128,7 @@ test(`should not mistake \`items\` from the schema with \`items\` attributes`, t
   );
 });
 
-test(`should validate \`items\` when Array is inferred, even if the \`type\` is \`any\``, t => {
+test(`should validate 'items' when Array is inferred, even if the 'type' is 'any'`, t => {
   t.true(matchesSchema(['hello', 'goodbye'], { items: { type: DataType.string } }));
   t.true(
     matchesSchema(['hello', 'goodbye'], { type: DataType.array, items: { type: DataType.string } })
@@ -148,7 +148,7 @@ test(`should validate \`items\` when Array is inferred, even if the \`type\` is 
   t.false(matchesSchema([0, false], { type: DataType.array, items: { type: DataType.boolean } }));
 });
 
-test(`should execute \`matchesSchema\` for multiple depths of nested \`items\``, t => {
+test(`should execute 'matchesSchema' for multiple depths of nested 'items'`, t => {
   t.true(
     matchesSchema([['hello', 'world']], {
       items: { type: DataType.array, items: { type: DataType.string } }
@@ -182,7 +182,7 @@ test(`should execute \`matchesSchema\` for multiple depths of nested \`items\``,
   );
 });
 
-test(`should validate for \`required\` properties`, t => {
+test(`should validate for 'required' properties`, t => {
   t.false(
     matchesSchema(
       { my: 'qwerty', props: 100 },

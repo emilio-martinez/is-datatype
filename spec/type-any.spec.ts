@@ -8,7 +8,7 @@ const currentDataType = DataType.any;
 
 test('should work for regular use cases', t => {
   getDataTypeUseCases(currentDataType).forEach(n => {
-    const msg = `Failed for \`${n}\` of type \`${typeof n}\` passed`;
+    const msg = `Failed for '${n}' of type '${typeof n}' passed`;
     t.true(is(n, currentDataType), msg);
     t.true(matchesSchema(n, { type: currentDataType }), msg);
   });
