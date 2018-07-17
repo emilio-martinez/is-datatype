@@ -19,7 +19,7 @@
     "pretest": "npm run clean:test",
     "test": "TS_NODE_PROJECT=tsconfig.spec.json node_modules/.bin/nyc node_modules/.bin/ava --verbose",
     "pretest:watch": "npm run pretest",
-    "test:watch": "node_modules/.bin/karma start --no-single-run",
+    "test:watch": "npm run test -- --watch",
     "serve:test": "node_modules/.bin/browser-sync start -s coverage/html",
     "clean:test": "node_modules/.bin/rimraf coverage",
     "clean:dist": "node_modules/.bin/rimraf dist",
