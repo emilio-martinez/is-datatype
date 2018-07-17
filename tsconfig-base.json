@@ -13,9 +13,6 @@
     "noUnusedParameters": true,
     "removeComments": false,
     "sourceMap": false,
-    "strict": true,
-    "types": [
-      "jasmine"
-    ]
+    "strict": true
   }
 }

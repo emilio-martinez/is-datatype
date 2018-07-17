@@ -1,8 +1,9 @@
+import { test } from 'ava';
 import { DataType } from '../src/data-type';
 import { isOneOfMultipleTypes } from '../src/is';
-import { getDataTypeUseCases } from './test-cases/test-cases.spec';
+import { getDataTypeUseCases } from './test-cases/index';
 
-const invalidTypeValues = [
+const invalidTypeValues: any[] = [
   1000, // The DataType enum is an object with has numbers, but they don't come even close to 1000
   [1000],
   'hello',
@@ -13,47 +14,41 @@ const invalidTypeValues = [
   undefined
 ];
 
-describe(`isOneOfMultipleTypes`, () => {
-  it(`should only take valid \`DataType\` values for the \`type\` argument`, () => {
-    invalidTypeValues.forEach(n =>
-      expect(() => isOneOfMultipleTypes(true, n as DataType)).toThrow()
-    );
+test(`should only take valid 'DataType' values for the 'type' argument`, t => {
+  invalidTypeValues.forEach(n => {
+    t.throws(() => isOneOfMultipleTypes(true, n as DataType), TypeError);
   });
+});
 
-  it(`should immediately return \`true\` when \`any\` is passed`, () => {
-    getDataTypeUseCases().forEach(n => {
-      expect(isOneOfMultipleTypes(n, DataType.any)).toBe(
-        true,
-        `Failed for \`${n}\` of type \`${typeof n}\``
+test(`should immediately return 'true' when 'any' is passed`, t => {
+  getDataTypeUseCases().forEach(n => {
+    const msg = `Failed for '${n}' of type '${typeof n}'`;
+    t.true(isOneOfMultipleTypes(n, DataType.any), msg);
+    t.true(isOneOfMultipleTypes(n, [DataType.any]), msg);
+  });
+});
+
+test(`should test multiple 'DataType' in addition to a single one`, t => {
+  const testCases: Array<{
+    test: any[];
+    type: DataType | DataType[];
+    expect: boolean;
+  }> = [
+    { test: [10, 'a'], type: [DataType.number, DataType.string], expect: true },
+    { test: [10], type: DataType.number, expect: true },
+    { test: [10], type: DataType.string, expect: false },
+    { test: ['a'], type: DataType.number, expect: false },
+    { test: ['a'], type: DataType.string, expect: true },
+    { test: [10, 'a'], type: [DataType.undefined, DataType.function], expect: false }
+  ];
+
+  testCases.forEach(n =>
+    n.test.forEach(m => {
+      t.is(
+        isOneOfMultipleTypes(m, n.type),
+        n.expect,
+        `Failed for ${m} when 'type' is ${JSON.stringify(n.type)}`
       );
-      expect(isOneOfMultipleTypes(n, [DataType.any])).toBe(
-        true,
-        `Failed for \`${n}\` of type \`${typeof n}\``
-      );
-    });
-  });
-
-  it(`should test multiple \`DataType\` in addition to a single one`, () => {
-    const testCases: Array<{
-      test: any[];
-      type: DataType | DataType[];
-      expect: boolean;
-    }> = [
-      { test: [10, 'a'], type: [DataType.number, DataType.string], expect: true },
-      { test: [10], type: DataType.number, expect: true },
-      { test: [10], type: DataType.string, expect: false },
-      { test: ['a'], type: DataType.number, expect: false },
-      { test: ['a'], type: DataType.string, expect: true },
-      { test: [10, 'a'], type: [DataType.undefined, DataType.function], expect: false }
-    ];
-
-    testCases.forEach(n =>
-      n.test.forEach(m =>
-        expect(isOneOfMultipleTypes(m, n.type)).toBe(
-          n.expect,
-          `Failed for ${m} when \`type\` is ${JSON.stringify(n.type)}`
-        )
-      )
-    );
-  });
+    })
+  );
 });

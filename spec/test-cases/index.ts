@@ -10,7 +10,7 @@ import {
   validObjectUseCases,
   validStringUseCases,
   validUndefinedUseCases
-} from './non-schema.spec';
+} from './non-schema';
 
 const dataTypeTestCaseMap = {
   [DataType.number]: [
@@ -47,15 +47,12 @@ export function getDataTypeUseCases(
    * Filters out exclusions and remaps into an array of arrays of sample data
    */
   return Object.keys(testCaseMap)
-    .reduce<any[][]>(
-      (acc, k) =>
-        testCaseMap.hasOwnProperty(k) && typeof k === 'number' &&
-        k in DataType && exclude.indexOf(k) === -1
-          ? acc.concat(testCaseMap[k])
-          : acc,
+    .reduce<any[]>(
+      (acc, k) => testCaseMap.hasOwnProperty(k) && k in DataType && exclude.indexOf(k) === -1
+        ? acc.concat(testCaseMap[<any>k])
+        : acc,
       []
-    )
-    .reduce<any[]>((a, b) => a.concat(b), []);
+    );
 }
 
 /**
@@ -65,5 +62,5 @@ export const dataTypeKeys: number[] = Object.keys(DataType)
   .map(k => parseInt(k, 10))
   .filter(k => typeof k === 'number' && !isNaN(k));
 
-export * from './non-schema.spec';
-export * from './schema.spec';
+export * from './non-schema';
+export * from './schema';
