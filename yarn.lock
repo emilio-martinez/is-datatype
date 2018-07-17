@@ -2,7 +2,7 @@
 # yarn lockfile v1
 
 
-"@ampproject/rollup-plugin-closure-compiler@^0.4.3":
+"@ampproject/rollup-plugin-closure-compiler@0.4.3":
   version "0.4.3"
   resolved "https://registry.yarnpkg.com/@ampproject/rollup-plugin-closure-compiler/-/rollup-plugin-closure-compiler-0.4.3.tgz#9a2b70ea319b12844b5cfc512ac0ca9a606b49c5"
   dependencies:
@@ -3973,7 +3973,7 @@ rollup-plugin-filesize@2.0.0:
     filesize "^3.5.6"
     gzip-size "^3.0.0"
 
-rollup-plugin-prettier@^0.4.0:
+rollup-plugin-prettier@0.4.0:
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/rollup-plugin-prettier/-/rollup-plugin-prettier-0.4.0.tgz#de3749c433fa1e0b2a2cf9a51534fa330dcc7d53"
   dependencies:
