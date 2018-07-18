@@ -1,5 +1,6 @@
 import { test } from 'ava';
-import { DataType, DATATYPE } from '../src/data-type';
+import { DataType } from '@lib';
+import { DATATYPE } from '@lib-private';
 import { dataTypeKeys } from './test-cases/index';
 
 test(`DataType should have value parity`, t => {

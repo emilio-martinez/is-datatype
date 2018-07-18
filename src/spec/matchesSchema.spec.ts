@@ -1,10 +1,8 @@
-// tslint:disable object-literal-sort-keys no-empty
+// tslint:disable no-empty
 
 import { test } from 'ava';
-import { DataType } from '../src/data-type';
-import { matchesSchema } from '../src/schema';
-// eslint-disable-next-line no-unused-vars
-import { isTypeSchema } from '../src/interfaces';
+import { DataType, isTypeSchema } from '@lib';
+import { matchesSchema } from '@lib-private';
 
 test('should handle validating undefined', t => {
   t.true(

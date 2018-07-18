@@ -1,6 +1,6 @@
 import { test } from 'ava';
-import { DataType } from '../src/data-type';
-import { isMultipleOf } from '../src/number-helpers';
+import { DataType } from '@lib';
+import { isMultipleOf } from '@lib-private';
 import {
   getDataTypeUseCases,
   multipleOfUseCases,

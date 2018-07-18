@@ -1,7 +1,6 @@
-// tslint:disable no-object-literal-type-assertion object-literal-sort-keys
+// tslint:disable no-object-literal-type-assertion
 
-import { DataType } from '../../src/data-type';
-import { isOptions } from '../../src/interfaces';
+import { DataType, isOptions } from '@lib';
 
 export const arraySchemaUseCases: Array<{
   description: string,

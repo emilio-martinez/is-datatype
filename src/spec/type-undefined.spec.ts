@@ -1,13 +1,12 @@
 import { test } from 'ava';
-import { is } from '../src/is';
-import { DataType } from '../src/data-type';
-import { matchesSchema } from '../src/schema';
-import { getDataTypeUseCases, validFunctionUseCases } from './test-cases/index';
+import { DataType, is } from '@lib';
+import { matchesSchema } from '@lib-private';
+import { getDataTypeUseCases, validUndefinedUseCases } from './test-cases/index';
 
-const currentDataType = DataType.function;
+const currentDataType = DataType.undefined;
 
 test('should work for regular use cases', t => {
-  validFunctionUseCases.forEach(n => {
+  validUndefinedUseCases.forEach(n => {
     const msg = `Failed for ${n}`;
     t.true(is(n, currentDataType), msg);
     t.true(matchesSchema(n, { type: currentDataType }), msg);

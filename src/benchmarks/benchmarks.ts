@@ -1,4 +1,4 @@
-// tslint:disable object-literal-sort-keys no-console no-non-null-assertion
+// tslint:disable no-console no-non-null-assertion
 
 import { BenchmarkRelease, currentReleaseName } from './releases';
 import { BenchmarkTest } from './tests';
@@ -123,7 +123,7 @@ export class BenchmarkTestCases {
       }
     });
 
-    let avg = fast / (+rest / (benchmarks.length - 1)) * 1000;
+    let avg = (fast / (+rest / (benchmarks.length - 1))) * 1000;
     avg = parseFloat(avg.toFixed()) / 1000;
     return avg;
   }

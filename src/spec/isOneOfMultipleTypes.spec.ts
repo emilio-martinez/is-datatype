@@ -1,6 +1,6 @@
 import { test } from 'ava';
-import { DataType } from '../src/data-type';
-import { isOneOfMultipleTypes } from '../src/is';
+import { DataType } from '@lib';
+import { isOneOfMultipleTypes } from '@lib-private';
 import { getDataTypeUseCases } from './test-cases/index';
 
 const invalidTypeValues: any[] = [

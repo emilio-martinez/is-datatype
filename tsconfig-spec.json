@@ -1,11 +1,11 @@
 {
-  "extends": "./tsconfig-base.json",
+  "extends": "./tsconfig.json",
   "compilerOptions": {
     "module": "commonjs",
     "target": "es2015",
     "sourceMap": true
   },
   "exclude": [
-    "tools/benchmarks/**/*.ts"
+    "src/benchmarks/**/*.ts"
   ]
 }
