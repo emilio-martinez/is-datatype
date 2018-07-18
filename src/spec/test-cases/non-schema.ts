@@ -1,12 +1,12 @@
-// tslint:disable object-literal-sort-keys no-multi-spaces no-empty
+// tslint:disable no-multi-spaces no-empty
 
-import { DataType } from '../../src/data-type';
 import {
+  DataType,
   isOptionsArray,
   isOptionsNumber,
   isOptionsObject,
   isOptionsString
-} from '../../src/interfaces';
+} from '@lib';
 
 export const validNumberUseCases: number[] = [
   37,

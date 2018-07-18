@@ -9,27 +9,25 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "commitmsg": "commitlint -e",
-    "lint:tslint:src": "node_modules/.bin/tslint --format verbose --project tsconfig.json",
-    "lint:tslint:spec": "node_modules/.bin/tslint --format verbose --project tsconfig.spec.json",
-    "lint:tslint": "npm run lint:tslint:src && npm run lint:tslint:spec",
-    "lint": "npm run lint:tslint",
-    "format:base": "node_modules/.bin/prettier --write *.ts **/*.ts !dist/**/*.ts",
-    "format:write": "npm run format:base -- --write",
-    "format:check": "npm run format:base -- --list-different",
-    "prebenchmark": "npm run clean && npm run build",
-    "benchmark": "node tools/benchmarks/index.js",
+    "lint:tslint:src": "node_modules/.bin/tslint --format verbose --project tsconfig-lib.json",
+    "lint:tslint:spec": "node_modules/.bin/tslint --format verbose --project tsconfig-spec.json",
+    "lint:tslint": "run-s lint:tslint:src lint:tslint:spec",
+    "lint": "run-s lint:tslint",
+    "format:write": "node_modules/.bin/prettier src/**/*.ts --write",
+    "format:check": "node_modules/.bin/prettier src/**/*.ts --list-different",
+    "prebenchmark": "run-s clean build",
+    "benchmark": "node_modules/.bin/ts-node -P tsconfig-bench.json src/benchmarks/index.ts",
     "pretest": "npm run clean:test",
-    "test": "TS_NODE_PROJECT=tsconfig.spec.json node_modules/.bin/nyc node_modules/.bin/ava --verbose",
+    "test": "TS_NODE_PROJECT=tsconfig-spec.json node_modules/.bin/nyc node_modules/.bin/ava --verbose",
     "pretest:watch": "npm run pretest",
     "test:watch": "npm run test -- --watch",
-    "serve:test": "node_modules/.bin/browser-sync start -s coverage/html",
     "clean:test": "node_modules/.bin/rimraf coverage",
     "clean:dist": "node_modules/.bin/rimraf dist",
-    "clean": "npm run clean:test & npm run clean:dist",
+    "clean": "run-p clean:test clean:dist",
     "dev": "npm run clean:dist && node_modules/.bin/tsc --watch",
     "prebuild": "npm run clean:dist",
     "build:types": "node_modules/.bin/tsc -p tsconfig-types.json",
-    "build:compile": "node_modules/.bin/tsc -p tsconfig.json",
+    "build:compile": "node_modules/.bin/tsc -p tsconfig-lib.json",
     "build:bundle": "node_modules/.bin/rollup -c rollup.config.js",
     "build:clean": "node_modules/.bin/rimraf __build",
     "build": "run-s build:types build:compile build:bundle build:clean",
@@ -74,6 +72,7 @@
     "rollup-plugin-prettier": "0.4.0",
     "rollup-plugin-sourcemaps": "0.4.2",
     "ts-node": "6.2.0",
+    "tsconfig-paths": "3.4.2",
     "tslib": "1.9.3",
     "tslint": "5.10.0",
     "tslint-config-standard": "7.1.0",
@@ -86,20 +85,21 @@
       "ts"
     ],
     "require": [
-      "ts-node/register"
+      "ts-node/register",
+      "tsconfig-paths/register"
     ],
     "files": [
-      "spec/**/*.spec.ts"
+      "src/spec/**/*.spec.ts"
     ],
     "sources": [
-      "src/**/*.ts",
-      "index.ts"
+      "src/lib/**/*.ts",
+      "src/index.ts"
     ],
     "failWithoutAssertions": true
   },
   "nyc": {
     "include": [
-      "src/**/*.ts"
+      "src/lib/**/*.ts"
     ],
     "exclude": [],
     "reporter": [

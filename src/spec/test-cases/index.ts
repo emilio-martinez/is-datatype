@@ -1,4 +1,4 @@
-import { DataType } from '../../src/data-type';
+import { DataType } from '@lib';
 import {
   invalidNumberUseCases,
   validArrayUseCases,

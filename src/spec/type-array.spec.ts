@@ -1,7 +1,6 @@
 import { test } from 'ava';
-import { is } from '../src/is';
-import { DataType } from '../src/data-type';
-import { matchesSchema } from '../src/schema';
+import { DataType, is } from '@lib';
+import { matchesSchema } from '@lib-private';
 import {
   arraySchemaUseCases,
   arrayWithOptionsUseCases,
