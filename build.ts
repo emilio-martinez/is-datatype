@@ -14,6 +14,7 @@ import {
   parseJsonConfigFileContent,
   readConfigFile,
   SourceFile,
+  SymbolFlags,
   SyntaxKind,
   sys,
   TransformationContext,
@@ -72,9 +73,13 @@ function exportStarTransformer(typeChecker: TypeChecker): TransformerFactory<Sou
 
     return localExports.reduce<ExportSpecifier[]>((acc, s) => {
       const name = s.getName();
-      const exportSymbol = typeChecker.getExportSymbolOfSymbol(s);
-      const exportAliased = typeChecker.getAliasedSymbol(exportSymbol);
-      const exportHasValue = exportAliased.valueDeclaration !== undefined;
+      let exportSymbol = typeChecker.getExportSymbolOfSymbol(s);
+
+      if (exportSymbol.getFlags() & SymbolFlags.Alias) {
+        exportSymbol = typeChecker.getAliasedSymbol(exportSymbol);
+      }
+
+      const exportHasValue = exportSymbol.valueDeclaration !== undefined;
       return exportHasValue ? acc.concat(createExportSpecifier(name, name)) : acc;
     }, []);
   }
