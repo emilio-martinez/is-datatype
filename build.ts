@@ -80,7 +80,7 @@ function exportStarTransformer(typeChecker: TypeChecker): TransformerFactory<Sou
   }
 
   function visitor(ctx: TransformationContext): Visitor {
-    const nestedVisitor: Visitor = <T extends Node>(node: T): VisitResult<T> => {
+    function nodeVisitor<T extends Node>(node: T): VisitResult<T> {
       if (isExportStar(node)) {
         const exportDeclaration = (node as Node) as ExportDeclaration;
         const exportSpecifiers = getConcreteNamedExportsForExportStar(exportDeclaration);
@@ -94,9 +94,9 @@ function exportStarTransformer(typeChecker: TypeChecker): TransformerFactory<Sou
         ) as Node) as T;
       }
 
-      return visitEachChild(node, nestedVisitor, ctx);
-    };
-    return nestedVisitor;
+      return visitEachChild(node, nodeVisitor, ctx);
+    }
+    return nodeVisitor;
   }
 
   return (ctx: TransformationContext) => (sf: SourceFile): SourceFile =>
