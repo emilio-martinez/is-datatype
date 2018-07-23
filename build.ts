@@ -80,7 +80,7 @@ function exportStarTransformer(typeChecker: TypeChecker): TransformerFactory<Sou
       }
 
       const exportHasValue = exportSymbol.valueDeclaration !== undefined;
-      return exportHasValue ? acc.concat(createExportSpecifier(name, name)) : acc;
+      return exportHasValue ? acc.concat(createExportSpecifier(undefined, name)) : acc;
     }, []);
   }
 
