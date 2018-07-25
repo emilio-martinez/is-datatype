@@ -74,7 +74,7 @@
     "ts-node": "6.2.0",
     "tsconfig-paths": "3.4.2",
     "tslib": "1.9.3",
-    "tslint": "5.10.0",
+    "tslint": "5.11.0",
     "tslint-config-standard": "7.1.0",
     "tslint-no-redundant-jsdoc-annotations": "1.0.1",
     "typescript": "2.9.2"
