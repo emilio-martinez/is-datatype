@@ -17,7 +17,7 @@
     "baseUrl": "./",
     "paths": {
       "@lib": [
-        "src/index.ts"
+        "src/lib/public-api.ts"
       ],
       "@lib-private": [
         "src/lib/private-api.ts"
