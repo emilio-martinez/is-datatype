@@ -27,7 +27,7 @@
     "dev": "npm run clean:dist && node_modules/.bin/tsc --watch",
     "prebuild": "npm run clean:dist",
     "build:types": "node_modules/.bin/tsc -p tsconfig-types.json",
-    "build:compile": "node_modules/.bin/ts-node -P tsconfig.json -O '{\"module\":\"commonjs\"}' build.ts",
+    "build:compile": "node_modules/.bin/ts-node -P tools/tsconfig.json tools/build.ts",
     "build:bundle": "node_modules/.bin/rollup -c rollup.config.js",
     "build:clean": "node_modules/.bin/rimraf __build",
     "build": "run-s build:types build:compile build:bundle build:clean",

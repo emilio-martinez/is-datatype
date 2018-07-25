@@ -29,8 +29,9 @@ import {
 
 const BUILD_TSCONFIG = 'tsconfig-lib.json';
 const BUILD_ENTRY = 'src/index.ts';
+const ROOT_DIR = path.resolve(__dirname, '..');
 
-const compilerOpts = readCompilerOptions(BUILD_TSCONFIG, __dirname);
+const compilerOpts = readCompilerOptions(BUILD_TSCONFIG, ROOT_DIR);
 const program = createProgram([BUILD_ENTRY], compilerOpts);
 const typeChecker = program.getTypeChecker();
 
