@@ -68,7 +68,7 @@
     "prettier": "1.13.7",
     "rimraf": "2.6.2",
     "rollup": "0.62.0",
-    "rollup-plugin-filesize": "2.0.0",
+    "rollup-plugin-filesize": "4.0.1",
     "rollup-plugin-prettier": "0.4.0",
     "rollup-plugin-sourcemaps": "0.4.2",
     "ts-node": "6.2.0",
