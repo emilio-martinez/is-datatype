@@ -2,12 +2,14 @@
 # yarn lockfile v1
 
 
-"@ampproject/rollup-plugin-closure-compiler@0.4.3":
-  version "0.4.3"
-  resolved "https://registry.yarnpkg.com/@ampproject/rollup-plugin-closure-compiler/-/rollup-plugin-closure-compiler-0.4.3.tgz#9a2b70ea319b12844b5cfc512ac0ca9a606b49c5"
+"@ampproject/rollup-plugin-closure-compiler@0.6.1":
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/@ampproject/rollup-plugin-closure-compiler/-/rollup-plugin-closure-compiler-0.6.1.tgz#7a20a4cb70dd81579564d4bf9eaa8139de51286a"
   dependencies:
-    google-closure-compiler "^20180610.0.2"
-    temp-write "^3.4.0"
+    acorn "5.7.1"
+    google-closure-compiler "20180716.0.1"
+    magic-string "0.25.0"
+    temp-write "3.4.0"
 
 "@ava/babel-plugin-throws-helper@3.0.0-beta.7":
   version "3.0.0-beta.7"
@@ -480,6 +482,10 @@ JSONStream@^1.0.4:
 abbrev@1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.1.1.tgz#f8f2c887ad10bf67f634f005b6987fed3179aac8"
+
+acorn@5.7.1:
+  version "5.7.1"
+  resolved "https://registry.yarnpkg.com/acorn/-/acorn-5.7.1.tgz#f095829297706a7c9776958c0afc8930a9b9d9d8"
 
 ajv@^5.1.0:
   version "5.5.2"
@@ -1975,13 +1981,24 @@ globby@^7.1.1:
     pify "^3.0.0"
     slash "^1.0.0"
 
-google-closure-compiler@^20180610.0.2:
-  version "20180610.0.2"
-  resolved "https://registry.yarnpkg.com/google-closure-compiler/-/google-closure-compiler-20180610.0.2.tgz#120832f60ccad995e8e47c5e7512112d54c6ae8f"
+google-closure-compiler-linux@^20180716.0.0:
+  version "20180716.0.0"
+  resolved "https://registry.yarnpkg.com/google-closure-compiler-linux/-/google-closure-compiler-linux-20180716.0.0.tgz#b0dc9aa4751085b46002d6a300146df73fa87d35"
+
+google-closure-compiler-osx@^20180716.0.0:
+  version "20180716.0.0"
+  resolved "https://registry.yarnpkg.com/google-closure-compiler-osx/-/google-closure-compiler-osx-20180716.0.0.tgz#5691c07580578dfea3205e90a6a2968d23b85bd9"
+
+google-closure-compiler@20180716.0.1:
+  version "20180716.0.1"
+  resolved "https://registry.yarnpkg.com/google-closure-compiler/-/google-closure-compiler-20180716.0.1.tgz#48deb2b1dfe4c118adcb70dd104cf4fa2b9508d7"
   dependencies:
     chalk "^1.0.0"
     vinyl "^2.0.1"
     vinyl-sourcemaps-apply "^0.2.0"
+  optionalDependencies:
+    google-closure-compiler-linux "^20180716.0.0"
+    google-closure-compiler-osx "^20180716.0.0"
 
 got@^6.7.1:
   version "6.7.1"
@@ -2898,6 +2915,12 @@ magic-string@0.22.4:
   resolved "https://registry.yarnpkg.com/magic-string/-/magic-string-0.22.4.tgz#31039b4e40366395618c1d6cf8193c53917475ff"
   dependencies:
     vlq "^0.2.1"
+
+magic-string@0.25.0:
+  version "0.25.0"
+  resolved "https://registry.yarnpkg.com/magic-string/-/magic-string-0.25.0.tgz#1f3696f9931ff0a1ed4c132250529e19cad6759b"
+  dependencies:
+    sourcemap-codec "^1.4.1"
 
 make-dir@^1.0.0, make-dir@^1.3.0:
   version "1.3.0"
@@ -4199,6 +4222,10 @@ source-map@^0.6.0, source-map@^0.6.1:
   version "0.6.1"
   resolved "https://registry.yarnpkg.com/source-map/-/source-map-0.6.1.tgz#74722af32e9614e9c287a8d0bbde48b5e2f1a263"
 
+sourcemap-codec@^1.4.1:
+  version "1.4.1"
+  resolved "https://registry.yarnpkg.com/sourcemap-codec/-/sourcemap-codec-1.4.1.tgz#c8fd92d91889e902a07aee392bdd2c5863958ba2"
+
 spawn-wrap@^1.4.2:
   version "1.4.2"
   resolved "https://registry.yarnpkg.com/spawn-wrap/-/spawn-wrap-1.4.2.tgz#cff58e73a8224617b6561abdc32586ea0c82248c"
@@ -4432,7 +4459,7 @@ temp-dir@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/temp-dir/-/temp-dir-1.0.0.tgz#0a7c0ea26d3a39afa7e0ebea9c1fc0bc4daa011d"
 
-temp-write@^3.4.0:
+temp-write@3.4.0:
   version "3.4.0"
   resolved "https://registry.yarnpkg.com/temp-write/-/temp-write-3.4.0.tgz#8cff630fb7e9da05f047c74ce4ce4d685457d492"
   dependencies:
