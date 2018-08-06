@@ -3,7 +3,7 @@
 import { BenchmarkRelease, currentReleaseName } from './releases';
 import { BenchmarkTest } from './tests';
 import { Suite } from 'benchmark';
-const chalk = require('chalk').default;
+import * as kleur from 'kleur';
 
 interface IsDataTypeRelease {
   is: any;
@@ -133,10 +133,10 @@ export class BenchmarkTestCases {
     const fastest = this._getFastest();
     const color =
       fastest.length > 1
-        ? chalk.yellow
+        ? kleur.yellow
         : fastest.indexOf(currentReleaseName) >= 0
-          ? chalk.green
-          : chalk.red;
+          ? kleur.green
+          : kleur.red;
 
     const fastestName = fastest.join("' & '");
     const msg = `Fastest is '${fastestName}' (${this._getFastestDiff()}x)\r\n`;
@@ -146,6 +146,6 @@ export class BenchmarkTestCases {
 
   /**  Print a message namespaces with the test key */
   _print(msg: string) {
-    console.log(chalk.cyan(`[${this.test.key}]`) + ` ${msg}`);
+    console.log(kleur.cyan(`[${this.test.key}]`) + ` ${msg}`);
   }
 }
