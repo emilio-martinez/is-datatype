@@ -19,6 +19,7 @@ This project is stable and 100% covered with tests; as the maintainer, I've been
 ### Added
 
 * `DataType.null` is now an available `DataType`.
+* **(Breaking change)** `package.json` now reflects `module` (ESM5) and `browser` (UMD) entries in addition to `main` (CommonJs). Previously, `main` was UMD.
 
 ### Changed
 
@@ -36,10 +37,12 @@ This project is stable and 100% covered with tests; as the maintainer, I've been
 * This package no longer exports redundant JsDoc annotations.
 * This package is now being tested against node 8 (LTS) instead of node 6.
 * (Internal) Output a gzipped version of bundle for size verification purposes.
-* (Internal) PhantomJs => jsdom for testing.
+* (Internal) Karma => AVA.
+* (Internal) Webpack => Rollup + Closure Compiler.
 
 ### Fixed
 
+* Validate for number on private function `isMultipleOf`.
 * **(Breaking change)** Allow `null` values as part of `DataType.any`. This ensures that "any" literally means any DataType.
 
 ### Removed
