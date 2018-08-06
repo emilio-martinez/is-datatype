@@ -7,6 +7,9 @@
   "module": "dist/index.esm5.js",
   "browser": "dist/is-datatype.umd.js",
   "types": "dist/index.d.ts",
+  "files": [
+    "dist/"
+  ],
   "scripts": {
     "commitmsg": "commitlint -e",
     "lint:tslint:src": "node_modules/.bin/tslint --format verbose --project tsconfig-lib.json",
@@ -31,7 +34,8 @@
     "build:bundle": "node_modules/.bin/rollup -c rollup.config.js",
     "build:clean": "node_modules/.bin/rimraf __build",
     "build": "run-s build:types build:compile build:bundle build:clean",
-    "release": "./release-check.sh && node_modules/.bin/np && npm logout"
+    "release": "./release-check.sh && node_modules/.bin/np && npm logout",
+    "pack": "tar tvf $(npm pack)"
   },
   "repository": {
     "type": "git",
