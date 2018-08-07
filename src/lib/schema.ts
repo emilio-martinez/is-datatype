@@ -10,11 +10,12 @@ export function matchesSchema(val: any, schema: isTypeSchema | isTypeSchema[]): 
 
   /** Test every schema until at least one of them matches */
   for (const s of schemas) {
-    /** If type is defined but invalid, schema is false */
-    if (s.type !== undefined && !validMultiDataType(s.type)) continue;
+    /** Ensure DataType or DataType[]. If invalid, will set null. */
+    const sType: DataType | DataType[] | null =
+      s.type === undefined ? <DT>DATATYPE.any : validMultiDataType(s.type) ? s.type : null;
 
-    /** Cache the type. Use `any` if none is present */
-    const sType: DataType | DataType[] = s.type === undefined ? <DT>DATATYPE.any : s.type;
+    /** Schema is considered false, so skip iteration. */
+    if (sType === null) continue;
 
     /** Test if any of the data types matches */
     const sTypeValid = isOneOfMultipleTypes(val, sType, s.options);
