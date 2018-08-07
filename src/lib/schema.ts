@@ -53,10 +53,7 @@ export function matchesSchema(val: any, schema: isTypeSchema | isTypeSchema[]): 
        * However, if it was required, that will have been caught by the check above.
        */
       sPropsValid = sPropKeys.every(
-        p =>
-          !!s.props && typeof val === 'object' && val && val[p] !== undefined
-            ? matchesSchema(val[p], s.props[p])
-            : true
+        p => (!!s.props && val && val[p] !== undefined ? matchesSchema(val[p], s.props[p]) : true)
       );
     }
 
