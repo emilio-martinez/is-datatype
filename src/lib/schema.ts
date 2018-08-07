@@ -20,42 +20,22 @@ export function matchesSchema(val: any, schema: isTypeSchema | isTypeSchema[]): 
     /** Test if any of the data types matches */
     const sTypeValid = isOneOfMultipleTypes(val, sType, s.options);
 
-    /**
-     * Whether the properties match what's reflected in the schema.
-     * Initially assumed as `true`.
-     */
-    let sPropsValid = true;
-
-    /**
-     * Whether the required properties are present.
-     * Initially assumed as `true`.
-     */
-    let sRequiredValid = true;
-
     /** Extract the properties to test for into an array */
     const sProps = !!s.props && typeof s.props === 'object' ? s.props : {};
     const sPropKeys: string[] = Object.keys(sProps);
+    const hasPropKeys = sPropKeys.length > 0;
 
-    /** Begin tests relevant to properties */
-    if (sPropKeys.length > 0) {
-      /** Check that every single present required key tests positive. */
-      sRequiredValid = sPropKeys.every(
-        p => sProps[p].required === true ? val[p] !== undefined : true
-      );
+    /** Whether the required properties are present. */
+    const sRequiredValid = hasPropKeys
+      ? sPropKeys.every(p => (sProps[p].required === true ? val[p] !== undefined : true))
+      : true;
 
-      /**
-       * Iterate over the property keys.
-       *
-       * If the subject has the property we're seeking,
-       * `matchesSchema` is called on that property.
-       *
-       * If `p`, the property, is not an object, it won't be validated against.
-       * However, if it was required, that will have been caught by the check above.
-       */
-      sPropsValid = sPropKeys.every(
-        p => (!!s.props && val && val[p] !== undefined ? matchesSchema(val[p], s.props[p]) : true)
-      );
-    }
+    /** Whether the properties match what's reflected in the schema. */
+    const sPropsValid = hasPropKeys
+      ? sPropKeys.every(
+          p => (!!s.props && val && val[p] !== undefined ? matchesSchema(val[p], s.props[p]) : true)
+        )
+      : true;
 
     /** If `type` is Any, check whether value is array. If so, check items */
     const inferredArray = sType === <DT>DATATYPE.any && Array.isArray(val);
