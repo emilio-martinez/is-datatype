@@ -70,13 +70,4 @@ export class Options implements StrictOptions {
       }
     }
   }
-
-  /**
-   * Verifies whether the options object passed is already an instance of Options.
-   * Otherwise creates an instance of Options
-   */
-  static ensure(options: isOptions | null | undefined): Options {
-    // tslint:disable-next-line strict-boolean-expressions
-    return options && options.constructor === Options ? <Options>options : new Options(options);
-  }
 }
