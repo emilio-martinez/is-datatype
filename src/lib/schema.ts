@@ -9,9 +9,9 @@ export function matchesSchema(val: any, schema: isTypeSchema | isTypeSchema[]): 
   const schemas = (<isTypeSchema[]>[]).concat(schema);
 
   /** Test every schema until at least one of them matches */
-  return schemas.some((s: isTypeSchema) => {
+  for (const s of schemas) {
     /** If type is defined but invalid, schema is false */
-    if (s.type !== undefined && !validMultiDataType(s.type)) return false;
+    if (s.type !== undefined && !validMultiDataType(s.type)) continue;
 
     /** Cache the type. Use `any` if none is present */
     const sType: DataType | DataType[] = s.type === undefined ? <DT>DATATYPE.any : s.type;
@@ -74,6 +74,8 @@ export function matchesSchema(val: any, schema: isTypeSchema | isTypeSchema[]): 
         ? (val as any[]).every(i => matchesSchema(i, s.items as isTypeSchema | isTypeSchema[]))
         : true;
 
-    return sTypeValid && sRequiredValid && sPropsValid && sItemsValid;
-  });
+    if (sTypeValid && sRequiredValid && sPropsValid && sItemsValid) return true;
+  }
+
+  return false;
 }
