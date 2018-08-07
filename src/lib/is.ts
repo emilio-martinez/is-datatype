@@ -3,8 +3,7 @@ import {
   isOptionsArray,
   isOptionsNumber,
   isOptionsObject,
-  isOptionsString,
-  StrictOptions
+  isOptionsString
 } from './interfaces';
 import { matchesSchema } from './schema';
 import { isMultipleOf, testNumberWithinBounds } from './number-helpers';
@@ -24,47 +23,35 @@ export function is(val: any, type: DataType, options?: isOptions): boolean {
     throw TypeError('Invalid `type` argument.');
   }
 
-  /** Any */
+  /**
+   * Any
+   */
   if (type === <DT>DATATYPE.any) return true;
 
-  /** Undefined */
+  /**
+   * Undefined
+   */
   if (type === <DT>DATATYPE.undefined || val === undefined) {
     return type === <DT>DATATYPE.undefined && val === undefined;
   }
 
-  /** Null */
+  /**
+   * Null
+   */
   if (type === <DT>DATATYPE.null || val === null) {
     return type === <DT>DATATYPE.null && val === null;
   }
 
-  /** Sanitize options object */
+  /**
+   * Sanitize options
+   */
   const opts = Options.ensure(options);
 
   /**
-   * Numeric particular use cases
-   * All leverage the `number` check by setting the options their use case requires.
-   */
-  if (type === <DT>DATATYPE.integer || type === <DT>DATATYPE.natural) {
-    /** Immediately return false is `multipleOf` is passed, but it's not a multiple of 1. */
-    if (!isMultipleOf(opts.multipleOf, 1)) return false;
-
-    const numOptions: StrictOptions = opts;
-    numOptions.multipleOf = numOptions.multipleOf === 0 ? 1 : numOptions.multipleOf;
-    if (type === <DT>DATATYPE.natural) numOptions.min = Math.max(0, numOptions.min);
-
-    return is(val, <DT>DATATYPE.number, numOptions);
-  }
-
-  /**
-   * If `any` type, always true.
-   * If `number` type, check it's a number other than NaN.
-   * If `array` type, check it's an `object` type.
-   * Otherwise, do a check against the passed type.
-   *
-   * If `typeOfCheck` is false, return false.
+   * Check against typeof
    */
   const typeOfCheck =
-    type === <DT>DATATYPE.number
+    type === <DT>DATATYPE.number || type === <DT>DATATYPE.integer || type === <DT>DATATYPE.natural
       ? typeof val === DataType[DATATYPE.number] && !isNaN(val)
       : type === <DT>DATATYPE.array
         ? Array.isArray(val)
@@ -73,8 +60,7 @@ export function is(val: any, type: DataType, options?: isOptions): boolean {
   if (!typeOfCheck) return false;
 
   /**
-   * If `array` is disallowed as object (default), check that the obj is not an array.
-   * Is the schema option is set, the object will be validated against the schema.
+   * Object
    */
   if (type === <DT>DATATYPE.object) {
     return (
@@ -84,8 +70,7 @@ export function is(val: any, type: DataType, options?: isOptions): boolean {
   }
 
   /**
-   * If type is `array` and the `type` option is different than `any`,
-   * check that all items in the array are of that type.
+   * Array
    */
   if (type === <DT>DATATYPE.array) {
     return (
@@ -95,7 +80,9 @@ export function is(val: any, type: DataType, options?: isOptions): boolean {
     );
   }
 
-  /** If type is `string` and empty is disallowed, check for an empty string. */
+  /**
+   * String
+   */
   if (type === <DT>DATATYPE.string) {
     return (
       (val.length > 0 || !opts.exclEmpty) &&
@@ -105,12 +92,23 @@ export function is(val: any, type: DataType, options?: isOptions): boolean {
   }
 
   /**
-   * If type is `number` check against it's optional values.
-   * `multipleOf` will only be checked when different than 0.
-   * When val is either negative or positive Infinity, `multipleOf` will be false.
+   * Number
    */
   if (type === <DT>DATATYPE.number) {
     return testNumberWithinBounds(val, opts.min, opts.max) && isMultipleOf(val, opts.multipleOf);
+  }
+
+  /**
+   * Number special cases
+   */
+  if (type === <DT>DATATYPE.integer || type === <DT>DATATYPE.natural) {
+    /** Immediately return false is `multipleOf` is passed, but it's not a multiple of 1. */
+    if (!isMultipleOf(opts.multipleOf, 1)) return false;
+
+    const multipleOf = opts.multipleOf === 0 ? 1 : opts.multipleOf;
+    const min = type === <DT>DATATYPE.natural ? Math.max(0, opts.min) : opts.min;
+
+    return testNumberWithinBounds(val, min, opts.max) && isMultipleOf(val, multipleOf);
   }
 
   /** All checks passed. */
