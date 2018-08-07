@@ -124,13 +124,5 @@ export function isOneOfMultipleTypes(
   type: DataType | DataType[],
   options?: isOptions
 ): boolean {
-  /** Coerce `DataType` into an array and filter out non-`DataType` items */
-  const types = (<DataType[]>[]).concat(type);
-
-  /**
-   * If no length, return false
-   * Else if `types` contain any, return true
-   * Else test against `is`
-   */
-  return types.some(n => is(val, n, options));
+  return (<DataType[]>[]).concat(type).some(n => is(val, n, options));
 }
