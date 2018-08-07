@@ -7,12 +7,12 @@ import { matchesSchema } from '@lib-private';
  */
 
 test('should disallow `type` arguments when out of range', t => {
-  t.throws(() => is(false, -2));
-  t.false(matchesSchema(false, { type: -2 }), 'Failed for -2');
+  t.throws(() => is(false, -1));
+  t.false(matchesSchema(false, { type: -1 }), 'Failed for -1');
   t.throws(() => is(false, 0));
   t.false(matchesSchema(false, { type: 0 }), 'Failed for 0');
   t.notThrows(() => is(false, 1));
-  t.false(matchesSchema(false, { type: 1 }), 'Failed for 1');
+  t.is(typeof matchesSchema(false, { type: 1 }), 'boolean', 'Failed for 1');
 });
 
 test('should disallow "named" DataType key for `type` arguments', t => {
