@@ -1,32 +1,32 @@
 import { test } from 'ava';
 import { DataType } from '@lib';
-import { DATATYPE } from '@lib-private';
+import { DATATYPE, DT } from '@lib-private';
 import { dataTypeKeys } from './test-cases/index';
 
 test(`DataType should have value parity`, t => {
   const testedTypes: DataType[] = [];
 
-  t.is(DataType.any, DATATYPE.any as number, 'Failed for `any`');
+  t.is(DataType.any, <DT>DATATYPE.any, 'Failed for `any`');
   testedTypes.push(DataType.any);
-  t.is(DataType.undefined, DATATYPE.undefined as number, 'Failed for `undefined`');
+  t.is(DataType.undefined, <DT>DATATYPE.undefined, 'Failed for `undefined`');
   testedTypes.push(DataType.undefined);
-  t.is(DataType.null, DATATYPE.null as number, 'Failed for `null`');
+  t.is(DataType.null, <DT>DATATYPE.null, 'Failed for `null`');
   testedTypes.push(DataType.null);
-  t.is(DataType.boolean, DATATYPE.boolean as number, 'Failed for `boolean`');
+  t.is(DataType.boolean, <DT>DATATYPE.boolean, 'Failed for `boolean`');
   testedTypes.push(DataType.boolean);
-  t.is(DataType.number, DATATYPE.number as number, 'Failed for `number`');
+  t.is(DataType.number, <DT>DATATYPE.number, 'Failed for `number`');
   testedTypes.push(DataType.number);
-  t.is(DataType.integer, DATATYPE.integer as number, 'Failed for `integer`');
+  t.is(DataType.integer, <DT>DATATYPE.integer, 'Failed for `integer`');
   testedTypes.push(DataType.integer);
-  t.is(DataType.natural, DATATYPE.natural as number, 'Failed for `natural`');
+  t.is(DataType.natural, <DT>DATATYPE.natural, 'Failed for `natural`');
   testedTypes.push(DataType.natural);
-  t.is(DataType.string, DATATYPE.string as number, 'Failed for `string`');
+  t.is(DataType.string, <DT>DATATYPE.string, 'Failed for `string`');
   testedTypes.push(DataType.string);
-  t.is(DataType.function, DATATYPE.function as number, 'Failed for `function`');
+  t.is(DataType.function, <DT>DATATYPE.function, 'Failed for `function`');
   testedTypes.push(DataType.function);
-  t.is(DataType.object, DATATYPE.object as number, 'Failed for `object`');
+  t.is(DataType.object, <DT>DATATYPE.object, 'Failed for `object`');
   testedTypes.push(DataType.object);
-  t.is(DataType.array, DATATYPE.array as number, 'Failed for `array`');
+  t.is(DataType.array, <DT>DATATYPE.array, 'Failed for `array`');
   testedTypes.push(DataType.array);
 
   /** This test should validate that all types have been accounted for */

@@ -25,16 +25,16 @@ export function is(val: any, type: DataType, options?: isOptions): boolean {
   }
 
   /** Any */
-  if (<DT>type === DATATYPE.any) return true;
+  if (type === <DT>DATATYPE.any) return true;
 
   /** Undefined */
-  if (<DT>type === DATATYPE.undefined || val === undefined) {
-    return <DT>type === DATATYPE.undefined && val === undefined;
+  if (type === <DT>DATATYPE.undefined || val === undefined) {
+    return type === <DT>DATATYPE.undefined && val === undefined;
   }
 
   /** Null */
-  if (<DT>type === DATATYPE.null || val === null) {
-    return <DT>type === DATATYPE.null && val === null;
+  if (type === <DT>DATATYPE.null || val === null) {
+    return type === <DT>DATATYPE.null && val === null;
   }
 
   /** Sanitize options object */
@@ -44,13 +44,13 @@ export function is(val: any, type: DataType, options?: isOptions): boolean {
    * Numeric particular use cases
    * All leverage the `number` check by setting the options their use case requires.
    */
-  if (<DT>type === DATATYPE.integer || <DT>type === DATATYPE.natural) {
+  if (type === <DT>DATATYPE.integer || type === <DT>DATATYPE.natural) {
     /** Immediately return false is `multipleOf` is passed, but it's not a multiple of 1. */
     if (!isMultipleOf(opts.multipleOf, 1)) return false;
 
     const numOptions: StrictOptions = opts;
     numOptions.multipleOf = numOptions.multipleOf === 0 ? 1 : numOptions.multipleOf;
-    if (<DT>type === DATATYPE.natural) numOptions.min = Math.max(0, numOptions.min);
+    if (type === <DT>DATATYPE.natural) numOptions.min = Math.max(0, numOptions.min);
 
     return is(val, <DT>DATATYPE.number, numOptions);
   }
@@ -64,18 +64,19 @@ export function is(val: any, type: DataType, options?: isOptions): boolean {
    * If `typeOfCheck` is false, return false.
    */
   const typeOfCheck =
-    <DT>type === DATATYPE.number
-      ? typeof val === DataType[type] && !isNaN(val)
-      : <DT>type === DATATYPE.array
+    type === <DT>DATATYPE.number
+      ? typeof val === DataType[DATATYPE.number] && !isNaN(val)
+      : type === <DT>DATATYPE.array
         ? Array.isArray(val)
         : typeof val === DataType[type];
+
   if (!typeOfCheck) return false;
 
   /**
    * If `array` is disallowed as object (default), check that the obj is not an array.
    * Is the schema option is set, the object will be validated against the schema.
    */
-  if (<DT>type === DATATYPE.object) {
+  if (type === <DT>DATATYPE.object) {
     return (
       (!Array.isArray(val) || opts.arrayAsObject === true) &&
       (opts.schema === null || matchesSchema(val, opts.schema))
@@ -86,7 +87,7 @@ export function is(val: any, type: DataType, options?: isOptions): boolean {
    * If type is `array` and the `type` option is different than `any`,
    * check that all items in the array are of that type.
    */
-  if (<DT>type === DATATYPE.array) {
+  if (type === <DT>DATATYPE.array) {
     return (
       (val as any[]).every(n => isOneOfMultipleTypes(n, opts.type)) &&
       (opts.schema === null || matchesSchema(val, opts.schema)) &&
@@ -95,7 +96,7 @@ export function is(val: any, type: DataType, options?: isOptions): boolean {
   }
 
   /** If type is `string` and empty is disallowed, check for an empty string. */
-  if (<DT>type === DATATYPE.string) {
+  if (type === <DT>DATATYPE.string) {
     return (
       (val.length > 0 || !opts.exclEmpty) &&
       typeof opts.pattern === 'string' &&
@@ -108,7 +109,7 @@ export function is(val: any, type: DataType, options?: isOptions): boolean {
    * `multipleOf` will only be checked when different than 0.
    * When val is either negative or positive Infinity, `multipleOf` will be false.
    */
-  if (<DT>type === DATATYPE.number) {
+  if (type === <DT>DATATYPE.number) {
     return testNumberWithinBounds(val, opts.min, opts.max) && isMultipleOf(val, opts.multipleOf);
   }
 
