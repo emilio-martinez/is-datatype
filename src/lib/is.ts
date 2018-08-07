@@ -47,15 +47,17 @@ export function is(val: any, type: DataType, options?: isOptions): boolean {
    */
   const opts = Options.ensure(options);
 
+  const isSpecialNumericType = type === <DT>DATATYPE.integer || type === <DT>DATATYPE.natural;
+  const isAnyNumericType = type === <DT>DATATYPE.number || isSpecialNumericType;
+
   /**
    * Check against typeof
    */
-  const typeOfCheck =
-    type === <DT>DATATYPE.number || type === <DT>DATATYPE.integer || type === <DT>DATATYPE.natural
-      ? typeof val === DataType[DATATYPE.number] && !isNaN(val)
-      : type === <DT>DATATYPE.array
-        ? Array.isArray(val)
-        : typeof val === DataType[type];
+  const typeOfCheck = isAnyNumericType
+    ? typeof val === DataType[DATATYPE.number] && !isNaN(val)
+    : type === <DT>DATATYPE.array
+      ? Array.isArray(val)
+      : typeof val === DataType[type];
 
   if (!typeOfCheck) return false;
 
@@ -94,18 +96,11 @@ export function is(val: any, type: DataType, options?: isOptions): boolean {
   /**
    * Number
    */
-  if (type === <DT>DATATYPE.number) {
-    return testNumberWithinBounds(val, opts.min, opts.max) && isMultipleOf(val, opts.multipleOf);
-  }
+  if (isAnyNumericType) {
+    /** Ensure multiple of 1 for integer and natural cases */
+    if (isSpecialNumericType && !isMultipleOf(opts.multipleOf, 1)) return false;
 
-  /**
-   * Number special cases
-   */
-  if (type === <DT>DATATYPE.integer || type === <DT>DATATYPE.natural) {
-    /** Immediately return false is `multipleOf` is passed, but it's not a multiple of 1. */
-    if (!isMultipleOf(opts.multipleOf, 1)) return false;
-
-    const multipleOf = opts.multipleOf === 0 ? 1 : opts.multipleOf;
+    const multipleOf = isSpecialNumericType && opts.multipleOf === 0 ? 1 : opts.multipleOf;
     const min = type === <DT>DATATYPE.natural ? Math.max(0, opts.min) : opts.min;
 
     return testNumberWithinBounds(val, min, opts.max) && isMultipleOf(val, multipleOf);
