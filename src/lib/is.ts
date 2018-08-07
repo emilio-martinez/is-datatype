@@ -45,7 +45,7 @@ export function is(val: any, type: DataType, options?: isOptions): boolean {
   /**
    * Sanitize options
    */
-  const opts = Options.ensure(options);
+  const opts = new Options(options);
 
   const isSpecialNumericType = type === <DT>DATATYPE.integer || type === <DT>DATATYPE.natural;
   const isAnyNumericType = type === <DT>DATATYPE.number || isSpecialNumericType;
