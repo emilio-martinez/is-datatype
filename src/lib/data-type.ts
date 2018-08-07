@@ -2,17 +2,15 @@
  * The available data types that `is` can validate for.
  */
 export enum DataType {
-  any = -1,
-  // Primitives
-  undefined = 1,
+  any = 1,
+  undefined,
   null,
   boolean,
   number,
   integer,
   natural,
   string,
-  // Non-primitives
-  function = 11,
+  function,
   object,
   array
 }
@@ -22,26 +20,23 @@ export enum DataType {
  * This is useful for perf reasons because it will be compiled to numbers
  */
 export const enum DATATYPE {
-  any = -1,
-  // Primitives
-  undefined = 1,
-  null,
-  boolean,
-  number,
-  integer,
-  natural,
-  string,
-  // Non-primitives
-  function = 11,
-  object,
-  array
+  any = DataType.any,
+  undefined = DataType.undefined,
+  null = DataType.null,
+  boolean = DataType.boolean,
+  number = DataType.number,
+  integer = DataType.integer,
+  natural = DataType.natural,
+  string = DataType.string,
+  function = DataType.function,
+  object = DataType.object,
+  array = DataType.array
 }
 
 /**
- * Merged type to help TS understand these enums have the same values
- * although one is a regular `enum` and the other is `const enum`
+ * The kind of enum DataType is.
  */
-export type DT = DataType & DATATYPE;
+export type DT = number;
 
 /** Validates a single DataType */
 export function validDataType(dt: DataType | undefined | null): boolean {
