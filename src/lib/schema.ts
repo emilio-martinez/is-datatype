@@ -38,13 +38,10 @@ export function matchesSchema(val: any, schema: isTypeSchema | isTypeSchema[]): 
 
     /** Begin tests relevant to properties */
     if (sPropKeys.length > 0) {
-      /**
-       * Get all keys that are required from the schema,
-       * and then test for required properties.
-       */
-      sRequiredValid = sPropKeys
-        .filter(p => sProps[p].required === true)
-        .every(r => val[r] !== undefined);
+      /** Check that every single present required key tests positive. */
+      sRequiredValid = sPropKeys.every(
+        p => sProps[p].required === true ? val[p] !== undefined : true
+      );
 
       /**
        * Iterate over the property keys.
