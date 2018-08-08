@@ -1,6 +1,5 @@
 import { DataType, DATATYPE, DT, validMultiDataType } from './data-type';
 import { isOptions, isTypeSchema, StrictOptions } from './interfaces';
-import { NEGATIVE_INFINITY, POSITIVE_INFINITY } from './constants';
 import { matchesSchema } from './schema';
 
 function validSchema(val: any) {
@@ -36,8 +35,8 @@ export class Options implements StrictOptions {
   // from StrictOptionsObject
   readonly arrayAsObject: boolean = false;
   // from StrictOptionsMinMax
-  readonly min: number = NEGATIVE_INFINITY;
-  readonly max: number = POSITIVE_INFINITY;
+  readonly min: number = Number.NEGATIVE_INFINITY;
+  readonly max: number = Number.POSITIVE_INFINITY;
   // from StrictOptionsNumber
   readonly multipleOf: number = 0;
   // from StrictOptionsString
