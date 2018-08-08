@@ -3,54 +3,45 @@ import { DATATYPE, DataType, DT, validMultiDataType } from './data-type';
 import { isOneOfMultipleTypes } from './is';
 
 /**
- * Tests an object against an object schema.
+ * Tests an value against an schema.
  */
 export function matchesSchema(val: any, schema: isTypeSchema | isTypeSchema[]): boolean {
-  const schemas = (<isTypeSchema[]>[]).concat(schema);
+  return (<isTypeSchema[]>[]).concat(schema).some(({ type: sType, props, items, options }) => {
+    const type: DataType | DataType[] | null =
+      sType === undefined ? <DT>DATATYPE.any : validMultiDataType(sType) ? sType : null;
 
-  /** Test every schema until at least one of them matches */
-  for (const s of schemas) {
-    /** Ensure DataType or DataType[]. If invalid, will set null. */
-    const sType: DataType | DataType[] | null =
-      s.type === undefined ? <DT>DATATYPE.any : validMultiDataType(s.type) ? s.type : null;
+    if (!type) return false;
 
-    /** Schema is considered false, so skip iteration. */
-    if (sType === null) continue;
-
-    /** Test if any of the data types matches */
-    const sTypeValid = isOneOfMultipleTypes(val, sType, s.options);
-
-    /** Extract the properties to test for into an array */
-    const sProps = !!s.props && typeof s.props === 'object' ? s.props : {};
-    const sPropKeys: string[] = Object.keys(sProps);
-    const hasPropKeys = sPropKeys.length > 0;
-
-    /** Whether the required properties are present. */
-    const sRequiredValid = hasPropKeys
-      ? sPropKeys.every(p => (sProps[p].required === true ? val[p] !== undefined : true))
-      : true;
-
-    /** Whether the properties match what's reflected in the schema. */
-    const sPropsValid = hasPropKeys
-      ? sPropKeys.every(
-          p => (!!s.props && val && val[p] !== undefined ? matchesSchema(val[p], s.props[p]) : true)
-        )
-      : true;
-
-    /** If `type` is Any, check whether value is array. If so, check items */
-    const inferredArray = sType === <DT>DATATYPE.any && Array.isArray(val);
+    const typeValid = type === <DT>DATATYPE.any || isOneOfMultipleTypes(val, type, options);
 
     /**
-     * Whether Array items are valid
-     * If we're dealing with an array, even if inferred, check the `items`. Otherwise, true.
+     * Prop checks
      */
-    const sItemsValid =
-      (sType === <DT>DATATYPE.array || inferredArray) && sTypeValid && s.items !== undefined
-        ? (val as any[]).every(i => matchesSchema(i, s.items as isTypeSchema | isTypeSchema[]))
+
+    const propKeys: string[] = props && typeof props === 'object' ? Object.keys(props) : [];
+    const hasPropKeys = propKeys.length > 0;
+
+    const requiredPropsValid = hasPropKeys
+      ? // tslint:disable-next-line:no-non-null-assertion
+        propKeys.every(p => (props![p].required === true ? val[p] !== undefined : true))
+      : true;
+
+    const propTypesAreValid = hasPropKeys
+      ? // tslint:disable-next-line:no-non-null-assertion
+        propKeys.every(p => (val && val[p] !== undefined ? matchesSchema(val[p], props![p]) : true))
+      : true;
+
+    /**
+     * Items check
+     */
+
+    const itemsValid =
+      items &&
+      ((type === <DT>DATATYPE.array && typeValid) ||
+        (type === <DT>DATATYPE.any && Array.isArray(val)))
+        ? (val as any[]).every(i => matchesSchema(i, items))
         : true;
 
-    if (sTypeValid && sRequiredValid && sPropsValid && sItemsValid) return true;
-  }
-
-  return false;
+    return typeValid && requiredPropsValid && propTypesAreValid && itemsValid;
+  });
 }
