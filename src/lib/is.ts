@@ -13,11 +13,13 @@ import { Options } from './options';
 /**
  * Type validation function meant to go beyond the use cases of operators such as `typeof`.
  */
-export function is(val: undefined | null | boolean, type: DataType): boolean;
-export function is(val: number, type: DataType, options?: isOptionsNumber): boolean;
-export function is(val: string, type: DataType, options?: isOptionsString): boolean;
-export function is(val: any[], type: DataType, options?: isOptionsArray): boolean;
-export function is(val: object, type: DataType, options?: isOptionsObject): boolean;
+export function is(val: undefined, type: DataType): val is undefined;
+export function is(val: null, type: DataType): val is null;
+export function is(val: boolean, type: DataType): val is boolean;
+export function is(val: number, type: DataType, options?: isOptionsNumber): val is number;
+export function is(val: string, type: DataType, options?: isOptionsString): val is string;
+export function is<T = any>(val: T[], type: DataType, options?: isOptionsArray): val is T[];
+export function is(val: object, type: DataType, options?: isOptionsObject): val is object;
 export function is(val: any, type: DataType, options?: isOptions): boolean {
   if (!validDataType(type)) {
     throw TypeError('Invalid `type` argument.');
@@ -113,10 +115,6 @@ export function is(val: any, type: DataType, options?: isOptions): boolean {
 /**
  * Tests a value against a series of DataTypes (one or more).
  */
-export function isOneOfMultipleTypes(
-  val: any,
-  type: DataType | DataType[],
-  options?: isOptions
-): boolean {
+export function isOneOfMultipleTypes(val: any, type: DataType | DataType[], options?: isOptions) {
   return (<DataType[]>[]).concat(type).some(n => is(val, n, options));
 }

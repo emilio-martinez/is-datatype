@@ -34,6 +34,7 @@ This project is stable and 100% covered with tests; as the maintainer, I've been
 * Enable `alwaysStrict` Typescript flag.
 * Use Webpack scope hoisting to shave off some weight.
 * All comparisons are strict equality checks.
+* The `is` return type is now a type guard where possible.
 * This package no longer exports redundant JsDoc annotations.
 * This package is now being tested against node 8 (LTS) instead of node 6.
 * (Internal) Output a gzipped version of bundle for size verification purposes.
