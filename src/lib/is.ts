@@ -67,10 +67,7 @@ export function is(val: any, type: DataType, options?: isOptions): boolean {
    * Object
    */
   if (type === <DT>DATATYPE.object) {
-    return (
-      (!Array.isArray(val) || opts.arrayAsObject === true) &&
-      (opts.schema === null || matchesSchema(val, opts.schema))
-    );
+    return (!Array.isArray(val) || opts.arrayAsObject === true) && matchesSchema(val, opts.schema);
   }
 
   /**
@@ -79,7 +76,7 @@ export function is(val: any, type: DataType, options?: isOptions): boolean {
   if (type === <DT>DATATYPE.array) {
     return (
       (val as any[]).every(n => isOneOfMultipleTypes(n, opts.type)) &&
-      (opts.schema === null || matchesSchema(val, opts.schema)) &&
+      matchesSchema(val, opts.schema) &&
       testNumberWithinBounds((val as any[]).length, opts.min, opts.max)
     );
   }
