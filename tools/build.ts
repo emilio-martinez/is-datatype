@@ -76,10 +76,12 @@ function exportStarTransformer(typeChecker: TypeChecker): TransformerFactory<Sou
       const name = s.getName();
       let exportSymbol = typeChecker.getExportSymbolOfSymbol(s);
 
+      // tslint:disable-next-line:strict-boolean-expressions
       if (exportSymbol.getFlags() & SymbolFlags.Alias) {
         exportSymbol = typeChecker.getAliasedSymbol(exportSymbol);
       }
 
+      // tslint:disable-next-line:strict-boolean-expressions
       return exportSymbol.getFlags() & SymbolFlags.Value
         ? acc.concat(createExportSpecifier(undefined, name))
         : acc;
@@ -89,9 +91,11 @@ function exportStarTransformer(typeChecker: TypeChecker): TransformerFactory<Sou
   function visitor(ctx: TransformationContext): Visitor {
     function nodeVisitor<T extends Node>(node: T): VisitResult<T> {
       if (isExportStar(node)) {
+        // tslint:disable-next-line:no-unnecessary-type-assertion
         const exportDeclaration = (node as Node) as ExportDeclaration;
         const exportSpecifiers = getConcreteNamedExportsForExportStar(exportDeclaration);
         const namedExports = createNamedExports(exportSpecifiers);
+        // tslint:disable-next-line:no-unnecessary-type-assertion
         return (updateExportDeclaration(
           exportDeclaration,
           undefined,

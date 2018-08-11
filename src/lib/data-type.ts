@@ -39,11 +39,11 @@ export const enum DATATYPE {
 export type DT = number;
 
 /** Validates a single DataType */
-export function validDataType(dt: DataType | undefined | null): boolean {
+export function validDataType(dt: DataType | undefined | null): dt is DataType {
   return typeof dt === 'number' && dt in DataType;
 }
 
 /** Validates multiple DataTypes */
-export function validMultiDataType(dt: DataType | DataType[] | undefined | null): boolean {
+export function validMultiDataType(dt: DataType | DataType[] | undefined | null) {
   return Array.isArray(dt) ? dt.every(validDataType) : validDataType(dt);
 }

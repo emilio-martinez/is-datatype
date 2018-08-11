@@ -12,6 +12,7 @@ export function matchesSchema(val: any, schema: isTypeSchema | isTypeSchema[] | 
       const type: DataType | DataType[] | null =
         sType === undefined ? <DT>DATATYPE.any : validMultiDataType(sType) ? sType : null;
 
+      // tslint:disable-next-line:strict-boolean-expressions
       if (!type) return false;
 
       const typeValid = type === <DT>DATATYPE.any || isOneOfMultipleTypes(val, type, options);
