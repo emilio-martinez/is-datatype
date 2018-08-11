@@ -20,7 +20,7 @@
     "format:check": "node_modules/.bin/prettier src/**/*.ts *.ts --list-different",
     "prebenchmark": "run-s clean build",
     "benchmark": "node_modules/.bin/ts-node -P tsconfig-bench.json src/benchmarks/index.ts",
-    "pretest": "npm run clean:test",
+    "pretest": "run-s clean:test lint",
     "test": "TS_NODE_PROJECT=tsconfig-spec.json node_modules/.bin/nyc node_modules/.bin/ava --verbose",
     "pretest:watch": "npm run pretest",
     "test:watch": "npm run test -- --watch",
