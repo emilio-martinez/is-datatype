@@ -1,15 +1,10 @@
 {
   "extends": [
     "config:base",
-    "schedule:weekly",
+    "schedule:weekends",
     ":semanticCommitTypeAll(build)",
-    ":semanticCommitScope(package)"
+    ":semanticCommitScope(package)",
+    "monorepo:commitlint"
   ],
-  "commitMessage": "{{semanticPrefix}}update {{depName}} to version {{newVersion}}",
-  "packageRules": [
-    {
-      "packagePatterns": ["^@commitlint\/.*"],
-      "groupName": "commitlint"
-    }
-  ]
+  "commitMessage": "{{semanticPrefix}}update {{depName}} to version {{newVersion}}"
 }
