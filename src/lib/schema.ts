@@ -7,13 +7,12 @@ import { isOneOfMultipleTypes } from './is';
  */
 export function matchesSchema(val: any, schema: isTypeSchema | isTypeSchema[] | null): boolean {
   return (
-    !schema ||
+    schema === null ||
     (<isTypeSchema[]>[]).concat(schema).some(({ type: sType, props, items, options }) => {
       const type: DataType | DataType[] | null =
         sType === undefined ? <DT>DATATYPE.any : validMultiDataType(sType) ? sType : null;
 
-      // tslint:disable-next-line:strict-boolean-expressions
-      if (!type) return false;
+      if (type === null) return false;
 
       const typeValid = type === <DT>DATATYPE.any || isOneOfMultipleTypes(val, type, options);
 
@@ -21,27 +20,27 @@ export function matchesSchema(val: any, schema: isTypeSchema | isTypeSchema[] | 
        * Prop checks
        */
 
-      const propKeys: string[] = props && typeof props === 'object' ? Object.keys(props) : [];
-      const hasPropKeys = propKeys.length > 0;
+      const propKeys: string[] =
+        props !== undefined && props !== null && typeof props === 'object'
+          ? Object.keys(props)
+          : [];
 
-      const requiredPropsValid =
-        !hasPropKeys ||
+      const requiredPropsValid = propKeys.every(
         // tslint:disable-next-line:no-non-null-assertion
-        propKeys.every(p => (props![p].required === true ? val[p] !== undefined : true));
+        p => (props![p].required === true ? val[p] !== undefined : true)
+      );
 
-      const propTypesAreValid =
-        !hasPropKeys ||
-        propKeys.every(
-          // tslint:disable-next-line:no-non-null-assertion
-          p => (val && val[p] !== undefined ? matchesSchema(val[p], props![p]) : true)
-        );
+      const propTypesAreValid = propKeys.every(
+        // tslint:disable-next-line:no-non-null-assertion
+        p => (val && val[p] !== undefined ? matchesSchema(val[p], props![p]) : true)
+      );
 
       /**
        * Items check
        */
 
       const itemsValid =
-        items &&
+        items !== undefined &&
         ((type === <DT>DATATYPE.array && typeValid) ||
           (type === <DT>DATATYPE.any && Array.isArray(val)))
           ? (val as any[]).every(i => matchesSchema(i, items))

@@ -49,8 +49,7 @@ export class Options implements StrictOptions {
   readonly type: DataType | DataType[] = <DT>DATATYPE.any;
 
   constructor(options: isOptions | null | undefined) {
-    // tslint:disable-next-line strict-boolean-expressions
-    if (typeof options !== 'object' || !options) return;
+    if (options === null || options === undefined) return;
 
     for (const k in options) {
       const val = options[<keyof isOptions>k];
