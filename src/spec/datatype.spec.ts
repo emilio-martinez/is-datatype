@@ -1,4 +1,4 @@
-import { test } from 'ava';
+import test from 'ava';
 import { DataType } from '@lib';
 import { DATATYPE, DT } from '@lib-private';
 import { dataTypeKeys } from './test-cases/index';
