@@ -39,12 +39,7 @@
     "radix": true,
     "semicolon": [true, "always", "ignore-interfaces"],
     "space-before-function-paren": false,
-    "strict-boolean-expressions": [
-      true,
-      "allow-null-union",
-      "allow-undefined-union",
-      "allow-boolean-or-undefined"
-    ],
+    "strict-boolean-expressions": [true],
     "strict-type-predicates": false,
     "triple-equals": true,
     "typedef-whitespace": true,
