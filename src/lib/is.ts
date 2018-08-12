@@ -49,64 +49,55 @@ export function is(val: any, type: DataType, options?: isOptions): boolean {
    */
   const opts = new Options(options);
 
-  const isSpecialNumericType = type === <DT>DATATYPE.integer || type === <DT>DATATYPE.natural;
-  const isAnyNumericType = type === <DT>DATATYPE.number || isSpecialNumericType;
-
   /**
    * Check against typeof
    */
-  const typeOfCheck = isAnyNumericType
-    ? typeof val === DataType[DATATYPE.number] && !isNaN(val)
-    : type === <DT>DATATYPE.array
-      ? Array.isArray(val)
-      : typeof val === DataType[type];
+  const typeOfCheck = typeof val === DataType[type];
+  let isSpecialNumericType = false;
 
-  if (!typeOfCheck) return false;
+  switch (type) {
+    case <DT>DATATYPE.object:
+      return (
+        typeOfCheck &&
+        (!Array.isArray(val) || opts.arrayAsObject === true) &&
+        matchesSchema(val, opts.schema)
+      );
+    case <DT>DATATYPE.array:
+      return (
+        Array.isArray(val) &&
+        val.every(n => isOneOfMultipleTypes(n, opts.type)) &&
+        matchesSchema(val, opts.schema) &&
+        testNumberWithinBounds(val.length, opts.min, opts.max)
+      );
+    case <DT>DATATYPE.string:
+      return (
+        typeOfCheck &&
+        (val.length > 0 || !opts.exclEmpty) &&
+        typeof opts.pattern === 'string' &&
+        new RegExp(opts.pattern, opts.patternFlags).test(val)
+      );
+    case <DT>DATATYPE.integer:
+    case <DT>DATATYPE.natural:
+      isSpecialNumericType = true;
+    // tslint:disable-next-line:no-switch-case-fall-through
+    case <DT>DATATYPE.number: {
+      /** Ensure multiple of 1 for integer and natural cases */
+      if (isSpecialNumericType && !isMultipleOf(opts.multipleOf, 1)) return false;
 
-  /**
-   * Object
-   */
-  if (type === <DT>DATATYPE.object) {
-    return (!Array.isArray(val) || opts.arrayAsObject === true) && matchesSchema(val, opts.schema);
-  }
+      const multipleOf = isSpecialNumericType && opts.multipleOf === 0 ? 1 : opts.multipleOf;
+      const min = type === <DT>DATATYPE.natural ? Math.max(0, opts.min) : opts.min;
 
-  /**
-   * Array
-   */
-  if (type === <DT>DATATYPE.array) {
-    return (
-      (val as any[]).every(n => isOneOfMultipleTypes(n, opts.type)) &&
-      matchesSchema(val, opts.schema) &&
-      testNumberWithinBounds((val as any[]).length, opts.min, opts.max)
-    );
-  }
-
-  /**
-   * String
-   */
-  if (type === <DT>DATATYPE.string) {
-    return (
-      (val.length > 0 || !opts.exclEmpty) &&
-      typeof opts.pattern === 'string' &&
-      new RegExp(opts.pattern, opts.patternFlags).test(val)
-    );
-  }
-
-  /**
-   * Number
-   */
-  if (isAnyNumericType) {
-    /** Ensure multiple of 1 for integer and natural cases */
-    if (isSpecialNumericType && !isMultipleOf(opts.multipleOf, 1)) return false;
-
-    const multipleOf = isSpecialNumericType && opts.multipleOf === 0 ? 1 : opts.multipleOf;
-    const min = type === <DT>DATATYPE.natural ? Math.max(0, opts.min) : opts.min;
-
-    return testNumberWithinBounds(val, min, opts.max) && isMultipleOf(val, multipleOf);
+      return (
+        typeof val === DataType[DATATYPE.number] &&
+        !isNaN(val) &&
+        testNumberWithinBounds(val, min, opts.max) &&
+        isMultipleOf(val, multipleOf)
+      );
+    }
   }
 
   /** All checks passed. */
-  return true;
+  return typeOfCheck;
 }
 
 /**
