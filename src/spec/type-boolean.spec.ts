@@ -1,4 +1,4 @@
-import { test } from 'ava';
+import test from 'ava';
 import { DataType, is } from '@lib';
 import { matchesSchema } from '@lib-private';
 import { getDataTypeUseCases, validBooleanUseCases } from './test-cases/index';

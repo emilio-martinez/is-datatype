@@ -1,4 +1,4 @@
-import { test } from 'ava';
+import test from 'ava';
 import { DataType } from '@lib';
 import { isMultipleOf } from '@lib-private';
 import {

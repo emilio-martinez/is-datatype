@@ -1,6 +1,6 @@
 // tslint:disable no-empty
 
-import { test } from 'ava';
+import test from 'ava';
 import { DataType, isTypeSchema } from '@lib';
 import { matchesSchema } from '@lib-private';
 

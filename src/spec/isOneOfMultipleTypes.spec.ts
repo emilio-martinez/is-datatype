@@ -1,4 +1,4 @@
-import { test } from 'ava';
+import test from 'ava';
 import { DataType } from '@lib';
 import { isOneOfMultipleTypes } from '@lib-private';
 import { getDataTypeUseCases } from './test-cases/index';
