@@ -28,6 +28,8 @@ test(`DataType should have value parity`, t => {
   testedTypes.push(DataType.object);
   t.is(DataType.array, <DT>DATATYPE.array, 'Failed for `array`');
   testedTypes.push(DataType.array);
+  t.is(DataType.symbol, <DT>DATATYPE.symbol, 'Failed for `symbol`');
+  testedTypes.push(DataType.symbol);
 
   /** This test should validate that all types have been accounted for */
   t.is(

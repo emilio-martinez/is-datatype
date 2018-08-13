@@ -63,7 +63,7 @@ export class Options implements StrictOptions {
         ) {
           this[<keyof isOptions>k] = val;
         } else {
-          throw Error(`Provided invalid options param '${k}' in object ${JSON.stringify(options)}`);
+          throw Error(`Invalid option ${k} provided: ${JSON.stringify(options)}`);
         }
       }
     }

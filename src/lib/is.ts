@@ -9,6 +9,7 @@ import { matchesSchema } from './schema';
 import { isMultipleOf, testNumberWithinBounds } from './number-helpers';
 import { DATATYPE, DataType, DT, validDataType } from './data-type';
 import { Options } from './options';
+import { likelySymbol } from './symbol-helpers';
 
 /**
  * Type validation function meant to go beyond the use cases of operators such as `typeof`.
@@ -16,6 +17,7 @@ import { Options } from './options';
 export function is(val: undefined, type: DataType): val is undefined;
 export function is(val: null, type: DataType): val is null;
 export function is(val: boolean, type: DataType): val is boolean;
+export function is(val: symbol, type: DataType): val is symbol;
 export function is(val: number, type: DataType, options?: isOptionsNumber): val is number;
 export function is(val: string, type: DataType, options?: isOptionsString): val is string;
 export function is<T = any>(val: T[], type: DataType, options?: isOptionsArray): val is T[];
@@ -59,6 +61,7 @@ export function is(val: any, type: DataType, options?: isOptions): boolean {
     case <DT>DATATYPE.object:
       return (
         typeOfCheck &&
+        !likelySymbol(val) &&
         (!Array.isArray(val) || opts.arrayAsObject === true) &&
         matchesSchema(val, opts.schema)
       );
@@ -94,6 +97,8 @@ export function is(val: any, type: DataType, options?: isOptions): boolean {
         isMultipleOf(val, multipleOf)
       );
     }
+    case <DT>DATATYPE.symbol:
+      return typeOfCheck || likelySymbol(val);
   }
 
   /** All checks passed. */

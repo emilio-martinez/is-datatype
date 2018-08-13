@@ -1,7 +1,7 @@
 import test from 'ava';
 import { DataType, is } from '@lib';
 import { matchesSchema } from '@lib-private';
-import { getDataTypeUseCases, validBooleanUseCases } from './test-cases/index';
+import { getDataTypeUseCases, safeString, validBooleanUseCases } from './test-cases/index';
 
 const currentDataType = DataType.boolean;
 
@@ -15,7 +15,7 @@ test('should work for regular use cases', t => {
 
 test('should work when passed other data types', t => {
   getDataTypeUseCases(currentDataType).forEach(n => {
-    const msg = `Failed for '${n}' of type '${typeof n}' passed`;
+    const msg = `Failed for '${safeString(n)}' of type '${typeof n}' passed`;
     t.false(is(n, currentDataType), msg);
     t.false(matchesSchema(n, { type: currentDataType }), msg);
   });

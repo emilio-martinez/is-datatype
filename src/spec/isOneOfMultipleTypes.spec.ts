@@ -1,7 +1,7 @@
 import test from 'ava';
 import { DataType } from '@lib';
 import { isOneOfMultipleTypes } from '@lib-private';
-import { getDataTypeUseCases } from './test-cases/index';
+import { getDataTypeUseCases, safeString } from './test-cases/index';
 
 const invalidTypeValues: any[] = [
   1000, // The DataType enum is an object with has numbers, but they don't come even close to 1000
@@ -22,7 +22,7 @@ test(`should only take valid 'DataType' values for the 'type' argument`, t => {
 
 test(`should immediately return 'true' when 'any' is passed`, t => {
   getDataTypeUseCases().forEach(n => {
-    const msg = `Failed for '${n}' of type '${typeof n}'`;
+    const msg = `Failed for '${safeString(n)}' of type '${typeof n}'`;
     t.true(isOneOfMultipleTypes(n, DataType.any), msg);
     t.true(isOneOfMultipleTypes(n, [DataType.any]), msg);
   });

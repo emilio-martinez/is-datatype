@@ -12,7 +12,8 @@ export enum DataType {
   string,
   function,
   object,
-  array
+  array,
+  symbol
 }
 
 /**
@@ -30,7 +31,8 @@ export const enum DATATYPE {
   string = DataType.string,
   function = DataType.function,
   object = DataType.object,
-  array = DataType.array
+  array = DataType.array,
+  symbol = DataType.symbol
 }
 
 /**

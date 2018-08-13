@@ -8,6 +8,21 @@ import {
   isOptionsString
 } from '@lib';
 
+/**
+ * The below Symbol polyfills are being required in a way that won't pollute
+ * the global namespace. However, the `Symbol` global is removed temporarily
+ * because otherwise they'll try to leverage what they can get from the
+ * native implementation.
+ */
+// tslint:disable variable-name no-unnecessary-type-assertion
+const NativeSymbol = Symbol as SymbolConstructor;
+// @ts-ignore
+global.Symbol = null;
+const FauxSymbolCoreJs = require('core-js/library').Symbol;
+const FauxSymbolES6Symbol = require('es6-symbol/polyfill');
+global.Symbol = NativeSymbol;
+// tslint:enable variable-name no-unnecessary-type-assertion
+
 export const validNumberUseCases: number[] = [
   37,
   3.14,
@@ -210,7 +225,7 @@ export const arrayWithOptionsUseCases: Array<{
 
 export const validFunctionUseCases: Function[] = [function() {}, class C {}, Math.sin];
 
-export const validObjectUseCases: object[] = [{ a: 1 }, {}];
+export const validObjectUseCases: object[] = [{ a: 1 }, {}, new (class Symbol {})()];
 
 export const optionalObjectUseCases: Array<{
   test: object;
@@ -220,3 +235,10 @@ export const optionalObjectUseCases: Array<{
 export const validNullUseCases: null[] = [null];
 
 export const validUndefinedUseCases: undefined[] = [undefined];
+
+export const validSymbolUseCases: symbol[] = [Symbol('a'), Symbol.for('b'), Symbol.iterator];
+
+export const validSymbolPolyfilledUseCases: symbol[] =
+  [FauxSymbolCoreJs('c'), FauxSymbolES6Symbol('d')];
+
+export { FauxSymbolCoreJs, FauxSymbolES6Symbol };
