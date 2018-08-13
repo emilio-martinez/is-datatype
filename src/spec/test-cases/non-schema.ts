@@ -225,7 +225,7 @@ export const arrayWithOptionsUseCases: Array<{
 
 export const validFunctionUseCases: Function[] = [function() {}, class C {}, Math.sin];
 
-export const validObjectUseCases: object[] = [{ a: 1 }, {}];
+export const validObjectUseCases: object[] = [{ a: 1 }, {}, new (class Symbol {})()];
 
 export const optionalObjectUseCases: Array<{
   test: object;
