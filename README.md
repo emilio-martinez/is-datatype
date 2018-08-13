@@ -16,8 +16,8 @@ The data types available to test for are:
 
 * `boolean`
 * `number`
-* `integer`: Validates for numbers, restricting to only [integers](https://en.wikipedia.org/wiki/Integer);
-* `natural`: Validates for numbers, restricting to only to [natural numbers](https://en.wikipedia.org/wiki/Natural_number), i.e., non-negative.
+* `integer`: Numbers in the [integers](https://en.wikipedia.org/wiki/Integer) realm.
+* `natural`: Numbers in the [natural](https://en.wikipedia.org/wiki/Natural_number) realm, i.e., non-negative.
 * `string`
 * `function`
 * `object`
@@ -25,15 +25,16 @@ The data types available to test for are:
 * `undefined`
 * `null`
 * `any`: catch all
+* `symbol`
 
 This function is opinionated in the sense that:
 
-* When testing for an `object`, Arrays will be disallowed by default. If desired, an optional `arrayAsObject` can be passed to allow that use case. Note that there is a separate check for `array`.
-* When testing for `number`, `integer`, or `natural`, `NaN` will be disallowed at all times.
+* Arrays will not be valid for `object` by default. Instead, an `arrayAsObject` option can be passed or check against the `array` type.
+* `NaN` will always be false for `number`, `integer`, or `natural`.
 
 ## Usage
 
-This package exposes three main exports through the main entry point: `is`, `DataType` and `isOptions`—a `function`, an `enum` and a Typescript `interface`, respectively. Those will be covered in the following subsections. Additionally, there are a number of other functions and interfaces exported via `is.internal` and `is.interfaces` which are mostly leveraged internally and therefore will not be covered here; however, if you're curious and/or want to use those pieces of functionality, they're available and documented in the source code.
+This package mainly exports `is` and `DataType`—a `function` and an `enum` respectively. In addition, a few Typescript interfaces are exported representing the different available options; however keep in mind these are generally exposed already via the third parameter in `is`.
 
 ### `DataType`
 
@@ -132,12 +133,21 @@ When checking for `integer` and `natural` the `number` options apply as well, be
 
 ## To do
 
-* Use cases for `symbol`
 * Document `schema` options
+
+### Other notes
+
+#### Handling for object-wrapped primitives, e.g., `new String('xyz')`
+
+This package doesn't do anything special for object-wrapped primitives. Use at your own risk; they're a bad practice.
+
+#### Symbol polyfill handling
+
+Because Symbol polyfills can't add new primitives, often they'll produce the following situation `typeof polyfilledSymbol === 'object'`. To aid in that regard, while Symbol polyfills are still necessary, this package checks against the constructor name and the presence of 'constructor.iterator'. This allows for classes called `Symbol` to not register as symbols but objects instead.
 
 ## Collaboration
 
-If there's any issues, a strong use case to change something implemented, or any features to be added other than those noted in the "To do" section above, please feel free to open issues or create pull requests. However, please bear in mind that unit tests must be provided for pull requests, and that keeping (or enhancing) the Typescript tooling that `is` may provide is an important part of this package.
+Simple: For any bugs, desired changes, or feature requests, please feel free to open an issue or create a PR.
 
 [npm]: https://badge.fury.io/js/is-datatype.svg
 [npm-url]: https://npmjs.com/package/is-datatype
