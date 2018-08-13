@@ -9,6 +9,7 @@ import {
   validNumberUseCases,
   validObjectUseCases,
   validStringUseCases,
+  validSymbolPolyfilledUseCases,
   validSymbolUseCases,
   validUndefinedUseCases
 } from './non-schema';
@@ -26,7 +27,7 @@ const dataTypeTestCaseMap = {
   [DataType.object]: [...validObjectUseCases],
   [DataType.undefined]: [...validUndefinedUseCases],
   [DataType.null]: [...validNullUseCases],
-  [DataType.symbol]: [...validSymbolUseCases]
+  [DataType.symbol]: [...validSymbolUseCases, ...validSymbolPolyfilledUseCases]
 };
 
 export function getDataTypeUseCases(
@@ -63,6 +64,13 @@ export function getDataTypeUseCases(
 export const dataTypeKeys: number[] = Object.keys(DataType)
   .map(k => parseInt(k, 10))
   .filter(k => typeof k === 'number' && !isNaN(k));
+
+/**
+ * Guards against Symbol into string conversion errors
+ */
+export function safeString(value: any) {
+  return value ? value.toString() : value;
+}
 
 export * from './non-schema';
 export * from './schema';
