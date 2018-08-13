@@ -9,6 +9,7 @@ import {
   validNumberUseCases,
   validObjectUseCases,
   validStringUseCases,
+  validSymbolUseCases,
   validUndefinedUseCases
 } from './non-schema';
 
@@ -24,7 +25,8 @@ const dataTypeTestCaseMap = {
   [DataType.array]: validArrayUseCases.slice().map(n => n.test),
   [DataType.object]: [...validObjectUseCases],
   [DataType.undefined]: [...validUndefinedUseCases],
-  [DataType.null]: [...validNullUseCases]
+  [DataType.null]: [...validNullUseCases],
+  [DataType.symbol]: [...validSymbolUseCases]
 };
 
 export function getDataTypeUseCases(

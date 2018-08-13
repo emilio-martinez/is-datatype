@@ -16,6 +16,7 @@ import { Options } from './options';
 export function is(val: undefined, type: DataType): val is undefined;
 export function is(val: null, type: DataType): val is null;
 export function is(val: boolean, type: DataType): val is boolean;
+export function is(val: symbol, type: DataType): val is symbol;
 export function is(val: number, type: DataType, options?: isOptionsNumber): val is number;
 export function is(val: string, type: DataType, options?: isOptionsString): val is string;
 export function is<T = any>(val: T[], type: DataType, options?: isOptionsArray): val is T[];

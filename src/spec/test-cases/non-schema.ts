@@ -220,3 +220,5 @@ export const optionalObjectUseCases: Array<{
 export const validNullUseCases: null[] = [null];
 
 export const validUndefinedUseCases: undefined[] = [undefined];
+
+export const validSymbolUseCases: symbol[] = [Symbol('a'), Symbol.for('b'), Symbol.iterator];

@@ -1,13 +1,13 @@
 import test from 'ava';
 import { DataType, is } from '@lib';
 import { matchesSchema } from '@lib-private';
-import { getDataTypeUseCases, validNullUseCases } from './test-cases/index';
+import { getDataTypeUseCases, validSymbolUseCases } from './test-cases/index';
 
-const currentDataType = DataType.null;
+const currentDataType = DataType.symbol;
 
 test('should work for regular use cases', t => {
-  validNullUseCases.forEach(n => {
-    const msg = `Failed for ${n}`;
+  validSymbolUseCases.forEach(n => {
+    const msg = `Failed for ${String(n)}`;
     t.true(is(n, currentDataType), msg);
     t.true(matchesSchema(n, { type: currentDataType }), msg);
   });

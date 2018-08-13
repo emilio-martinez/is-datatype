@@ -40,7 +40,7 @@ test('should work in optional use cases', t => {
 
 test('should work when passed other data types', t => {
   getDataTypeUseCases(currentDataType).forEach(n => {
-    const msg = `Failed for '${n}' of type '${typeof n}' passed`;
+    const msg = `Failed for '${String(n)}' of type '${typeof n}' passed`;
     t.false(is(n, currentDataType), msg);
     t.false(matchesSchema(n, { type: currentDataType }), msg);
   });

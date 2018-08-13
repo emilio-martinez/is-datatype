@@ -22,7 +22,7 @@ test(`should only take valid 'DataType' values for the 'type' argument`, t => {
 
 test(`should immediately return 'true' when 'any' is passed`, t => {
   getDataTypeUseCases().forEach(n => {
-    const msg = `Failed for '${n}' of type '${typeof n}'`;
+    const msg = `Failed for '${String(n)}' of type '${typeof n}'`;
     t.true(isOneOfMultipleTypes(n, DataType.any), msg);
     t.true(isOneOfMultipleTypes(n, [DataType.any]), msg);
   });
