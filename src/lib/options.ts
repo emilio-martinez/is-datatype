@@ -25,11 +25,9 @@ function validSchema(val: any) {
   );
 }
 
-const toKeyRegex = (arr: (keyof isOptions)[]) => RegExp(`^(${arr.join('|')})$`);
-
-const stringParamRegex = toKeyRegex(['pattern', 'patternFlags']);
-const booleanParamRegex = toKeyRegex(['exclEmpty', 'arrayAsObject']);
-const numberParamRegex = toKeyRegex(['min', 'max', 'multipleOf']);
+const stringParamRegex = /^(pattern|patternFlags)$/;
+const booleanParamRegex = /^(exclEmpty|arrayAsObject)$/;
+const numberParamRegex = /^(min|max|multipleOf)$/;
 
 export class Options implements StrictOptions {
   // from StrictOptionsObject
