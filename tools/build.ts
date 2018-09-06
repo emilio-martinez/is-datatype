@@ -51,7 +51,7 @@ function exportStarTransformer(typeChecker: TypeChecker): TransformerFactory<Sou
   function isExportStar(node: Node) {
     return (
       isExportDeclaration(node) &&
-      !node.exportClause &&
+      node.exportClause === undefined &&
       node.getChildren().some(n => n.kind === SyntaxKind.AsteriskToken)
     );
   }
@@ -60,13 +60,13 @@ function exportStarTransformer(typeChecker: TypeChecker): TransformerFactory<Sou
    * Gets concrete exports from an export declaration like `export * from './module'`
    */
   function getConcreteNamedExportsForExportStar(exportDeclaration: ExportDeclaration) {
-    if (!exportDeclaration.moduleSpecifier) {
+    if (exportDeclaration.moduleSpecifier === undefined) {
       return [];
     }
 
     const moduleSpecSymbol = typeChecker.getSymbolAtLocation(exportDeclaration.moduleSpecifier);
 
-    if (!moduleSpecSymbol) {
+    if (moduleSpecSymbol === undefined) {
       return [];
     }
 
@@ -127,7 +127,8 @@ function formatTsDiagnostics(errors: Diagnostic[]): string {
 function readCompilerOptions(configPath: string, rootDir: string): CompilerOptions {
   const resolvedConfigPath = path.resolve(rootDir, configPath);
   const { config, error } = readConfigFile(resolvedConfigPath, sys.readFile);
-  if (error) {
+
+  if (error !== undefined) {
     throw error;
   }
 
