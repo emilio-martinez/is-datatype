@@ -3,7 +3,7 @@
 import { BenchmarkRelease, currentReleaseName } from './releases';
 import { BenchmarkTest } from './tests';
 import { Suite } from 'benchmark';
-import * as kleur from 'kleur';
+import kleur from 'kleur';
 
 interface IsDataTypeRelease {
   is: any;
