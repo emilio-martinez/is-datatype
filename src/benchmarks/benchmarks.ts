@@ -135,8 +135,8 @@ export class BenchmarkTestCases {
       fastest.length > 1
         ? kleur.yellow
         : fastest.indexOf(currentReleaseName) >= 0
-          ? kleur.green
-          : kleur.red;
+        ? kleur.green
+        : kleur.red;
 
     const fastestName = fastest.join("' & '");
     const msg = `Fastest is '${fastestName}' (${this._getFastestDiff()}x)\r\n`;
