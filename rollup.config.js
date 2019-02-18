@@ -26,7 +26,7 @@ export default [
     ],
     plugins: [
       prettier({
-        parser: 'babylon',
+        parser: 'babel',
         printWidth: 120,
         singleQuote: true
       }),
@@ -35,14 +35,8 @@ export default [
   },
   {
     input,
-    output: [
-      { file: file.browserMin, name: libraryName, format: 'umd', sourcemap: true }
-    ],
-    plugins: [
-      compiler(),
-      sourceMaps(),
-      filesize()
-    ]
+    output: [{ file: file.browserMin, name: libraryName, format: 'umd', sourcemap: true }],
+    plugins: [compiler(), sourceMaps(), filesize()]
   }
 ];
 
