@@ -57,7 +57,7 @@
     "@commitlint/cli": "7.5.2",
     "@commitlint/config-angular": "7.5.0",
     "@types/benchmark": "1.0.31",
-    "@types/node": "10.12.26",
+    "@types/node": "10.14.8",
     "ava": "1.2.1",
     "benchmark": "2.1.4",
     "camelcase": "5.0.0",
