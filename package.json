@@ -82,7 +82,7 @@
     "tslint": "5.12.1",
     "tslint-config-standard": "8.0.1",
     "tslint-no-redundant-jsdoc-annotations": "1.0.2",
-    "typescript": "3.3.3"
+    "typescript": "3.5.2"
   },
   "husky": {
     "hooks": {

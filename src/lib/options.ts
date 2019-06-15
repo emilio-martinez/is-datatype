@@ -59,7 +59,8 @@ export class Options implements StrictOptions {
           (typeof val === 'number' && !isNaN(val) && numberParamRegex.test(k)) ||
           (<keyof isOptions>k === 'schema' && validSchema(<isOptions['schema']>val))
         ) {
-          this[<keyof isOptions>k] = val;
+          // TODO: figure out why this started being a mismatch as of TS 3.5.2
+          (this[<keyof isOptions>k] as any) = val;
         } else {
           throw Error(`Invalid option ${k} provided: ${JSON.stringify(options)}`);
         }
