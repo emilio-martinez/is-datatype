@@ -1,12 +1,6 @@
 // tslint:disable no-multi-spaces no-empty
 
-import {
-  DataType,
-  isOptionsArray,
-  isOptionsNumber,
-  isOptionsObject,
-  isOptionsString
-} from '@lib';
+import { DataType, isOptionsArray, isOptionsNumber, isOptionsObject, isOptionsString } from '@lib';
 
 /**
  * The below Symbol polyfills are being required in a way that won't pollute
@@ -18,7 +12,7 @@ import {
 const NativeSymbol = Symbol as SymbolConstructor;
 // @ts-ignore
 global.Symbol = null;
-const FauxSymbolCoreJs = require('core-js/library').Symbol;
+const FauxSymbolCoreJs = require('core-js-pure').Symbol;
 const FauxSymbolES6Symbol = require('es6-symbol/polyfill');
 global.Symbol = NativeSymbol;
 // tslint:enable variable-name no-unnecessary-type-assertion
@@ -238,7 +232,9 @@ export const validUndefinedUseCases: undefined[] = [undefined];
 
 export const validSymbolUseCases: symbol[] = [Symbol('a'), Symbol.for('b'), Symbol.iterator];
 
-export const validSymbolPolyfilledUseCases: symbol[] =
-  [FauxSymbolCoreJs('c'), FauxSymbolES6Symbol('d')];
+export const validSymbolPolyfilledUseCases: symbol[] = [
+  FauxSymbolCoreJs('c'),
+  FauxSymbolES6Symbol('d')
+];
 
 export { FauxSymbolCoreJs, FauxSymbolES6Symbol };
