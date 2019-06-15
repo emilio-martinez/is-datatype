@@ -58,7 +58,7 @@
     "@commitlint/config-angular": "8.0.0",
     "@types/benchmark": "1.0.31",
     "@types/node": "10.14.9",
-    "ava": "1.2.1",
+    "ava": "2.1.0",
     "benchmark": "2.1.4",
     "camelcase": "5.3.1",
     "core-js-pure": "3.1.3",
