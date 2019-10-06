@@ -16,7 +16,8 @@ This project is stable and 100% covered with tests; as the maintainer, I've been
 
 ### Fixed
 
-- `const enum DATATYPE` being emitted in bundle
+- Prevent `const enum DATATYPE` from being emitted in bundle
+- Remedy type aliases not being considered in star-export transform.
 
 ## [0.5.1]
 

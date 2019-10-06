@@ -77,7 +77,7 @@ function exportStarTransformer(typeChecker: TypeChecker): TransformerFactory<Sou
       let exportSymbol = typeChecker.getExportSymbolOfSymbol(s);
 
       // tslint:disable-next-line:strict-boolean-expressions
-      if (exportSymbol.getFlags() & SymbolFlags.Alias) {
+      if (exportSymbol.getFlags() & (SymbolFlags.Alias | SymbolFlags.TypeAlias)) {
         exportSymbol = typeChecker.getAliasedSymbol(exportSymbol);
       }
 
