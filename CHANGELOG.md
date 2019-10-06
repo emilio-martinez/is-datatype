@@ -14,15 +14,11 @@ This project is stable and 100% covered with tests; as the maintainer, I've been
 
 ## [Unreleased]
 
-### Added
-
-### Changed
+## [0.5.1]
 
 ### Fixed
 
 - Prefer use of conditional types over Function overloads in `is` arguments
-
-### Removed
 
 ## [0.5.0]
 
@@ -61,5 +57,6 @@ This project is stable and 100% covered with tests; as the maintainer, I've been
 - **(Breaking change)** `allowNull` is no longer a `DataType.object` option. Use `DataType.null` instead.
 - **(Breaking change)** `exclMin` and `exclMax` is no longer `DataType.number` and `DataType.array` options. Please use `min` and `max` instead.
 
-[unreleased]: https://github.com/emilio-martinez/is-datatype/compare/v0.5.0...HEAD
+[unreleased]: https://github.com/emilio-martinez/is-datatype/compare/v0.5.1...HEAD
 [0.5.0]: https://github.com/emilio-martinez/is-datatype/compare/v0.3.1...v0.5.0
+[0.5.1]: https://github.com/emilio-martinez/is-datatype/compare/v0.5.0...v0.5.1
