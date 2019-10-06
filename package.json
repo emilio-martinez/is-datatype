@@ -1,6 +1,6 @@
 {
   "name": "is-datatype",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "Type validation function meant to go beyond the use cases of operators such as `typeof` by providing a few more common pseudo data types to check against, as well as a certain degree of options to validate against as well",
   "sideEffects": false,
   "main": "dist/index.js",
