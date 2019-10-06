@@ -6,7 +6,5 @@
     "outDir": "__build",
     "sourceMap": true
   },
-  "files": [
-    "src/index.ts"
-  ]
+  "files": ["src/index.ts"]
 }

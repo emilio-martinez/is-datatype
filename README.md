@@ -8,29 +8,29 @@
 
 Type validation function meant to go beyond the use cases of operators such as `typeof`. A few of the key features in mind with the creation of this package are:
 
-* Providing a few more common pseudo data types to check against
-* Tooling (via Typescript)
-* A certain degree of options to validate against
+- Providing a few more common pseudo data types to check against
+- Tooling (via Typescript)
+- A certain degree of options to validate against
 
 The data types available to test for are:
 
-* `boolean`
-* `number`
-* `integer`: Numbers in the [integers](https://en.wikipedia.org/wiki/Integer) realm.
-* `natural`: Numbers in the [natural](https://en.wikipedia.org/wiki/Natural_number) realm, i.e., non-negative.
-* `string`
-* `function`
-* `object`
-* `array`
-* `undefined`
-* `null`
-* `any`: catch all
-* `symbol`
+- `boolean`
+- `number`
+- `integer`: Numbers in the [integers](https://en.wikipedia.org/wiki/Integer) realm.
+- `natural`: Numbers in the [natural](https://en.wikipedia.org/wiki/Natural_number) realm, i.e., non-negative.
+- `string`
+- `function`
+- `object`
+- `array`
+- `undefined`
+- `null`
+- `any`: catch all
+- `symbol`
 
 This function is opinionated in the sense that:
 
-* Arrays will not be valid for `object` by default. Instead, an `arrayAsObject` option can be passed or check against the `array` type.
-* `NaN` will always be false for `number`, `integer`, or `natural`.
+- Arrays will not be valid for `object` by default. Instead, an `arrayAsObject` option can be passed or check against the `array` type.
+- `NaN` will always be false for `number`, `integer`, or `natural`.
 
 ## Usage
 
@@ -46,12 +46,12 @@ In a nutshell `DataType` functions as follows:
 // `DataType` named properties return natural numbers
 // The number returned by `DataType` refers to an object index in the `DataType` object.
 // Typescript tooling makes this very easy to use for development
-typeof DataType.array === 'number'
-DataType.number === 1
+typeof DataType.array === 'number';
+DataType.number === 1;
 
 // Calling `DataType` numbered properties as shown below will return strings of the named property
-typeof DataType[DataType.number] === 'string'
-DataType[DataType.number] === 'number'
+typeof DataType[DataType.number] === 'string';
+DataType[DataType.number] === 'number';
 ```
 
 To learn more about Typescript `enums` please refer to [the Typescript docs](https://www.typescriptlang.org/docs/handbook/enums.html).
@@ -60,9 +60,9 @@ To learn more about Typescript `enums` please refer to [the Typescript docs](htt
 
 `is` is the main function exported by this package. It takes the following three parameters to execute type validation:
 
-* `val {any}`: The value to test for. In Typescript, the data type of the variable passed here will impact the hinting provided for `options`.
-* `type {DataType}`: One of the DataType enum values with numeric output. It identifies the data type to validate for.
-* `options {isOptions}`: An object described by the section "Options" further down. In Typescript, the options that the hinting will present will change depending on the data type of the variable passed into `val`.
+- `val {any}`: The value to test for. In Typescript, the data type of the variable passed here will impact the hinting provided for `options`.
+- `type {DataType}`: One of the DataType enum values with numeric output. It identifies the data type to validate for.
+- `options {isOptions}`: An object described by the section "Options" further down. In Typescript, the options that the hinting will present will change depending on the data type of the variable passed into `val`.
 
 A few usage examples to cover the basic use cases for `is`:
 
@@ -98,13 +98,13 @@ Because the options available to `is` are described by the `isOptions` interface
 The default values for options are:
 
 ```ts
-type: DataType.any // Used for `array` use cases
-exclEmpty: false // Used for `string` use cases
-schema: null // Used for `object` and `any` use cases
-arrayAsObject: false // Used for `object` use cases
-min: Number.NEGATIVE_INFINITY // Used for `number` use cases
-max: Number.POSITIVE_INFINITY // Used for `number` use cases
-multipleOf: 0 // Used for `number` use cases. `0` means no `multipleOf` check
+type: DataType.any; // Used for `array` use cases
+exclEmpty: false; // Used for `string` use cases
+schema: null; // Used for `object` and `any` use cases
+arrayAsObject: false; // Used for `object` use cases
+min: Number.NEGATIVE_INFINITY; // Used for `number` use cases
+max: Number.POSITIVE_INFINITY; // Used for `number` use cases
+multipleOf: 0; // Used for `number` use cases. `0` means no `multipleOf` check
 ```
 
 #### String options
@@ -113,9 +113,9 @@ Strings have an optional value to exclude empty values by passing `exclEmpty` in
 
 #### Array options
 
-* `type`: `DataType|DataType[]`
-* `min`: `number`
-* `max`: `number`
+- `type`: `DataType|DataType[]`
+- `min`: `number`
+- `max`: `number`
 
 With the `type` option, arrays can be tested to see whether their values are of a single type or one of multiple types, in which case an array of types needs to be passed into the `type` option. To clarify, this is strictly testing for "one of multiple types"; as long as a single one of the types passed validates as `true`, then `is` will return `true`.
 
@@ -123,9 +123,9 @@ Additionally, arrays can be tested to have `min` and `max` lengths. `min` and `m
 
 #### Number options
 
-* `min`: `number`
-* `max`: `number`
-* `multipleOf`: `number`
+- `min`: `number`
+- `max`: `number`
+- `multipleOf`: `number`
 
 `multipleOf` will check whether the number being evaluated is a multiple of the value in this option. Please note that when negative and positive infinities are used as the value to test for, the use of `multipleOf` will result in `false` because using Infinity on the left side of modulus is `NaN`.
 
@@ -133,7 +133,7 @@ When checking for `integer` and `natural` the `number` options apply as well, be
 
 ## To do
 
-* Document `schema` options
+- Document `schema` options
 
 ### Other notes
 
@@ -151,12 +151,9 @@ Simple: For any bugs, desired changes, or feature requests, please feel free to 
 
 [npm]: https://badge.fury.io/js/is-datatype.svg
 [npm-url]: https://npmjs.com/package/is-datatype
-
 [tests]: https://travis-ci.org/emilio-martinez/is-datatype.svg?branch=master
 [tests-url]: https://travis-ci.org/emilio-martinez/is-datatype
-
 [deps]: https://david-dm.org/emilio-martinez/is-datatype.svg
 [deps-url]: https://npmjs.com/package/is-datatype
-
 [cover]: https://coveralls.io/repos/github/emilio-martinez/is-datatype/badge.svg?branch=master
 [cover-url]: https://coveralls.io/github/emilio-martinez/is-datatype?branch=master

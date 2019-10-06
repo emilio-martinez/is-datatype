@@ -17,12 +17,8 @@
     "strict": true,
     "baseUrl": "./",
     "paths": {
-      "@lib": [
-        "src/lib/public-api.ts"
-      ],
-      "@lib-private": [
-        "src/lib/private-api.ts"
-      ]
+      "@lib": ["src/lib/public-api.ts"],
+      "@lib-private": ["src/lib/private-api.ts"]
     }
   }
 }

@@ -5,7 +5,5 @@
     "target": "es2015",
     "sourceMap": true
   },
-  "exclude": [
-    "src/benchmarks/**/*.ts"
-  ]
+  "exclude": ["src/benchmarks/**/*.ts"]
 }
