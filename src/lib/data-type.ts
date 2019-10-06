@@ -21,18 +21,18 @@ export enum DataType {
  * This is useful for perf reasons because it will be compiled to numbers
  */
 export const enum DATATYPE {
-  any = DataType.any,
-  undefined = DataType.undefined,
-  null = DataType.null,
-  boolean = DataType.boolean,
-  number = DataType.number,
-  integer = DataType.integer,
-  natural = DataType.natural,
-  string = DataType.string,
-  function = DataType.function,
-  object = DataType.object,
-  array = DataType.array,
-  symbol = DataType.symbol
+  any = 1,
+  undefined,
+  null,
+  boolean,
+  number,
+  integer,
+  natural,
+  string,
+  function,
+  object,
+  array,
+  symbol
 }
 
 /**

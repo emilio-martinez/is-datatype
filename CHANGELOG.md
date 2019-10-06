@@ -14,6 +14,10 @@ This project is stable and 100% covered with tests; as the maintainer, I've been
 
 ## [Unreleased]
 
+### Fixed
+
+- `const enum DATATYPE` being emitted in bundle
+
 ## [0.5.1]
 
 ### Fixed
