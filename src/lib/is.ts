@@ -11,18 +11,26 @@ import { DATATYPE, DataType, DT, validDataType } from './data-type';
 import { Options } from './options';
 import { likelySymbol } from './symbol-helpers';
 
+export type isOptionsParamType<D extends DataType> = D extends DataType.array
+  ? isOptionsArray
+  : D extends DataType.number
+  ? isOptionsNumber
+  : D extends DataType.string
+  ? isOptionsString
+  : D extends DataType.object
+  ? isOptionsObject
+  : D extends (DataType.undefined | DataType.null | DataType.boolean | DataType.symbol)
+  ? never
+  : isOptions;
+
 /**
  * Type validation function meant to go beyond the use cases of operators such as `typeof`.
  */
-export function is(val: undefined, type: DataType): val is undefined;
-export function is(val: null, type: DataType): val is null;
-export function is(val: boolean, type: DataType): val is boolean;
-export function is(val: symbol, type: DataType): val is symbol;
-export function is(val: number, type: DataType, options?: isOptionsNumber): val is number;
-export function is(val: string, type: DataType, options?: isOptionsString): val is string;
-export function is<T = any>(val: T[], type: DataType, options?: isOptionsArray): val is T[];
-export function is(val: object, type: DataType, options?: isOptionsObject): val is object;
-export function is(val: any, type: DataType, options?: isOptions): boolean {
+export function is<T, D extends DataType>(
+  val: T,
+  type: D,
+  options?: isOptionsParamType<D>
+): val is T {
   if (!validDataType(type)) {
     throw TypeError('Invalid `type` argument.');
   }
@@ -61,7 +69,7 @@ export function is(val: any, type: DataType, options?: isOptions): boolean {
     case <DT>DATATYPE.object:
       return (
         typeOfCheck &&
-        !likelySymbol(val) &&
+        !likelySymbol(val as any) &&
         (!Array.isArray(val) || opts.arrayAsObject === true) &&
         matchesSchema(val, opts.schema)
       );
@@ -75,9 +83,9 @@ export function is(val: any, type: DataType, options?: isOptions): boolean {
     case <DT>DATATYPE.string:
       return (
         typeOfCheck &&
-        (val.length > 0 || !opts.exclEmpty) &&
+        (((val as unknown) as string).length > 0 || !opts.exclEmpty) &&
         typeof opts.pattern === 'string' &&
-        new RegExp(opts.pattern, opts.patternFlags).test(val)
+        new RegExp(opts.pattern, opts.patternFlags).test((val as unknown) as string)
       );
     case <DT>DATATYPE.integer:
     case <DT>DATATYPE.natural:
@@ -92,13 +100,13 @@ export function is(val: any, type: DataType, options?: isOptions): boolean {
 
       return (
         typeof val === DataType[DATATYPE.number] &&
-        !isNaN(val) &&
-        testNumberWithinBounds(val, min, opts.max) &&
-        isMultipleOf(val, multipleOf)
+        !isNaN((val as unknown) as number) &&
+        testNumberWithinBounds((val as unknown) as number, min, opts.max) &&
+        isMultipleOf((val as unknown) as number, multipleOf)
       );
     }
     case <DT>DATATYPE.symbol:
-      return typeOfCheck || likelySymbol(val);
+      return typeOfCheck || likelySymbol(val as any);
   }
 
   /** All checks passed. */

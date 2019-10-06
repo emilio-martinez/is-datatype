@@ -20,6 +20,8 @@ This project is stable and 100% covered with tests; as the maintainer, I've been
 
 ### Fixed
 
+- Prefer use of conditional types over Function overloads in `is` arguments
+
 ### Removed
 
 ## [0.5.0]

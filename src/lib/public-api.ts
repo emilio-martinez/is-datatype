@@ -1,4 +1,4 @@
-export { is } from './is';
+export { is, isOptionsParamType } from './is';
 export { DataType } from './data-type';
 export {
   isOptions,
