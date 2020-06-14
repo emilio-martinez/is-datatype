@@ -1,12 +1,10 @@
-// tslint:disable no-object-literal-type-assertion
-
 import { DataType, isOptions } from '@lib';
 
 export const arraySchemaUseCases: Array<{
-  description: string,
-  test: object[],
-  options: isOptions,
-  expect: boolean
+  description: string;
+  test: unknown[];
+  options: isOptions;
+  expect: boolean;
 }> = [
   {
     description: 'Array of objects with string value properties.',
@@ -176,10 +174,10 @@ export const arraySchemaUseCases: Array<{
 ];
 
 export const objectSchemaUseCases: Array<{
-  description: string,
-  test: object
-  options: isOptions,
-  expect: boolean
+  description: string;
+  test: Record<string, unknown>;
+  options: isOptions;
+  expect: boolean;
 }> = [
   {
     description: `Expect to validate that props are the correct type`,

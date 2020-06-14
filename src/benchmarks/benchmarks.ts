@@ -1,4 +1,4 @@
-// tslint:disable no-console no-non-null-assertion
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { BenchmarkRelease, currentReleaseName } from './releases';
 import { BenchmarkTest } from './tests';
@@ -61,31 +61,32 @@ export class BenchmarkTestCases {
     }
   }
 
-  _onSuiteTestCall(release: BenchmarkRelease) {
+  private _onSuiteTestCall(release: BenchmarkRelease): void {
     // Requiring on every test reduces cycle performance but it helps
     // minimize engine optimizations which skew benchmark results
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
     const { is, DataType } = require(release.libPath) as IsDataTypeRelease;
     is(this.test.test, DataType[this.test.dataType]);
   }
 
   /** Ensures no results */
-  _onSuiteStart() {
+  private _onSuiteStart(): void {
     this.results = [];
   }
 
   /** Prints results */
-  _onSuiteComplete() {
+  private _onSuiteComplete(): void {
     this._printFastest();
   }
 
   /**  Saves and prints cycle results */
-  _onSuiteCycle(event: BenchmarkCycleEvent) {
+  private _onSuiteCycle(event: BenchmarkCycleEvent): void {
     this.results = this.results.concat(event);
     this._print(String(event.target));
   }
 
   /** Runs the declared benchmarks. */
-  run() {
+  run(): void {
     this.suite.reset();
     this.suite.run();
   }
@@ -93,6 +94,7 @@ export class BenchmarkTestCases {
   getResultRecords(): BenchmarkResultRecord[] {
     return this.results.map(res => {
       const releaseName = res.target.name;
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const release = this.releases.get(releaseName)!;
 
       return new BenchmarkResultRecord(release, this.test, res);
@@ -100,12 +102,12 @@ export class BenchmarkTestCases {
   }
 
   /** Gets the fastest run's name */
-  _getFastest() {
+  _getFastest(): string[] {
     return this.suite.filter('fastest').map((s: any) => s.name);
   }
 
   /** Returns a percentage-based increase/decrease in performance */
-  _getFastestDiff() {
+  _getFastestDiff(): number {
     const benchmarks = this.suite.map((s: any) => ({
       name: s.name,
       hz: s.hz
@@ -129,7 +131,7 @@ export class BenchmarkTestCases {
   }
 
   /** Prints a message stating the fastest run for this tests */
-  _printFastest() {
+  _printFastest(): void {
     const fastest = this._getFastest();
     const color =
       fastest.length > 1
@@ -145,7 +147,7 @@ export class BenchmarkTestCases {
   }
 
   /**  Print a message namespaces with the test key */
-  _print(msg: string) {
+  _print(msg: string): void {
     console.log(kleur.cyan(`[${this.test.key}]`) + ` ${msg}`);
   }
 }

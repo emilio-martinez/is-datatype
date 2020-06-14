@@ -3,13 +3,13 @@ import { toKebabCase } from './utils';
 interface BenchmarkTestConfig {
   name: string;
   dataType: string;
-  test: any;
+  test: unknown;
 }
 
 export class BenchmarkTest {
   name: string;
   dataType: string;
-  test: any;
+  test: unknown;
   key: string;
 
   constructor(config: BenchmarkTestConfig) {

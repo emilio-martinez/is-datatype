@@ -46,6 +46,6 @@ export function validDataType(dt: DataType | undefined | null): dt is DataType {
 }
 
 /** Validates multiple DataTypes */
-export function validMultiDataType(dt: DataType | DataType[] | undefined | null) {
+export function validMultiDataType(dt: DataType | DataType[] | undefined | null): boolean {
   return Array.isArray(dt) ? dt.every(validDataType) : validDataType(dt);
 }

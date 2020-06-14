@@ -4,6 +4,6 @@
  * This does some extra checks to prove the likelihood of a value being a symbol,
  * namely check the constructor name and whether the static `iterator` is present.
  */
-export function likelySymbol(v: symbol | object) {
-  return v.constructor.name === 'Symbol' && 'iterator' in v.constructor;
+export function likelySymbol(v: symbol | unknown): boolean {
+  return (v as symbol).constructor.name === 'Symbol' && 'iterator' in (v as symbol).constructor;
 }

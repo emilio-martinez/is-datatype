@@ -69,7 +69,7 @@ export function is<T, D extends DataType>(
     case <DT>DATATYPE.object:
       return (
         typeOfCheck &&
-        !likelySymbol(val as any) &&
+        !likelySymbol(val as unknown) &&
         (!Array.isArray(val) || opts.arrayAsObject === true) &&
         matchesSchema(val, opts.schema)
       );
@@ -90,7 +90,7 @@ export function is<T, D extends DataType>(
     case <DT>DATATYPE.integer:
     case <DT>DATATYPE.natural:
       isSpecialNumericType = true;
-    // tslint:disable-next-line:no-switch-case-fall-through
+    // eslint-disable-next-line no-fallthrough
     case <DT>DATATYPE.number: {
       /** Ensure multiple of 1 for integer and natural cases */
       if (isSpecialNumericType && !isMultipleOf(opts.multipleOf, 1)) return false;
@@ -106,7 +106,7 @@ export function is<T, D extends DataType>(
       );
     }
     case <DT>DATATYPE.symbol:
-      return typeOfCheck || likelySymbol(val as any);
+      return typeOfCheck || likelySymbol(val as unknown);
   }
 
   /** All checks passed. */
@@ -116,6 +116,10 @@ export function is<T, D extends DataType>(
 /**
  * Tests a value against a series of DataTypes (one or more).
  */
-export function isOneOfMultipleTypes(val: any, type: DataType | DataType[], options?: isOptions) {
+export function isOneOfMultipleTypes(
+  val: unknown,
+  type: DataType | DataType[],
+  options?: isOptions
+): boolean {
   return (<DataType[]>[]).concat(type).some(n => is(val, n, options));
 }
