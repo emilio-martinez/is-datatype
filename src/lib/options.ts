@@ -2,7 +2,7 @@ import { DataType, DATATYPE, DT, validMultiDataType } from './data-type';
 import { isOptions, isTypeSchema, StrictOptions } from './interfaces';
 import { matchesSchema } from './schema';
 
-function validSchema(val: any) {
+function validSchema(val: unknown) {
   return (
     val === null ||
     matchesSchema(val, {
@@ -25,6 +25,7 @@ function validSchema(val: any) {
   );
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type AssignIfTest = (v: any) => boolean;
 
 const validStr: AssignIfTest = v => typeof v === 'string';

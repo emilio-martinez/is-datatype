@@ -3,7 +3,7 @@ import { DataType } from '@lib';
 import { isOneOfMultipleTypes } from '@lib-private';
 import { getDataTypeUseCases, safeString } from './test-cases/index';
 
-const invalidTypeValues: any[] = [
+const invalidTypeValues: unknown[] = [
   1000, // The DataType enum is an object with has numbers, but they don't come even close to 1000
   [1000],
   'hello',
@@ -30,7 +30,7 @@ test(`should immediately return 'true' when 'any' is passed`, t => {
 
 test(`should test multiple 'DataType' in addition to a single one`, t => {
   const testCases: Array<{
-    test: any[];
+    test: unknown[];
     type: DataType | DataType[];
     expect: boolean;
   }> = [

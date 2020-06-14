@@ -22,11 +22,11 @@ test('should pass multipleOf test cases on its own', t => {
 
 test('should take any non-number value', t => {
   getDataTypeUseCases(DataType.number).forEach(v => {
-    t.false(isMultipleOf(v, 1));
-    t.false(isMultipleOf(v, 0));
-    t.false(isMultipleOf(v, Infinity));
-    t.false(isMultipleOf(v, -Infinity));
-    t.false(isMultipleOf(v, Number.POSITIVE_INFINITY));
-    t.false(isMultipleOf(v, Number.NEGATIVE_INFINITY));
+    t.false(isMultipleOf(v as never, 1));
+    t.false(isMultipleOf(v as never, 0));
+    t.false(isMultipleOf(v as never, Infinity));
+    t.false(isMultipleOf(v as never, -Infinity));
+    t.false(isMultipleOf(v as never, Number.POSITIVE_INFINITY));
+    t.false(isMultipleOf(v as never, Number.NEGATIVE_INFINITY));
   });
 });

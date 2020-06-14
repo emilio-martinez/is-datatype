@@ -1,4 +1,4 @@
-// tslint:disable no-empty
+/* eslint-disable @typescript-eslint/no-empty-function */
 
 import test from 'ava';
 import { DataType, isTypeSchema } from '@lib';
@@ -15,7 +15,7 @@ test('should handle validating undefined', t => {
 
 test(`should test multiple schemas in addition to a single one`, t => {
   const testCases: Array<{
-    test: any[];
+    test: unknown[];
     schema: isTypeSchema | isTypeSchema[];
     expect: boolean;
   }> = [
@@ -47,7 +47,7 @@ test(`should test multiple schemas in addition to a single one`, t => {
 });
 
 test(`should use 'any'  as a 'DataType' when no 'type' is present`, t => {
-  const testCases: any[] = [
+  const testCases: unknown[] = [
     0,
     100,
     -20,

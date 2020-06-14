@@ -11,7 +11,7 @@ export function isMultipleOf(val: number | undefined, multipleOf: number | undef
     // * OK if multipleOf is 0; all numbers are multiples of zero, i.e., x * 0 === 0
     // * isNaN check uses modulus operator to exclude infinities, i.e., isNaN(Infinity % 1) === true
     // * Math.abs` avoids `-0`
-    // tslint:disable-next-line no-non-null-assertion
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     (multipleOf === 0 || (!isNaN(val % 1) && Math.abs(val % multipleOf!) === 0))
   );
 }

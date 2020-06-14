@@ -14,6 +14,10 @@ This project is stable and 100% covered with tests; as the maintainer, I've been
 
 ## [Unreleased]
 
+### Changed
+
+- `tslint` => `eslint`
+
 ## [0.5.2]
 
 ### Fixed

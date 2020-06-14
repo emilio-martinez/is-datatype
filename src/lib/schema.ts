@@ -5,7 +5,7 @@ import { isOneOfMultipleTypes } from './is';
 /**
  * Tests an value against an schema.
  */
-export function matchesSchema(val: any, schema: isTypeSchema | isTypeSchema[] | null): boolean {
+export function matchesSchema(val: unknown, schema: isTypeSchema | isTypeSchema[] | null): boolean {
   return (
     schema === null ||
     (<isTypeSchema[]>[]).concat(schema).some(({ type: sType, props, items, options }) => {
@@ -26,13 +26,13 @@ export function matchesSchema(val: any, schema: isTypeSchema | isTypeSchema[] | 
           : [];
 
       const requiredPropsValid = propKeys.every(
-        // tslint:disable-next-line:no-non-null-assertion
-        p => (props![p].required === true ? val[p] !== undefined : true)
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion, @typescript-eslint/no-explicit-any
+        p => (props![p].required === true ? (val as any)[p] !== undefined : true)
       );
 
-      const propTypesAreValid = propKeys.every(
-        // tslint:disable-next-line:no-non-null-assertion
-        p => (val && val[p] !== undefined ? matchesSchema(val[p], props![p]) : true)
+      const propTypesAreValid = propKeys.every(p =>
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion, @typescript-eslint/no-explicit-any
+        val && (val as any)[p] !== undefined ? matchesSchema((val as any)[p], props![p]) : true
       );
 
       /**
@@ -43,7 +43,7 @@ export function matchesSchema(val: any, schema: isTypeSchema | isTypeSchema[] | 
         items !== undefined &&
         ((type === <DT>DATATYPE.array && typeValid) ||
           (type === <DT>DATATYPE.any && Array.isArray(val)))
-          ? (val as any[]).every(i => matchesSchema(i, items))
+          ? (val as unknown[]).every(i => matchesSchema(i, items))
           : true;
 
       return typeValid && requiredPropsValid && propTypesAreValid && itemsValid;

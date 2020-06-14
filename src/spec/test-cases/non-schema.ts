@@ -1,4 +1,5 @@
-// tslint:disable no-multi-spaces no-empty
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+/* eslint-disable @typescript-eslint/no-empty-function */
 
 import { DataType, isOptionsArray, isOptionsNumber, isOptionsObject, isOptionsString } from '@lib';
 
@@ -8,14 +9,13 @@ import { DataType, isOptionsArray, isOptionsNumber, isOptionsObject, isOptionsSt
  * because otherwise they'll try to leverage what they can get from the
  * native implementation.
  */
-// tslint:disable variable-name no-unnecessary-type-assertion
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-var-requires */
 const NativeSymbol = Symbol as SymbolConstructor;
-// @ts-ignore
-global.Symbol = null;
+global.Symbol = null as any;
 const FauxSymbolCoreJs = require('core-js-pure').Symbol;
 const FauxSymbolES6Symbol = require('es6-symbol/polyfill');
 global.Symbol = NativeSymbol;
-// tslint:enable variable-name no-unnecessary-type-assertion
+/* eslint-enable @typescript-eslint/no-explicit-any, @typescript-eslint/no-var-requires */
 
 export const validNumberUseCases: number[] = [
   37,
@@ -177,7 +177,7 @@ export const stringPatternUseCases: Array<{
 export const validBooleanUseCases = [true, false, Boolean(true)];
 
 export const validArrayUseCases: Array<{
-  test: any[];
+  test: unknown[];
   options: isOptionsArray;
 }> = [
   { test: [1, 2, 4], options: { type: DataType.number } },
@@ -189,7 +189,7 @@ export const validArrayUseCases: Array<{
 ];
 
 export const arrayWithOptionsUseCases: Array<{
-  test: any[];
+  test: unknown[];
   options: isOptionsArray;
   expect: boolean;
 }> = [
@@ -217,12 +217,17 @@ export const arrayWithOptionsUseCases: Array<{
   { test: [1, 2, 3], options: { max: 2 }, expect: false }
 ];
 
+// eslint-disable-next-line @typescript-eslint/ban-types
 export const validFunctionUseCases: Function[] = [function() {}, class C {}, Math.sin];
 
-export const validObjectUseCases: object[] = [{ a: 1 }, {}, new (class Symbol {})()];
+export const validObjectUseCases: Record<string, unknown>[] = [
+  { a: 1 },
+  {},
+  new (class Symbol {})()
+];
 
 export const optionalObjectUseCases: Array<{
-  test: object;
+  test: unknown[];
   options: isOptionsObject;
 }> = [{ test: [], options: { arrayAsObject: true } }];
 
