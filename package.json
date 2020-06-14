@@ -51,7 +51,7 @@
   },
   "homepage": "https://github.com/emilio-martinez/is-datatype#readme",
   "devDependencies": {
-    "@ampproject/rollup-plugin-closure-compiler": "0.10.0",
+    "@ampproject/rollup-plugin-closure-compiler": "0.26.0",
     "@commitlint/cli": "8.2.0",
     "@commitlint/config-angular": "8.2.0",
     "@types/benchmark": "1.0.31",
