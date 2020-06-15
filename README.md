@@ -4,7 +4,6 @@
 [![Build Status][tests]][tests-url]
 [![Dependency Status][deps]][deps-url]
 [![Coverage Status][cover]][cover-url]
-[![Renovate enabled](https://img.shields.io/badge/renovate-enabled-brightgreen.svg)](https://renovateapp.com/)
 
 Type validation function meant to go beyond the use cases of operators such as `typeof`. A few of the key features in mind with the creation of this package are:
 
