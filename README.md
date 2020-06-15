@@ -1,9 +1,8 @@
 # is
 
-[![npm version][npm]][npm-url]
-[![Build Status][tests]][tests-url]
-[![Dependency Status][deps]][deps-url]
-[![Coverage Status][cover]][cover-url]
+[![npm version](https://badge.fury.io/js/is-datatype.svg)](https://badge.fury.io/js/is-datatype)
+[![build status](https://travis-ci.com/emilio-martinez/is-datatype.svg?branch=main)](https://travis-ci.com/emilio-martinez/is-datatype)
+[![codecov status](https://codecov.io/gh/emilio-martinez/is-datatype/branch/main/graph/badge.svg)](https://codecov.io/gh/emilio-martinez/is-datatype)
 
 Type validation function meant to go beyond the use cases of operators such as `typeof`. A few of the key features in mind with the creation of this package are:
 
@@ -147,12 +146,3 @@ Because Symbol polyfills can't add new primitives, often they'll produce the fol
 ## Collaboration
 
 Simple: For any bugs, desired changes, or feature requests, please feel free to open an issue or create a PR.
-
-[npm]: https://badge.fury.io/js/is-datatype.svg
-[npm-url]: https://npmjs.com/package/is-datatype
-[tests]: https://travis-ci.org/emilio-martinez/is-datatype.svg?branch=master
-[tests-url]: https://travis-ci.org/emilio-martinez/is-datatype
-[deps]: https://david-dm.org/emilio-martinez/is-datatype.svg
-[deps-url]: https://npmjs.com/package/is-datatype
-[cover]: https://coveralls.io/repos/github/emilio-martinez/is-datatype/badge.svg?branch=master
-[cover-url]: https://coveralls.io/github/emilio-martinez/is-datatype?branch=master
