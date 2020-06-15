@@ -10,17 +10,17 @@ function validSchema(val: unknown) {
       props: {
         items: {
           items: { type: <DT>DATATYPE.object },
-          type: [<DT>DATATYPE.object, <DT>DATATYPE.array]
+          type: [<DT>DATATYPE.object, <DT>DATATYPE.array],
         },
         options: { type: <DT>DATATYPE.object },
         props: { type: <DT>DATATYPE.object },
         required: { type: <DT>DATATYPE.boolean },
         type: {
           items: { type: <DT>DATATYPE.number },
-          type: [<DT>DATATYPE.number, <DT>DATATYPE.array]
-        }
+          type: [<DT>DATATYPE.number, <DT>DATATYPE.array],
+        },
       },
-      type: <DT>DATATYPE.object
+      type: <DT>DATATYPE.object,
     })
   );
 }
@@ -28,9 +28,9 @@ function validSchema(val: unknown) {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type AssignIfTest = (v: any) => boolean;
 
-const validStr: AssignIfTest = v => typeof v === 'string';
-const validBool: AssignIfTest = v => typeof v === 'boolean';
-const validNum: AssignIfTest = v => typeof v === 'number' && !isNaN(v);
+const validStr: AssignIfTest = (v) => typeof v === 'string';
+const validBool: AssignIfTest = (v) => typeof v === 'boolean';
+const validNum: AssignIfTest = (v) => typeof v === 'number' && !isNaN(v);
 
 export class Options implements StrictOptions {
   // from StrictOptionsObject

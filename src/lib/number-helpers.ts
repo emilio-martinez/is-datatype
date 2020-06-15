@@ -24,5 +24,5 @@ export function testNumberWithinBounds(
   min: number | undefined,
   max: number | undefined
 ): boolean {
-  return min !== undefined && val >= min && (max !== undefined && val <= max);
+  return min !== undefined && val >= min && max !== undefined && val <= max;
 }

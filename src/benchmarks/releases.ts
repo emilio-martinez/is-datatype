@@ -33,10 +33,10 @@ export const releases: Map<string, BenchmarkRelease> = [
   // }),
   new BenchmarkRelease({
     libPath: './release/isDatatype-e4dc953.umd.min',
-    tag: 'e4dc953'
+    tag: 'e4dc953',
   }),
   new BenchmarkRelease({
     libPath: '../../dist/is-datatype.umd.min',
-    tag: currentReleaseName
-  })
+    tag: currentReleaseName,
+  }),
 ].reduce(reduceReleasesToMap, new Map());

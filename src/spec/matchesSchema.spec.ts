@@ -4,16 +4,16 @@ import test from 'ava';
 import { DataType, isTypeSchema } from '@lib';
 import { matchesSchema } from '@lib-private';
 
-test('should handle validating undefined', t => {
+test('should handle validating undefined', (t) => {
   t.true(
     matchesSchema(undefined, {
       type: DataType.undefined,
-      props: { headline: { type: DataType.string } }
+      props: { headline: { type: DataType.string } },
     })
   );
 });
 
-test(`should test multiple schemas in addition to a single one`, t => {
+test(`should test multiple schemas in addition to a single one`, (t) => {
   const testCases: Array<{
     test: unknown[];
     schema: isTypeSchema | isTypeSchema[];
@@ -22,7 +22,7 @@ test(`should test multiple schemas in addition to a single one`, t => {
     {
       test: [10, 'a'],
       schema: [{ type: DataType.number }, { type: DataType.string }],
-      expect: true
+      expect: true,
     },
     { test: [10], schema: { type: DataType.number }, expect: true },
     { test: [10], schema: { type: DataType.string }, expect: false },
@@ -31,12 +31,12 @@ test(`should test multiple schemas in addition to a single one`, t => {
     {
       test: [10, 'a'],
       schema: [{ type: DataType.undefined }, { type: DataType.function }],
-      expect: false
-    }
+      expect: false,
+    },
   ];
 
-  testCases.forEach(n =>
-    n.test.forEach(m => {
+  testCases.forEach((n) =>
+    n.test.forEach((m) => {
       t.is(
         matchesSchema(m, n.schema),
         n.expect,
@@ -46,25 +46,25 @@ test(`should test multiple schemas in addition to a single one`, t => {
   );
 });
 
-test(`should use 'any'  as a 'DataType' when no 'type' is present`, t => {
+test(`should use 'any'  as a 'DataType' when no 'type' is present`, (t) => {
   const testCases: unknown[] = [
     0,
     100,
     -20,
     'qwerty',
-    ['qwerty', function() {}],
+    ['qwerty', function () {}],
     { prop: 'val' },
     undefined,
     null,
-    NaN
+    NaN,
   ];
 
-  testCases.forEach(n => {
+  testCases.forEach((n) => {
     t.true(matchesSchema(n, {}), `Failed for ${n}`);
   });
 });
 
-test(`should not mistake 'props' from the schema with 'props' attributes`, t => {
+test(`should not mistake 'props' from the schema with 'props' attributes`, (t) => {
   const testCases = [
     { type: DataType.array, value: [] },
     { type: DataType.boolean, value: false },
@@ -75,24 +75,24 @@ test(`should not mistake 'props' from the schema with 'props' attributes`, t => 
     { type: DataType.number, value: 3.14 },
     { type: DataType.object, value: {} },
     { type: DataType.string, value: '0' },
-    { type: DataType.undefined, value: undefined }
+    { type: DataType.undefined, value: undefined },
   ];
-  testCases.forEach(tc => {
+  testCases.forEach((tc) => {
     t.true(
       matchesSchema(
         { my: 'qwerty', props: tc.value },
         {
           props: {
             my: { type: DataType.string },
-            props: { type: tc.type }
-          }
+            props: { type: tc.type },
+          },
         }
       )
     );
   });
 });
 
-test(`should execute 'matchesSchema' for multiple depths of nested 'props'`, t => {
+test(`should execute 'matchesSchema' for multiple depths of nested 'props'`, (t) => {
   t.true(
     matchesSchema(
       { my: 'qwerty', props: { my: () => {}, props: 100 } },
@@ -103,30 +103,30 @@ test(`should execute 'matchesSchema' for multiple depths of nested 'props'`, t =
             type: DataType.object,
             props: {
               my: { type: DataType.function },
-              props: { type: DataType.number }
-            }
-          }
-        }
+              props: { type: DataType.number },
+            },
+          },
+        },
       }
     )
   );
 });
 
-test(`should not mistake 'items' from the schema with 'items' attributes`, t => {
+test(`should not mistake 'items' from the schema with 'items' attributes`, (t) => {
   t.true(
     matchesSchema([{ hello: () => {} }, { items: 10 }], {
       type: DataType.array,
       items: {
         type: DataType.object,
         props: {
-          items: { type: DataType.number }
-        }
-      }
+          items: { type: DataType.number },
+        },
+      },
     })
   );
 });
 
-test(`should validate 'items' when Array is inferred, even if the 'type' is 'any'`, t => {
+test(`should validate 'items' when Array is inferred, even if the 'type' is 'any'`, (t) => {
   t.true(matchesSchema(['hello', 'goodbye'], { items: { type: DataType.string } }));
   t.true(
     matchesSchema(['hello', 'goodbye'], { type: DataType.array, items: { type: DataType.string } })
@@ -139,48 +139,48 @@ test(`should validate 'items' when Array is inferred, even if the 'type' is 'any
   t.true(
     matchesSchema([0, false], {
       type: DataType.array,
-      items: { type: [DataType.number, DataType.boolean] }
+      items: { type: [DataType.number, DataType.boolean] },
     })
   );
   t.false(matchesSchema([0, false], { items: { type: DataType.boolean } }));
   t.false(matchesSchema([0, false], { type: DataType.array, items: { type: DataType.boolean } }));
 });
 
-test(`should execute 'matchesSchema' for multiple depths of nested 'items'`, t => {
+test(`should execute 'matchesSchema' for multiple depths of nested 'items'`, (t) => {
   t.true(
     matchesSchema([['hello', 'world']], {
-      items: { type: DataType.array, items: { type: DataType.string } }
+      items: { type: DataType.array, items: { type: DataType.string } },
     })
   );
   t.false(
     matchesSchema([['hello', false]], {
-      items: { type: DataType.array, items: { type: DataType.string } }
+      items: { type: DataType.array, items: { type: DataType.string } },
     })
   );
   t.true(
     matchesSchema([['hello', false]], {
-      items: { type: DataType.array, items: { type: [DataType.string, DataType.boolean] } }
+      items: { type: DataType.array, items: { type: [DataType.string, DataType.boolean] } },
     })
   );
   t.false(
     matchesSchema([[['hello'], [false]]], {
       items: {
         type: DataType.array,
-        items: { type: DataType.array, items: { type: DataType.string } }
-      }
+        items: { type: DataType.array, items: { type: DataType.string } },
+      },
     })
   );
   t.true(
     matchesSchema([[['hello'], [false]]], {
       items: {
         type: DataType.array,
-        items: { type: DataType.array, items: { type: [DataType.string, DataType.boolean] } }
-      }
+        items: { type: DataType.array, items: { type: [DataType.string, DataType.boolean] } },
+      },
     })
   );
 });
 
-test(`should validate for 'required' properties`, t => {
+test(`should validate for 'required' properties`, (t) => {
   t.false(
     matchesSchema(
       { my: 'qwerty', props: 100 },
@@ -188,8 +188,8 @@ test(`should validate for 'required' properties`, t => {
         props: {
           otherprop: { required: true },
           my: { type: DataType.string },
-          props: { type: DataType.number }
-        }
+          props: { type: DataType.number },
+        },
       }
     )
   );
@@ -200,8 +200,8 @@ test(`should validate for 'required' properties`, t => {
         props: {
           otherprop: { required: true },
           my: { type: DataType.string },
-          props: { type: DataType.number }
-        }
+          props: { type: DataType.number },
+        },
       }
     )
   );
@@ -212,8 +212,8 @@ test(`should validate for 'required' properties`, t => {
         props: {
           otherprop: { type: DataType.string, required: true },
           my: { type: DataType.string },
-          props: { type: DataType.number }
-        }
+          props: { type: DataType.number },
+        },
       }
     )
   );
@@ -224,8 +224,8 @@ test(`should validate for 'required' properties`, t => {
         props: {
           otherprop: { type: DataType.object, required: true },
           my: { type: DataType.string },
-          props: { type: DataType.number }
-        }
+          props: { type: DataType.number },
+        },
       }
     )
   );
@@ -236,8 +236,8 @@ test(`should validate for 'required' properties`, t => {
         props: {
           otherprop: { type: DataType.object, required: true },
           my: { type: DataType.string },
-          props2: { type: DataType.number }
-        }
+          props2: { type: DataType.number },
+        },
       }
     )
   );

@@ -5,8 +5,8 @@ import { getDataTypeUseCases, safeString } from './test-cases/index';
 
 const currentDataType = DataType.any;
 
-test('should work for regular use cases', t => {
-  getDataTypeUseCases(currentDataType).forEach(n => {
+test('should work for regular use cases', (t) => {
+  getDataTypeUseCases(currentDataType).forEach((n) => {
     const msg = `Failed for '${safeString(n)}' of type '${typeof n}' passed`;
     t.true(is(n, currentDataType), msg);
     t.true(matchesSchema(n, { type: currentDataType }), msg);

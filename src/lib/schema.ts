@@ -27,10 +27,10 @@ export function matchesSchema(val: unknown, schema: isTypeSchema | isTypeSchema[
 
       const requiredPropsValid = propKeys.every(
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion, @typescript-eslint/no-explicit-any
-        p => (props![p].required === true ? (val as any)[p] !== undefined : true)
+        (p) => (props![p].required === true ? (val as any)[p] !== undefined : true)
       );
 
-      const propTypesAreValid = propKeys.every(p =>
+      const propTypesAreValid = propKeys.every((p) =>
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion, @typescript-eslint/no-explicit-any
         val && (val as any)[p] !== undefined ? matchesSchema((val as any)[p], props![p]) : true
       );
@@ -43,7 +43,7 @@ export function matchesSchema(val: unknown, schema: isTypeSchema | isTypeSchema[
         items !== undefined &&
         ((type === <DT>DATATYPE.array && typeValid) ||
           (type === <DT>DATATYPE.any && Array.isArray(val)))
-          ? (val as unknown[]).every(i => matchesSchema(i, items))
+          ? (val as unknown[]).every((i) => matchesSchema(i, items))
           : true;
 
       return typeValid && requiredPropsValid && propTypesAreValid && itemsValid;
