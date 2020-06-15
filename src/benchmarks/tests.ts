@@ -24,101 +24,101 @@ export const tests = [
   new BenchmarkTest({
     dataType: 'undefined',
     name: 'Undefined (valid)',
-    test: undefined
+    test: undefined,
   }),
   new BenchmarkTest({
     dataType: 'undefined',
     name: 'Undefined (invalid)',
-    test: 'undefined'
+    test: 'undefined',
   }),
   new BenchmarkTest({
     dataType: 'null',
     name: 'Null (valid)',
-    test: null
+    test: null,
   }),
   new BenchmarkTest({
     dataType: 'null',
     name: 'Null (invalid)',
-    test: 'null'
+    test: 'null',
   }),
   new BenchmarkTest({
     dataType: 'boolean',
     name: 'Boolean (valid)',
-    test: true
+    test: true,
   }),
   new BenchmarkTest({
     dataType: 'boolean',
     name: 'Boolean (invalid)',
-    test: 'boolean'
+    test: 'boolean',
   }),
   new BenchmarkTest({
     dataType: 'number',
     name: 'Number (valid)',
-    test: 10
+    test: 10,
   }),
   new BenchmarkTest({
     dataType: 'number',
     name: 'Number (invalid)',
-    test: 'number'
+    test: 'number',
   }),
   new BenchmarkTest({
     dataType: 'integer',
     name: 'Integer (valid)',
-    test: 10
+    test: 10,
   }),
   new BenchmarkTest({
     dataType: 'integer',
     name: 'Integer (invalid)',
-    test: 'integer'
+    test: 'integer',
   }),
   new BenchmarkTest({
     dataType: 'natural',
     name: 'Natural (valid)',
-    test: 10
+    test: 10,
   }),
   new BenchmarkTest({
     dataType: 'natural',
     name: 'Natural (invalid)',
-    test: 'natural'
+    test: 'natural',
   }),
   new BenchmarkTest({
     dataType: 'string',
     name: 'String (valid)',
-    test: 'hello'
+    test: 'hello',
   }),
   new BenchmarkTest({
     dataType: 'string',
     name: 'String (invalid)',
-    test: 10
+    test: 10,
   }),
   new BenchmarkTest({
     dataType: 'function',
     name: 'Function (valid)',
-    test: Function()
+    test: Function(),
   }),
   new BenchmarkTest({
     dataType: 'function',
     name: 'Function (invalid)',
-    test: 'function'
+    test: 'function',
   }),
   new BenchmarkTest({
     dataType: 'object',
     name: 'Object (valid)',
-    test: {}
+    test: {},
   }),
   new BenchmarkTest({
     dataType: 'object',
     name: 'Object (invalid)',
-    test: 'object'
+    test: 'object',
   }),
   new BenchmarkTest({
     dataType: 'array',
     name: 'Array (valid)',
-    test: []
+    test: [],
   }),
   new BenchmarkTest({
     dataType: 'array',
     name: 'Array (invalid)',
-    test: 'array'
-  })
+    test: 'array',
+  }),
 ];

@@ -13,7 +13,7 @@ const file = {
   main: pkg.main,
   module: pkg.module,
   browser: pkg.browser,
-  browserMin: replaceExtension(pkg.browser, 'min.js')
+  browserMin: replaceExtension(pkg.browser, 'min.js'),
 };
 
 export default [
@@ -22,22 +22,22 @@ export default [
     output: [
       { file: file.main, name: libraryName, format: 'cjs', sourcemap: false },
       { file: file.module, format: 'es', sourcemap: false },
-      { file: file.browser, name: libraryName, format: 'umd', sourcemap: false }
+      { file: file.browser, name: libraryName, format: 'umd', sourcemap: false },
     ],
     plugins: [
       prettier({
         parser: 'babel',
         printWidth: 120,
-        singleQuote: true
+        singleQuote: true,
       }),
-      filesize()
-    ]
+      filesize(),
+    ],
   },
   {
     input,
     output: [{ file: file.browserMin, name: libraryName, format: 'umd', sourcemap: true }],
-    plugins: [compiler(), sourceMaps(), filesize()]
-  }
+    plugins: [compiler(), sourceMaps(), filesize()],
+  },
 ];
 
 function replaceExtension(filePath, ext) {

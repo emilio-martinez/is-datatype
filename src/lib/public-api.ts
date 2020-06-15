@@ -8,5 +8,5 @@ export {
   isOptionsObject,
   isOptionsSchema,
   isOptionsString,
-  isTypeSchema
+  isTypeSchema,
 } from './interfaces';

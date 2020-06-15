@@ -3,7 +3,7 @@ import { DataType } from '@lib';
 import { DATATYPE, DT } from '@lib-private';
 import { dataTypeKeys } from './test-cases/index';
 
-test(`DataType should have value parity`, t => {
+test(`DataType should have value parity`, (t) => {
   const testedTypes: DataType[] = [];
 
   t.is(DataType.any, <DT>DATATYPE.any, 'Failed for `any`');
@@ -38,7 +38,7 @@ test(`DataType should have value parity`, t => {
     '`dataTypeKeys` has an incorrect length'
   );
   t.true(
-    dataTypeKeys.every(k => testedTypes.indexOf(k) >= 0),
+    dataTypeKeys.every((k) => testedTypes.indexOf(k) >= 0),
     `There's a type that hasn't been accounted for.`
   );
 });

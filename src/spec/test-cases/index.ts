@@ -11,23 +11,23 @@ import {
   validStringUseCases,
   validSymbolPolyfilledUseCases,
   validSymbolUseCases,
-  validUndefinedUseCases
+  validUndefinedUseCases,
 } from './non-schema';
 
 const dataTypeTestCaseMap = {
   [DataType.number]: [
     ...validNumberUseCases,
     ...validNumberNegativeUseCases,
-    ...invalidNumberUseCases
+    ...invalidNumberUseCases,
   ],
   [DataType.string]: [...validStringUseCases],
   [DataType.boolean]: [...validBooleanUseCases],
   [DataType.function]: [...validFunctionUseCases],
-  [DataType.array]: validArrayUseCases.slice().map(n => n.test),
+  [DataType.array]: validArrayUseCases.slice().map((n) => n.test),
   [DataType.object]: [...validObjectUseCases],
   [DataType.undefined]: [...validUndefinedUseCases],
   [DataType.null]: [...validNullUseCases],
-  [DataType.symbol]: [...validSymbolUseCases, ...validSymbolPolyfilledUseCases]
+  [DataType.symbol]: [...validSymbolUseCases, ...validSymbolPolyfilledUseCases],
 };
 
 export function getDataTypeUseCases(
@@ -65,8 +65,8 @@ export function getDataTypeUseCases(
  * An array with all the non-named DataType keys.
  */
 export const dataTypeKeys: number[] = Object.keys(DataType)
-  .map(k => parseInt(k, 10))
-  .filter(k => typeof k === 'number' && !isNaN(k));
+  .map((k) => parseInt(k, 10))
+  .filter((k) => typeof k === 'number' && !isNaN(k));
 
 /**
  * Guards against Symbol into string conversion errors

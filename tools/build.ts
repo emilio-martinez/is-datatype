@@ -24,7 +24,7 @@ import {
   visitEachChild,
   visitNode,
   Visitor,
-  VisitResult
+  VisitResult,
 } from 'typescript';
 
 const BUILD_TSCONFIG = 'tsconfig-lib.json';
@@ -37,11 +37,11 @@ const typeChecker = program.getTypeChecker();
 
 const { emitSkipped, diagnostics } = program.emit(undefined, undefined, undefined, false, {
   before: [],
-  after: [exportStarTransformer(typeChecker)]
+  after: [exportStarTransformer(typeChecker)],
 });
 
 if (emitSkipped) {
-  throw Error(diagnostics.map(diagnostic => diagnostic.messageText).join('\n'));
+  throw Error(diagnostics.map((diagnostic) => diagnostic.messageText).join('\n'));
 }
 
 function exportStarTransformer(typeChecker: TypeChecker): TransformerFactory<SourceFile> {
@@ -52,7 +52,7 @@ function exportStarTransformer(typeChecker: TypeChecker): TransformerFactory<Sou
     return (
       isExportDeclaration(node) &&
       node.exportClause === undefined &&
-      node.getChildren().some(n => n.kind === SyntaxKind.AsteriskToken)
+      node.getChildren().some((n) => n.kind === SyntaxKind.AsteriskToken)
     );
   }
 
@@ -117,8 +117,8 @@ function exportStarTransformer(typeChecker: TypeChecker): TransformerFactory<Sou
 function formatTsDiagnostics(errors: Diagnostic[]): string {
   const defaultFormatHost: FormatDiagnosticsHost = {
     getCurrentDirectory: () => sys.getCurrentDirectory(),
-    getCanonicalFileName: fileName => fileName,
-    getNewLine: () => sys.newLine
+    getCanonicalFileName: (fileName) => fileName,
+    getNewLine: () => sys.newLine,
   };
 
   return formatDiagnostics(errors, defaultFormatHost);

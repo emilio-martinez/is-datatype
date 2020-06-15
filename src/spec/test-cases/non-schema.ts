@@ -23,14 +23,14 @@ export const validNumberUseCases: number[] = [
   Math.LN2,
   Infinity,
   Number.POSITIVE_INFINITY,
-  Number(1)
+  Number(1),
 ];
 
 export const validNumberNegativeUseCases: number[] = [
   Number.NEGATIVE_INFINITY,
   -37,
   -3.14,
-  -Number.POSITIVE_INFINITY
+  -Number.POSITIVE_INFINITY,
 ];
 
 export const invalidNumberUseCases: number[] = [NaN, Number.NaN];
@@ -74,7 +74,7 @@ export const numberRangeUseCases: Array<{
 
   // `min` tests against -3.15 and -3.13
   { test: -3.15, options: { min: -3.15 }, expect: true },
-  { test: -3.13, options: { min: -3.13 }, expect: true }
+  { test: -3.13, options: { min: -3.13 }, expect: true },
 ];
 
 export const multipleOfUseCases: Array<{
@@ -97,7 +97,7 @@ export const multipleOfUseCases: Array<{
   { test: -2, options: { multipleOf: -2 }, expect: true },
   { test: 6.28, options: { multipleOf: 3.14 }, expect: true },
   { test: -6.28, options: { multipleOf: 3.14 }, expect: true },
-  { test: 6.28, options: { multipleOf: -3.14 }, expect: true }
+  { test: 6.28, options: { multipleOf: -3.14 }, expect: true },
 ];
 
 export const integerUseCases: Array<{
@@ -120,7 +120,7 @@ export const integerUseCases: Array<{
   { test: -2048, options: { multipleOf: -512 }, expect: true },
   { test: 3.14, options: { multipleOf: 2 }, expect: false },
   { test: Math.sqrt(2), options: { multipleOf: 2 }, expect: false },
-  { test: 3.14, options: { multipleOf: 3.14 }, expect: false }
+  { test: 3.14, options: { multipleOf: 3.14 }, expect: false },
 ];
 
 export const naturalUseCases: Array<{
@@ -149,13 +149,13 @@ export const naturalUseCases: Array<{
   { test: 21, options: { min: 22 }, expect: false },
   { test: 4, options: { max: 5 }, expect: true },
   { test: 4, options: { max: 3 }, expect: false },
-  { test: 0, options: { max: 0 }, expect: true }
+  { test: 0, options: { max: 0 }, expect: true },
 ];
 
 export const validStringUseCases: string[] = [
   'bla',
   typeof 1, // `typeof` always returns a string
-  String('abc')
+  String('abc'),
 ];
 
 export const stringPatternUseCases: Array<{
@@ -171,7 +171,7 @@ export const stringPatternUseCases: Array<{
   { test: 'hello world!', options: { pattern: 'world', patternFlags: 'g' }, expect: true },
   { test: 'HELLO WORLD!', options: { pattern: 'world' }, expect: false },
   { test: 'HELLO WORLD!', options: { pattern: 'world', patternFlags: 'i' }, expect: true },
-  { test: 'John Smith', options: { pattern: '(\\w+)\\s(\\w+)' }, expect: true }
+  { test: 'John Smith', options: { pattern: '(\\w+)\\s(\\w+)' }, expect: true },
 ];
 
 export const validBooleanUseCases = [true, false, Boolean(true)];
@@ -185,7 +185,7 @@ export const validArrayUseCases: Array<{
   { test: [() => {}], options: { type: DataType.function } },
   { test: [{ a: 1 }, {}], options: { type: DataType.object } },
   { test: ['1', '2', '4'], options: { type: DataType.string } },
-  { test: [[1], [2], [4]], options: { type: DataType.array } }
+  { test: [[1], [2], [4]], options: { type: DataType.array } },
 ];
 
 export const arrayWithOptionsUseCases: Array<{
@@ -205,7 +205,7 @@ export const arrayWithOptionsUseCases: Array<{
   {
     test: [() => {}, { a: 1 }],
     options: { type: [DataType.function, DataType.object] },
-    expect: true
+    expect: true,
   },
   { test: [{ a: 1 }, 4], options: { type: [DataType.object, DataType.number] }, expect: true },
   { test: ['1', 2, '4'], options: { type: [DataType.string, DataType.number] }, expect: true },
@@ -214,16 +214,16 @@ export const arrayWithOptionsUseCases: Array<{
   { test: [1], options: { min: 2 }, expect: false },
   { test: [1, 2], options: { min: 2 }, expect: true },
   { test: [1, 2], options: { max: 2 }, expect: true },
-  { test: [1, 2, 3], options: { max: 2 }, expect: false }
+  { test: [1, 2, 3], options: { max: 2 }, expect: false },
 ];
 
 // eslint-disable-next-line @typescript-eslint/ban-types
-export const validFunctionUseCases: Function[] = [function() {}, class C {}, Math.sin];
+export const validFunctionUseCases: Function[] = [function () {}, class C {}, Math.sin];
 
 export const validObjectUseCases: Record<string, unknown>[] = [
   { a: 1 },
   {},
-  new (class Symbol {})()
+  new (class Symbol {})(),
 ];
 
 export const optionalObjectUseCases: Array<{
@@ -239,7 +239,7 @@ export const validSymbolUseCases: symbol[] = [Symbol('a'), Symbol.for('b'), Symb
 
 export const validSymbolPolyfilledUseCases: symbol[] = [
   FauxSymbolCoreJs('c'),
-  FauxSymbolES6Symbol('d')
+  FauxSymbolES6Symbol('d'),
 ];
 
 export { FauxSymbolCoreJs, FauxSymbolES6Symbol };

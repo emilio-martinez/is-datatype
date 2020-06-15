@@ -11,24 +11,24 @@ const invalidTypeValues: unknown[] = [
   {},
   Function(),
   null,
-  undefined
+  undefined,
 ];
 
-test(`should only take valid 'DataType' values for the 'type' argument`, t => {
-  invalidTypeValues.forEach(n => {
+test(`should only take valid 'DataType' values for the 'type' argument`, (t) => {
+  invalidTypeValues.forEach((n) => {
     t.throws(() => isOneOfMultipleTypes(true, n as DataType), { instanceOf: TypeError });
   });
 });
 
-test(`should immediately return 'true' when 'any' is passed`, t => {
-  getDataTypeUseCases().forEach(n => {
+test(`should immediately return 'true' when 'any' is passed`, (t) => {
+  getDataTypeUseCases().forEach((n) => {
     const msg = `Failed for '${safeString(n)}' of type '${typeof n}'`;
     t.true(isOneOfMultipleTypes(n, DataType.any), msg);
     t.true(isOneOfMultipleTypes(n, [DataType.any]), msg);
   });
 });
 
-test(`should test multiple 'DataType' in addition to a single one`, t => {
+test(`should test multiple 'DataType' in addition to a single one`, (t) => {
   const testCases: Array<{
     test: unknown[];
     type: DataType | DataType[];
@@ -39,11 +39,11 @@ test(`should test multiple 'DataType' in addition to a single one`, t => {
     { test: [10], type: DataType.string, expect: false },
     { test: ['a'], type: DataType.number, expect: false },
     { test: ['a'], type: DataType.string, expect: true },
-    { test: [10, 'a'], type: [DataType.undefined, DataType.function], expect: false }
+    { test: [10, 'a'], type: [DataType.undefined, DataType.function], expect: false },
   ];
 
-  testCases.forEach(n =>
-    n.test.forEach(m => {
+  testCases.forEach((n) =>
+    n.test.forEach((m) => {
       t.is(
         isOneOfMultipleTypes(m, n.type),
         n.expect,

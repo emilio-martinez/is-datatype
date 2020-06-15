@@ -3,7 +3,7 @@ import {
   isOptionsArray,
   isOptionsNumber,
   isOptionsObject,
-  isOptionsString
+  isOptionsString,
 } from './interfaces';
 import { matchesSchema } from './schema';
 import { isMultipleOf, testNumberWithinBounds } from './number-helpers';
@@ -19,7 +19,7 @@ export type isOptionsParamType<D extends DataType> = D extends DataType.array
   ? isOptionsString
   : D extends DataType.object
   ? isOptionsObject
-  : D extends (DataType.undefined | DataType.null | DataType.boolean | DataType.symbol)
+  : D extends DataType.undefined | DataType.null | DataType.boolean | DataType.symbol
   ? never
   : isOptions;
 
@@ -76,7 +76,7 @@ export function is<T, D extends DataType>(
     case <DT>DATATYPE.array:
       return (
         Array.isArray(val) &&
-        val.every(n => isOneOfMultipleTypes(n, opts.type)) &&
+        val.every((n) => isOneOfMultipleTypes(n, opts.type)) &&
         matchesSchema(val, opts.schema) &&
         testNumberWithinBounds(val.length, opts.min, opts.max)
       );
@@ -121,5 +121,5 @@ export function isOneOfMultipleTypes(
   type: DataType | DataType[],
   options?: isOptions
 ): boolean {
-  return (<DataType[]>[]).concat(type).some(n => is(val, n, options));
+  return (<DataType[]>[]).concat(type).some((n) => is(val, n, options));
 }

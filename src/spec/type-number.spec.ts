@@ -10,31 +10,31 @@ import {
   numberRangeUseCases,
   safeString,
   validNumberNegativeUseCases,
-  validNumberUseCases
+  validNumberUseCases,
 } from './test-cases/index';
 
 const currentDataType = DataType.number;
 
-test('should work in regular use cases', t => {
-  validNumberUseCases.forEach(n => {
+test('should work in regular use cases', (t) => {
+  validNumberUseCases.forEach((n) => {
     const msg = `Failed for use case ${n}`;
     t.true(is(n, currentDataType), msg);
     t.true(matchesSchema(n, { type: currentDataType }), msg);
   });
-  validNumberNegativeUseCases.forEach(n => {
+  validNumberNegativeUseCases.forEach((n) => {
     const msg = `Failed for use case ${n}`;
     t.true(is(n, currentDataType), msg);
     t.true(matchesSchema(n, { type: currentDataType }), msg);
   });
-  invalidNumberUseCases.forEach(n => {
+  invalidNumberUseCases.forEach((n) => {
     const msg = `Failed for use case ${n}`;
     t.false(is(n, currentDataType), msg);
     t.false(matchesSchema(n, { type: currentDataType }), msg);
   });
 });
 
-test('should work for range optional use cases', t => {
-  numberRangeUseCases.forEach(n => {
+test('should work for range optional use cases', (t) => {
+  numberRangeUseCases.forEach((n) => {
     const options = JSON.stringify(n.options);
     const msg = `Failed for use case ${n.test} with options ${options}`;
     t.is(is(n.test, currentDataType, n.options), n.expect, msg);
@@ -42,8 +42,8 @@ test('should work for range optional use cases', t => {
   });
 });
 
-test('should work for multipleOf optional use cases', t => {
-  multipleOfUseCases.forEach(n => {
+test('should work for multipleOf optional use cases', (t) => {
+  multipleOfUseCases.forEach((n) => {
     const options = JSON.stringify(n.options);
     const msg = `Failed for options use case ${n.test} with options ${options}`;
     t.is(is(n.test, currentDataType, n.options), n.expect, msg);
@@ -51,18 +51,18 @@ test('should work for multipleOf optional use cases', t => {
   });
 });
 
-test('should work when passed other data types', t => {
-  getDataTypeUseCases(currentDataType).forEach(n => {
+test('should work when passed other data types', (t) => {
+  getDataTypeUseCases(currentDataType).forEach((n) => {
     const msg = `Failed for '${safeString(n)}' of type '${typeof n}' passed`;
     t.false(is(n, currentDataType), msg);
     t.false(matchesSchema(n, { type: currentDataType }), msg);
   });
 });
 
-test('should work for `integer` use cases', t => {
+test('should work for `integer` use cases', (t) => {
   const currentDataType = DataType.integer;
 
-  integerUseCases.forEach(n => {
+  integerUseCases.forEach((n) => {
     const options = JSON.stringify(n.options);
     const msg = `Failed for use case ${n.test} with options ${options}`;
     t.is(is(n.test, currentDataType, n.options), n.expect, msg);
@@ -70,10 +70,10 @@ test('should work for `integer` use cases', t => {
   });
 });
 
-test('should work for `natural` use cases', t => {
+test('should work for `natural` use cases', (t) => {
   const currentDataType = DataType.natural;
 
-  naturalUseCases.forEach(n => {
+  naturalUseCases.forEach((n) => {
     const options = JSON.stringify(n.options);
     const msg = `Failed for use case ${n.test} with options ${options}`;
     t.is(is(n.test, currentDataType, n.options), n.expect, msg);

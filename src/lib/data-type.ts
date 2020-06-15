@@ -13,7 +13,7 @@ export enum DataType {
   function,
   object,
   array,
-  symbol
+  symbol,
 }
 
 /**
@@ -32,7 +32,7 @@ export const enum DATATYPE {
   function,
   object,
   array,
-  symbol
+  symbol,
 }
 
 /**

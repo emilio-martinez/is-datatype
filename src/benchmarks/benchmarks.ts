@@ -35,7 +35,7 @@ export class BenchmarkResultRecord {
     this.timeStamp = benchmarkEvent.timeStamp;
     this.stats = {
       hz: benchmarkEvent.target.hz,
-      rme: benchmarkEvent.target.stats.rme
+      rme: benchmarkEvent.target.stats.rme,
     };
   }
 }
@@ -49,14 +49,14 @@ export class BenchmarkTestCases {
     this.suite = new Suite(test.key, {
       onStart: () => this._onSuiteStart(),
       onCycle: (event: BenchmarkCycleEvent) => this._onSuiteCycle(event),
-      onComplete: () => this._onSuiteComplete()
+      onComplete: () => this._onSuiteComplete(),
     });
 
     for (const [name, release] of this.releases) {
       this.suite.add({
         name,
         fn: () => this._onSuiteTestCall(release),
-        minSamples: 120
+        minSamples: 120,
       });
     }
   }
@@ -92,7 +92,7 @@ export class BenchmarkTestCases {
   }
 
   getResultRecords(): BenchmarkResultRecord[] {
-    return this.results.map(res => {
+    return this.results.map((res) => {
       const releaseName = res.target.name;
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const release = this.releases.get(releaseName)!;
@@ -110,14 +110,14 @@ export class BenchmarkTestCases {
   _getFastestDiff(): number {
     const benchmarks = this.suite.map((s: any) => ({
       name: s.name,
-      hz: s.hz
+      hz: s.hz,
     }));
     const fastest = this._getFastest();
 
     let fast = 0;
     let rest = 0;
 
-    benchmarks.forEach(b => {
+    benchmarks.forEach((b) => {
       if (fastest.indexOf(b.name) !== -1) {
         fast += parseInt(b.hz, 10);
       } else {

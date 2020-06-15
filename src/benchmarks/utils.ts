@@ -15,7 +15,7 @@ export function gitShaByTag(tag: string): string {
     .toString()
     .replace(/(\r\n|\n|\r)/gm, '||')
     .split('||')
-    .filter(t => !!t);
+    .filter((t) => !!t);
 
   return sha[0];
 }
