@@ -58,7 +58,7 @@
     "@types/node": "10.14.20",
     "@typescript-eslint/eslint-plugin": "3.2.0",
     "@typescript-eslint/parser": "3.2.0",
-    "ava": "2.4.0",
+    "ava": "^3.9.0",
     "benchmark": "2.1.4",
     "camelcase": "5.3.1",
     "core-js-pure": "3.2.1",
@@ -89,7 +89,6 @@
     }
   },
   "ava": {
-    "compileEnhancements": false,
     "extensions": [
       "ts"
     ],
@@ -99,10 +98,6 @@
     ],
     "files": [
       "src/spec/**/*.spec.ts"
-    ],
-    "sources": [
-      "src/lib/**/*.ts",
-      "src/index.ts"
     ],
     "failWithoutAssertions": true
   },

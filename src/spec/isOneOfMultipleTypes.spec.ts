@@ -16,7 +16,7 @@ const invalidTypeValues: unknown[] = [
 
 test(`should only take valid 'DataType' values for the 'type' argument`, t => {
   invalidTypeValues.forEach(n => {
-    t.throws(() => isOneOfMultipleTypes(true, n as DataType), TypeError);
+    t.throws(() => isOneOfMultipleTypes(true, n as DataType), { instanceOf: TypeError });
   });
 });
 
