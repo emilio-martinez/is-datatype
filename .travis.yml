@@ -7,7 +7,7 @@ script:
   - npm run test
 
 after_success:
-  - cat ./coverage/lcov.info | npx coveralls
+  - bash <(curl -s https://codecov.io/bash)
 
 notifications:
   email:
