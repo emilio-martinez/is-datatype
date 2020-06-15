@@ -1,4 +1,3 @@
 {
-  "extends": ["@commitlint/config-angular"],
-  "scope-enum": ["package", "is", "datatype", "ava", "rollup"]
+  "extends": ["@commitlint/config-conventional"]
 }
